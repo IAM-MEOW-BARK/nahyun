@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -38,4 +39,19 @@ public class BoardController {
 	public String home() {
 		return "home";
 	}
+	
+	@GetMapping("/totalOrder")
+	public String totalOrder() {
+		return "totalOrder";
+	}
+	
+	@GetMapping("/totalWish")
+	public String totalWish() {
+		return "wish";
+	}
+	
+	/*
+	 * @GetMapping("/totalOrder") public String totalOrder(@RequestParam("user_id")
+	 * String user_id) { return "totalOrder"; }
+	 */
 }

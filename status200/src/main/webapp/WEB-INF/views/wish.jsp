@@ -1,50 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
-<title>마이 냥멍 페이지</title>
-
+<meta charset="UTF-8">
+<title>Insert title here</title>
 <%@ include file="include/head.jsp"%>
 </head>
 <body>
-
 	<%@ include file="include/header.jsp"%>
 	<%@ include file="include/mypageheader.jsp"%>
-	<!-- 최근 주문 내역 -->
-	<div class="justify-content-center" style="text-align: center; margin: 50px; width: 1000px">
-		<h4>최근 주문 내역</h4>
-		<div class="justify-content-center">
-			<table class="table justify-content-center mx-auto" style="text-align: center">
-				<tr>
-					<th class="col-md-1 table-light">주문일자</th>
-					<th class="col-md-1 table-light">주문번호</th>
-					<th class="col-md-3 table-light">대표제품</th>
-					<th class="col-md-2 table-light">결제금액</th>
-				</tr>
-				<c:forEach var="order" items="{list }">
-					<tr>
-						<td>{order.주문일자}</td>
-						<td>
-							<a href="detail?bno={order.주문번호}"> {order.주문번호} </a>
-						</td>
-						<td>{order.대표제품}</td>
-						<td>{order.total금액}</td>
-					</tr>
-				</c:forEach>
-			</table>
-		</div>
-		<button class="btn btn-outline-secondary justify-content-end" onclick="location.href='totalOrder'">전체 주문 내역</button>
-	</div>
-	<!-- / 최근 주문 내역. 끝. -->
 
-	<!-- 최근 찜 내역 -->
+	<!-- 찜한 상품 -->
 	<div class="justify-content-center" style="text-align: center; margin: 50px; width: 1000px">
-		<h4>최근 찜 내역</h4>
+		<h4>찜한 상품</h4>
 		<div class="justify-content-center">
 			<table class="table justify-content-center mx-auto" style="text-align: center;">
 				<tr>
-					<th class="col-md-1 table-light"><input type='checkbox' name='wish' value='selectall' onclick='selectAll(this)' /></th>
+					<th class="col-md-1 table-light">
+					<input type='checkbox' name='wish' value='selectall' onclick='selectAll(this)' />
+					</th>
 					<th class="col-md-6 table-light" colspan="2">제품</th>
 					<th class="col-md-3 table-light">가격</th>
 					<th class="col-md-2 table-light">장바구니 이동</th>
@@ -64,6 +38,33 @@
 						</td>
 					</tr>
 				</c:forEach>
+				
+				<!-- 페이징 처리 필요 -->
+				
+				<tr>
+					<td colspan="5" align="center">
+						<ul class="list-group">
+							<li class="list-group-item" value="${page.pre}" id="pre">
+							<a href="./notice?page=${pager.page-1}" aria-label="Previous">
+							<button type="button" class="btn btn-primary" aria-hidden="true">👈</button>
+							</a>
+							</li>
+							<c:forEach var="i" begin="1" end="${totalPage}">
+								<a href="list?pageNUM=${i}">
+									<button type="button" class="btn btn-primary">${i}</button>
+								</a>
+							</c:forEach>
+							<li class="list-group-item" value="{page.next}" ${page.next?'':'disabled'}" id="next">
+							<a class="page-link" href="./notice?page=${page.nowPage+1}" aria-label="Next">
+							<span aria-hidden="true">👉</span>
+							</a>
+							</li>
+						</ul>
+					</td>
+				</tr>
+				
+				<!-- / 페이징 처리 필요. 끝. -->
+				
 			</table>
 			<button class="btn btn-outline-secondary" onclick="location.href='totalWish'">전체 찜 내역</button>
 		</div>
@@ -81,5 +82,6 @@ function selectAll(selectAll)  {
 	}
 </script>
 	<!-- / 최근 찜 내역. 끝. -->
+
 </body>
 </html>
