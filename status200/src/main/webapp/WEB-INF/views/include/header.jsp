@@ -11,6 +11,7 @@
 
 </head>
 <body>
+	<%@ include file="svgicon.jsp"%>
 		<header class="main-header">
 			<div class="container-fluid">
 				<div class="row py-3 border-bottom">

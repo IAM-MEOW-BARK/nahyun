@@ -44,6 +44,11 @@ public class BoardController {
 	public String totalOrder() {
 		return "totalOrder";
 	}
+
+	@GetMapping("/detailOrder")
+	public String detailOrder() {
+		return "detailOrder";
+	}
 	
 	@GetMapping("/totalWish")
 	public String totalWish() {

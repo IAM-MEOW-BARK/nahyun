@@ -7,6 +7,7 @@
 <%@ include file="include/head.jsp"%>
 </head>
 <body>
+
 	<%@ include file="include/header.jsp"%>
 	<%@ include file="include/mypageheader.jsp"%>
 
@@ -17,9 +18,9 @@
 			<table class="table justify-content-center" style="text-align: center">
 				<tr>
 					<th class="col-md-1 table-light">주문 번호</th>
-					<td class="col-md-2">{주문번호}</td>
+					<td class="col-md-2">20241117</td>
 					<th class="col-md-1 table-light">주문자(아이디)</th>
-					<td class="col-md-2">{name}{user_id}</td>
+					<td class="col-md-2">박송송(song)</td>
 				</tr>
 			</table>
 		</div>
@@ -32,19 +33,21 @@
 		<div class="justify-content-center">
 			<table class="table justify-content-center" style="text-align: center">
 				<tr>
-					<th class="col-md-3 table-light" colspan="2">제품명</th>
-					<th class="col-md-1 table-light">수량</th>
-					<th class="col-md-2 table-light">가격</th>
-					<th class="col-md-2 table-light">상태</th>
-					<th class="col-md-1 table-light">구매후기</th>
+					<th class="table-light" colspan="2">제품명</th>
+					<th class="table-light">수량</th>
+					<th class="table-light">가격</th>
+					<th class="table-light">상태</th>
+					<th class="table-light">구매후기</th>
 				</tr>
 				<tr>
-					<td>제품이미지</td>
-					<td>제품명</td>
-					<td>수량</td>
-					<td>가격</td>
-					<td>상태</td>
-					<td>구매후기</td>
+					<td class="col-md-1">제품이미지</td>
+					<td class="col-md-2">제품명</td>
+					<td class="col-md-1">수량</td>
+					<td class="col-md-1">가격</td>
+					<td class="col-md-1">상태</td>
+					<td class="col-md-1">
+					<button class="btn btn-outline-secondary" onclick="location.href='찜 삭제, 장바구니 이동'">구매후기</button>
+					</td>
 				</tr>
 			</table>
 		</div>

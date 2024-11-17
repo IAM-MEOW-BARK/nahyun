@@ -8,7 +8,6 @@
 <%@ include file="include/head.jsp"%>
 </head>
 <body>
-
 	<%@ include file="include/header.jsp"%>
 	<%@ include file="include/mypageheader.jsp"%>
 	<!-- 최근 주문 내역 -->
@@ -26,7 +25,7 @@
 					<tr>
 						<td>{order.주문일자}</td>
 						<td>
-							<a href="detail?bno={order.주문번호}"> {order.주문번호} </a>
+							<a href="detailOrder"> {order.주문번호} </a>
 						</td>
 						<td>{order.대표제품}</td>
 						<td>{order.total금액}</td>
