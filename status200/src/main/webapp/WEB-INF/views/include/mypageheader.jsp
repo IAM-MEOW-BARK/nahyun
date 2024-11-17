@@ -8,7 +8,7 @@
 </head>
 <body>
 	<!-- 메인 페이지 고정 상단 영역 -->
-	<div style="background-color: #f0f0f0; padding: 50px">
+	<div style="background-color: #f0f0f0; padding: 50px; margin-bottom: 50px;">
 		{name} 님<br> 오늘도 좋은 하루 되세냥🐱
 	</div>
 	<!-- / 메인 페이지 고정 상단 영역. 끝. -->
