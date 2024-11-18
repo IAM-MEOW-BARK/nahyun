@@ -59,7 +59,7 @@
 					<td class="col-md-1">구매완료</td>
 					<td class="col-md-1">
 						<button class="btn btn-outline-secondary"
-							onclick="location.href='찜 삭제, 장바구니 이동'">구매후기</button>
+							onclick="location.href='reviewPop'">구매후기</button>
 					</td>
 				</tr>
 			</table>

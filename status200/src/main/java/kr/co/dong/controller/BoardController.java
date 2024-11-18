@@ -55,6 +55,21 @@ public class BoardController {
 		return "wish";
 	}
 	
+	@GetMapping("/cart")
+	public String cart() {
+		return "cart";
+	}
+	
+	@GetMapping("/reviewPop")
+	public String reviewPop() {
+		return "reviewPop";
+	}
+	
+	@GetMapping("/cartPop")
+	public String cartPop() {
+		return "cartPop";
+	}
+	
 	/*
 	 * @GetMapping("/totalOrder") public String totalOrder(@RequestParam("user_id")
 	 * String user_id) { return "totalOrder"; }
