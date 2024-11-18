@@ -75,6 +75,11 @@ public class BoardController {
 		return "updateProfile";
 	}
 	
+	@GetMapping("/deleteUser")
+	public String deleteUser() {
+		return "deleteUser";
+	}
+	
 	/*
 	 * @GetMapping("/totalOrder") public String totalOrder(@RequestParam("user_id")
 	 * String user_id) { return "totalOrder"; }

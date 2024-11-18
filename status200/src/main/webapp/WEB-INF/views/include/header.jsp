@@ -52,13 +52,13 @@
                         </a>
                     </li>
                     <li>
-                        <a href="cart" class="p-2 mx-1 d-flex flex-column align-items-center text-center">
+                        <a href="cart?page=cart" class="p-2 mx-1 d-flex flex-column align-items-center text-center">
                             <i class="bi bi-cart"></i>
                             <span>장바구니</span>
                         </a>
                     </li>
                     <li>
-                        <a href="mypage" class="p-2 mx-1 d-flex flex-column align-items-center text-center">
+                        <a href="mypage?page=mypage" class="p-2 mx-1 d-flex flex-column align-items-center text-center">
                             <i class="bi bi-person-circle"></i>
                             <span>마이페이지</span>
                         </a>

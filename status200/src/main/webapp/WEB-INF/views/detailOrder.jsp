@@ -32,7 +32,7 @@
 			<div class="col-md-9">
 				<!-- 주문 정보 -->
 				<div class="table-container">
-					<h4>주문 정보</h4>
+					<h5>주문 정보</h5>
 					<table class="table" style="text-align: center;">
 						<tr>
 							<th class="col-md-1 table-light">주문 번호</th>
@@ -46,7 +46,7 @@
 
 				<!-- 내 주문상품 정보 -->
 				<div class="table-container">
-					<h4>내 주문상품 정보</h4>
+					<h5>내 주문상품 정보</h5>
 					<table class="table" style="text-align: center;">
 						<tr>
 							<th class="table-light" colspan="2">제품명</th>
@@ -71,7 +71,7 @@
 
 				<!-- 결제 정보 -->
 				<div class="table-container">
-					<h4>결제 정보</h4>
+					<h5>결제 정보</h5>
 					<table class="table" style="text-align: center;">
 						<tr>
 							<th class="table-light col-md-1">결제 방법</th>
@@ -91,7 +91,7 @@
 
 				<!-- 내 배송지 정보 -->
 				<div class="table-container">
-					<h4>내 배송지 정보</h4>
+					<h5>내 배송지 정보</h5>
 					<table class="table">
 						<tr>
 							<th class="table-light col-md-1" style="text-align: center;">받으실 분</th>
