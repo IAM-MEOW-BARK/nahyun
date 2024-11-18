@@ -70,6 +70,11 @@ public class BoardController {
 		return "cartPop";
 	}
 	
+	@GetMapping("/updateProfile")
+	public String updateProfile() {
+		return "updateProfile";
+	}
+	
 	/*
 	 * @GetMapping("/totalOrder") public String totalOrder(@RequestParam("user_id")
 	 * String user_id) { return "totalOrder"; }

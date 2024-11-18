@@ -76,43 +76,43 @@
 	<%@ include file="include/header.jsp"%>
 
 	<section style="display: flex; justify-content: center; align-items: center; background-color: #FFCF84; height: 300px;">
-		<img src="https://www.meconomynews.com/news/photo/201910/33860_35342_3044.jpg" alt="배너 이미지" style="max-width: 100%; height: 300px;" />
+
+		<a href="noticeList">
+		<img src="${pageContext.request.contextPath}/resources/bootstrap/images/main-banner.png" alt="배너 이미지" style="max-width: 100%; height: 300px;" />
+		</a>
 	</section>
 
 	<!-- 카테고리 -->
-
 	<section class="py-5 overflow-hidden">
 		<div class="container-lg">
-			<div class="row">
-				<div class="col-md-12">
-					<div class="section-header d-flex flex-wrap justify-content-between mb-5">
-						<h2 class="section-title">Category</h2>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-12">
-					<div class="category-carousel swiper">
-						<div class="swiper-wrapper">
-							<a href="category.html" class="nav-link swiper-slide text-center"> <img src="${pageContext.request.contextPath}/resources/bootstrap/images/category-thumb-1.jpg" class="rounded-circle" alt="Category Thumbnail">
-								<h4 class="fs-6 mt-3 fw-normal category-title">사료 / 간식</h4>
-							</a> <a href="category.html" class="nav-link swiper-slide text-center"> <img src="${pageContext.request.contextPath}/resources/bootstrap/images/category-thumb-2.jpg" class="rounded-circle" alt="Category Thumbnail">
-								<h4 class="fs-6 mt-3 fw-normal category-title">장난감 / 토이</h4>
-							</a> <a href="category.html" class="nav-link swiper-slide text-center"> <img src="${pageContext.request.contextPath}/resources/bootstrap/images/category-thumb-3.jpg" class="rounded-circle" alt="Category Thumbnail">
-								<h4 class="fs-6 mt-3 fw-normal category-title">목욕 / 케어</h4>
-							</a> <a href="category.html" class="nav-link swiper-slide text-center"> <img src="${pageContext.request.contextPath}/resources/bootstrap/images/category-thumb-4.jpg" class="rounded-circle" alt="Category Thumbnail">
-								<h4 class="fs-6 mt-3 fw-normal category-title">산책 / 훈련</h4>
-							</a> <a href="category.html" class="nav-link swiper-slide text-center"> <img src="${pageContext.request.contextPath}/resources/bootstrap/images/category-thumb-4.jpg" class="rounded-circle" alt="Category Thumbnail">
-								<h4 class="fs-6 mt-3 fw-normal category-title">의류 / 잡화</h4>
-							</a>
-						</div>
+			<div class="col-md-12">
+				<div class="category-carousel swiper d-flex justify-content-center">
+					<div class="swiper-wrapper gap-3 d-flex justify-content-center align-items-center">
+						<!-- 첫 번째 항목 -->
+						<a href="category.html" class="nav-link swiper-slide text-center"> <img src="${pageContext.request.contextPath}/resources/bootstrap/images/category-thumb-1.jpg" class="rounded-circle" alt="Category Thumbnail" style="margin: 0 auto; max-width: 100px;">
+							<h4 class="fs-6 mt-3 fw-normal category-title">사료 / 간식</h4>
+						</a>
+						<!-- 두 번째 항목 -->
+						<a href="category.html" class="nav-link swiper-slide text-center"> <img src="${pageContext.request.contextPath}/resources/bootstrap/images/category-thumb-2.jpg" class="rounded-circle" alt="Category Thumbnail" style="margin: 0 auto; max-width: 100px;">
+							<h4 class="fs-6 mt-3 fw-normal category-title">장난감 / 토이</h4>
+						</a>
+						<!-- 세 번째 항목 -->
+						<a href="category.html" class="nav-link swiper-slide text-center"> <img src="${pageContext.request.contextPath}/resources/bootstrap/images/category-thumb-3.jpg" class="rounded-circle" alt="Category Thumbnail" style="margin: 0 auto; max-width: 100px;">
+							<h4 class="fs-6 mt-3 fw-normal category-title">목욕 / 케어</h4>
+						</a>
+						<!-- 네 번째 항목 -->
+						<a href="category.html" class="nav-link swiper-slide text-center"> <img src="${pageContext.request.contextPath}/resources/bootstrap/images/category-thumb-4.jpg" class="rounded-circle" alt="Category Thumbnail" style="margin: 0 auto; max-width: 100px;">
+							<h4 class="fs-6 mt-3 fw-normal category-title">산책 / 훈련</h4>
+						</a>
+						<!-- 다섯 번째 항목 -->
+						<a href="category.html" class="nav-link swiper-slide text-center"> <img src="${pageContext.request.contextPath}/resources/bootstrap/images/category-thumb-5.jpg" class="rounded-circle" alt="Category Thumbnail" style="margin: 0 auto; max-width: 100px;">
+							<h4 class="fs-6 mt-3 fw-normal category-title">의류 / 잡화</h4>
+						</a>
 					</div>
 				</div>
 			</div>
 		</div>
 	</section>
-
-	<!-- / 카테고리 -->
 
 	<!-- Main 캐러셀 리스트 -->
 	<section class="pb-5">
