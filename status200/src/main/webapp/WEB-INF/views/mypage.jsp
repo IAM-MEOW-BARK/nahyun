@@ -1,10 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page session="true"%>
 <!DOCTYPE html>
 <html>
 <head>
 <title>마이 냥멍 페이지</title>
-<script src="https://code.jquery.com/jquery-latest.js"></script>
+<script  src="https://code.jquery.com/jquery-latest.js"></script>
 <%@ include file="include/head.jsp"%>
 
 <style>
@@ -18,6 +19,79 @@
 .table-container {
 	width: 1000px;
 	margin: 20px; /* 표 간 간격 */
+}
+
+/* 모달 백그라운드 */
+.modal-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	display: none; /* 처음에는 숨김 */
+	justify-content: center;
+	align-items: center;
+	z-index: 999;
+}
+
+/* 모달 창 */
+.modal {
+	width: 600px;
+	background: white;
+	border-radius: 8px;
+	overflow: hidden;
+	font-family: Arial, sans-serif;
+}
+
+/* 모달 헤더 */
+.modal-header {
+	padding: 16px;
+	font-weight: bold;
+	border-bottom: 1px solid #ddd;
+}
+
+/* 모달 본문 */
+.modal-body {
+	padding: 16px;
+}
+
+/* 테이블 스타일 */
+.modal-table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 14px;
+}
+
+.modal-table th, .modal-table td {
+	padding: 8px;
+	border: 1px solid #ddd;
+	text-align: center;
+}
+
+/* 안내 문구 */
+.modal-footer {
+	padding: 16px;
+	font-size: 12px;
+	color: #555;
+}
+
+/* 닫기 버튼 */
+.modal-close-btn {
+	display: block;
+	width: 100%;
+	padding: 12px;
+	background-color: #007bff;
+	color: white;
+	font-weight: bold;
+	text-align: center;
+	text-decoration: none;
+	cursor: pointer;
+	border: none;
+}
+
+.modal-close-btn:hover {
+	background-color: #0056b3;
 }
 </style>
 

@@ -75,19 +75,19 @@
 							<td>
 								<div
 									style="display: flex; align-items: center; gap: 10px; max-width: 18em;">
-									<input class="form-control" type="text" id="postcode"
-										name="zipcode" readonly>
+									<input class="form-control" type="text" id="zipCode"
+										name="zipCode" readonly>
 									<button class="btn"
 										style="background-color: #ff6600; color: #ffffff; white-space: nowrap; padding: 5px 10px; margin-bottom: 5px;"
 										onclick="checkPost()">우편번호 검색</button>
 								</div>
 								<div style="text-align: center; max-width: 30em; margin: 5px;">
 									<input class="form-control" type="text" id="address"
-										name="addr1" size="50" placeholder="주소" readonly>
+										name="address" size="50" placeholder="주소" readonly>
 								</div>
 								<div style="text-align: center; max-width: 30em; margin: 5px;">
 									<input class="form-control" type="text" id="detailAddress"
-										name="addr2" size="50" placeholder="상세주소">
+										name="detailAddress" size="50" placeholder="상세주소">
 								</div>
 							</td>
 						</tr>

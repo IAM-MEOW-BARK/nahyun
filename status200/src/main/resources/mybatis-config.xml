@@ -6,5 +6,7 @@
  	<typeAliases>
  		<typeAlias alias="BoardDTO" type="kr.co.dong.board.BoardDTO"/>
  		<typeAlias alias="BoardReply" type="kr.co.dong.board.BoardReply"/>
+ 		<typeAlias alias="ProductDTO" type="kr.co.dong.catdog.ProductDTO"/>
+ 		<typeAlias alias="WishDTO" type="kr.co.dong.catdog.WishDTO"/>
  	</typeAliases>
  </configuration>

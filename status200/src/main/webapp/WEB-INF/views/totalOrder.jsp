@@ -76,7 +76,6 @@
 
 				<!-- 전체 주문 내역 리스트 -->
 				<div class="table-container">
-					<h4>주문 내역</h4>
 					<table class="table justify-content-center" style="text-align: center">
 						<tr>
 							<th class="col-md-1 table-light">주문일자</th>
