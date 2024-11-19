@@ -119,7 +119,11 @@ h5 {
 		<textarea class="review-textarea" placeholder="사용하시면서 좋았던 점을 작성해주세요. (최소 10자 이상)"></textarea>
 
 		<div class="upload-section">
-			<span>&#128247; 사진/동영상 첨부하기</span>
+		<form name="fileForm" method="post" enctype="multipart/form/data" action="fileupload01.jsp">
+		<input type="file" name="reviewpic">
+		<span>&#128247; 사진 첨부하기</span>
+		</form>
+
 		</div>
 
 		<div class="btn-container">

@@ -4,7 +4,7 @@
 <html>
 <head>
 <title>마이 냥멍 페이지</title>
-
+<script src="https://code.jquery.com/jquery-latest.js"></script>
 <%@ include file="include/head.jsp"%>
 
 <style>
@@ -85,7 +85,7 @@
 									<td>{wish.제품이름}</td>
 									<td>{wish.제품금액}</td>
 									<td>
-										<button class="btn btn-outline-secondary" onclick="location.href='cart'">장바구니로 이동</button>
+										<button class="btn btn-outline-secondary" onclick="openCartPop()">장바구니로 이동</button>
 									</td>
 								</tr>
 							</c:forEach>
@@ -104,6 +104,12 @@ function selectAll(selectAll) {
         checkbox.checked = selectAll.checked;
     });
 }
+
+function openCartPop () {
+	  const options = 'width=600, height=600, top=300, left=600, scrollbars=yes, location= no, toolbars= no, status= no, resizable=no'
+	  window.open('cartPop','_blank',options)
+	}
+
 </script>
 
 </body>
