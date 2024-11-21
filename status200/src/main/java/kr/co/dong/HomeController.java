@@ -1,12 +1,8 @@
 package kr.co.dong;
 
-import java.text.DateFormat;
+import java.util.List;
 
-
-import java.util.Date;
-import java.util.Locale;
-
-import javax.xml.ws.RequestWrapper;
+import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,10 +10,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+
+import kr.co.dong.catdog.CatDogService;
+import kr.co.dong.catdog.ProductGroupDTO;
 
 /**
  * Handles requests for the application home page.
  */
+
 @Controller
 public class HomeController {
 	
@@ -26,18 +27,16 @@ public class HomeController {
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
+	@Inject
+	CatDogService catDogService;  
+
 	@RequestMapping(value = "/", method = RequestMethod.GET) // 프로젝트 처음 시작할 때 "/" 하나 있는 애 부터 실행이 된다.
-	public String home(Locale locale, Model model) {
-		logger.info("Welcome home! The client locale is {}.", locale);
-		
-		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-		
-		String formattedDate = dateFormat.format(date);
-		
-		model.addAttribute("serverTime", formattedDate );
-		
-		return "home"; // home.jsp prifix, subfix 붙어서 나올 예정
+	public ModelAndView list() {
+		ModelAndView mav = new ModelAndView();
+		List<ProductGroupDTO> list = catDogService.list();
+		mav.addObject("list", list);
+		mav.setViewName("home");
+		return mav;
 	}
 	
 	@RequestMapping(value="/main")

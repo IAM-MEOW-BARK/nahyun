@@ -30,55 +30,7 @@ import kr.co.dong.board.BoardService;
 @Controller
 public class BoardController {
 
-	@GetMapping("/mypage")
-	public String mypage() {
-		return "mypage";
-	}
-	
-	@GetMapping("/home")
-	public String home() {
-		return "home";
-	}
-	
-	@GetMapping("/totalOrder")
-	public String totalOrder() {
-		return "totalOrder";
-	}
 
-	@GetMapping("/detailOrder")
-	public String detailOrder() {
-		return "detailOrder";
-	}
-	
-	@GetMapping("/totalWish")
-	public String totalWish() {
-		return "wish";
-	}
-	
-	@GetMapping("/cart")
-	public String cart() {
-		return "cart";
-	}
-	
-	@GetMapping("/reviewPop")
-	public String reviewPop() {
-		return "reviewPop";
-	}
-	
-	@GetMapping("/cartPop")
-	public String cartPop() {
-		return "cartPop";
-	}
-	
-	@GetMapping("/updateProfile")
-	public String updateProfile() {
-		return "updateProfile";
-	}
-	
-	@GetMapping("/deleteUser")
-	public String deleteUser() {
-		return "deleteUser";
-	}
 	
 	/*
 	 * @GetMapping("/totalOrder") public String totalOrder(@RequestParam("user_id")

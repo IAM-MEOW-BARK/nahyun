@@ -3,7 +3,6 @@ package kr.co.dong.catdog;
 import java.util.List;
 import java.util.Map;
 
-
 public interface CatDogDAO {
 	// 로그인
 	public Map login(Map<String, Object> map);	
@@ -21,7 +20,7 @@ public interface CatDogDAO {
 	public int findPw(String user_id, String name, int phone_num) throws Exception;
 	
 	//제품 캐러셀 리스트 출력
-	public List <ProductDTO> list();
+	public List <ProductGroupDTO> list();
 	
 	// 찜하기 추가
     public int addWish(String user_id, int product_id) throws Exception;

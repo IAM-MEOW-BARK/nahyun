@@ -13,7 +13,7 @@ public class CatDogDAOImpl implements CatDogDAO{
 	
 	@Inject SqlSession sqlSession;	
 	
-	private static final String namespace ="kr.co.dong.boardMapper";
+	private static final String namespace ="kr.co.dong.catdogMapper";
 
 	@Override
 	public Map login(Map<String, Object> map) {
@@ -45,10 +45,11 @@ public class CatDogDAOImpl implements CatDogDAO{
 		return 0;
 	}
 
+	// 나현 수정
 	@Override
-	public List<ProductDTO> list() {
+	public List<ProductGroupDTO> list() {
 		// TODO Auto-generated method stub
-		return null;
+		return sqlSession.selectList(namespace+".list");
 	}
 
 	@Override
