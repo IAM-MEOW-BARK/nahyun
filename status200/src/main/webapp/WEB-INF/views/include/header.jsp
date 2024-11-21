@@ -46,10 +46,17 @@
             <div class="col-sm-8 col-lg-2 d-flex gap-5 align-items-center justify-content-center justify-content-sm-end">
                 <ul class="d-flex justify-content-end list-unstyled m-0">
                     <li>
+                    <c:if test="${user_id==null}">
                         <a href="login" class="p-2 mx-1 d-flex flex-column align-items-center text-center">
                             <i class="bi bi-box-arrow-in-right"></i>
                             <span>로그인</span>
                         </a>
+                        </c:if>
+                        <c:if test="${user_id!=null}">
+                          <a href="logout" class="p-2 mx-1 d-flex flex-column align-items-center text-center">
+                            <i class="bi bi-box-arrow-right"></i>
+                            </a>
+                        </c:if>
                     </li>
                     <li>
                         <a href="cart?page=cart" class="p-2 mx-1 d-flex flex-column align-items-center text-center">
