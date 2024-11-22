@@ -47,41 +47,21 @@ public class CatDogDAOImpl implements CatDogDAO{
 
 	// 나현 수정
 	@Override
-	public List<ProductGroupDTO> list01() {
+	public List<ProductDTO> list(int product_category) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList(namespace+".list01");
-	}
-	@Override
-	public List<ProductGroupDTO> list02() {
-		// TODO Auto-generated method stub
-		return sqlSession.selectList(namespace+".list02");
-	}
-	@Override
-	public List<ProductGroupDTO> list03() {
-		// TODO Auto-generated method stub
-		return sqlSession.selectList(namespace+".list03");
-	}
-	@Override
-	public List<ProductGroupDTO> list04() {
-		// TODO Auto-generated method stub
-		return sqlSession.selectList(namespace+".list04");
-	}
-	@Override
-	public List<ProductGroupDTO> list05() {
-		// TODO Auto-generated method stub
-		return sqlSession.selectList(namespace+".list05");
+		return sqlSession.selectList(namespace+".list", product_category);
 	}
 
 	@Override
-	public int addWish(String user_id, int product_id) throws Exception {
+	public int addWish(String user_id, int product_code) throws Exception {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int removeWish(String user_id, int product_id) throws Exception {
+	public int deleteWish(WishDTO wishDTO) throws Exception {
 		// TODO Auto-generated method stub
-		return 0;
+		return sqlSession.delete(namespace+".deleteWish", wishDTO);
 	}
 
 	@Override

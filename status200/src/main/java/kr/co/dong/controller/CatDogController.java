@@ -1,6 +1,5 @@
 package kr.co.dong.controller;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -12,19 +11,16 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.co.dong.catdog.CatDogService;
 import kr.co.dong.catdog.MemberDTO;
-import kr.co.dong.catdog.ProductGroupDTO;
+import kr.co.dong.catdog.ProductDTO;
+import kr.co.dong.catdog.WishDTO;
 
 @Controller
 public class CatDogController {
@@ -37,15 +33,15 @@ public class CatDogController {
 	@GetMapping(value = "/home")
 	public ModelAndView list() {
 		ModelAndView mav = new ModelAndView();
-		List<ProductDTO> list01 = catDogService.list01();
+		List<ProductDTO> list01 = catDogService.list(1);
 		mav.addObject("list01", list01);
-		List<ProductDTO> list02 = catDogService.list02();
+		List<ProductDTO> list02 = catDogService.list(2);
 		mav.addObject("list02", list02);
-		List<ProductDTO> list03 = catDogService.list03();
+		List<ProductDTO> list03 = catDogService.list(3);
 		mav.addObject("list03", list03);
-		List<ProductDTO> list04 = catDogService.list04();
-		mav.addObject("list02", list04);
-		List<ProductDTO> list05 = catDogService.list05();
+		List<ProductDTO> list04 = catDogService.list(4);
+		mav.addObject("list04", list04);
+		List<ProductDTO> list05 = catDogService.list(5);
 		mav.addObject("list05", list05);
 		mav.setViewName("home");
 		return mav;
@@ -71,7 +67,7 @@ public class CatDogController {
 		return "catdog-login";
 	}
 	
-	@RequestMapping(value="/catdog-login", method = RequestMethod.POST)
+	@PostMapping(value="/catdog-login")
 	public String login(@RequestParam Map<String,Object> map, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
 		request.setCharacterEncoding("UTF-8");
 		
@@ -91,7 +87,7 @@ public class CatDogController {
 	            return "redirect:/catdog-user-list-admin";
 	        } else if (userAuth == 0) {
 	            logger.info("일반 사용자 계정으로 로그인");
-	            return "redirect:/catdog-main";
+	            return "redirect:/home";
 	        } else {
 	            logger.warn("알 수 없는 USER_AUTH 값: " + userAuth);
 	            return "redirect:/catdog-login";
@@ -151,10 +147,6 @@ public class CatDogController {
 		return "mypage";
 	}
 	
-	/*
-	 * @GetMapping("/home") public String home() { return "home"; }
-	 */
-	
 	@GetMapping("/totalOrder")
 	public String totalOrder() {
 		return "totalOrder";
@@ -193,6 +185,20 @@ public class CatDogController {
 	@GetMapping("/deleteUser")
 	public String deleteUser() {
 		return "deleteUser";
+	}
+	
+	@GetMapping("/deleteWish")
+	public String deleteWish(@RequestParam("wishDTO")WishDTO wishDTO, RedirectAttributes rttr) throws Exception {
+		
+		int r = catDogService.deleteWish(wishDTO);
+		
+		if (r>0) {
+			rttr.addFlashAttribute("msg", "글 삭제 성공.");
+			return "redirect:totalWish";
+		}
+		
+		return "redirect: totalWish";
+		
 	}
 	
 }

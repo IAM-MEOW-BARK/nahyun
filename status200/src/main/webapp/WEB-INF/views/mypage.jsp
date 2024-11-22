@@ -165,6 +165,7 @@
 							</c:forEach>
 						</tbody>
 					</table>
+					<button class="btn btn-outline-secondary" onclick="deleteWish">선택 상품 삭제</button>
 					<button class="btn btn-outline-secondary" onclick="location.href='totalWish'">전체 찜 내역</button>
 				</div>
 			</div>
@@ -183,6 +184,8 @@ function openCartPop () {
 	  const options = 'width=600, height=600, top=300, left=600, scrollbars=yes, location= no, toolbars= no, status= no, resizable=no'
 	  window.open('cartPop','_blank',options)
 	}
+
+}
 
 </script>
 

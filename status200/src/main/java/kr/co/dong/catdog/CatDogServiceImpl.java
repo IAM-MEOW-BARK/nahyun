@@ -26,33 +26,15 @@ public class CatDogServiceImpl implements CatDogService {
 
 	// (나현 추가) 카테고리 별 보기
 	@Override
-	public List<ProductDTO> list01() {
+	public List<ProductDTO> list(int product_category) {
 		// TODO Auto-generated method stub
-		return catDogDAO.list01();
+		return catDogDAO.list(product_category);
 	}
-	// (나현 추가) 카테고리 별 보기
+
 	@Override
-	public List<ProductDTO> list02() {
+	public int deleteWish(WishDTO wishDTO) throws Exception {
 		// TODO Auto-generated method stub
-		return catDogDAO.list02();
-	}
-	// (나현 추가) 카테고리 별 보기
-	@Override
-	public List<ProductDTO> list03() {
-		// TODO Auto-generated method stub
-		return catDogDAO.list03();
-	}
-	// (나현 추가) 카테고리 별 보기
-	@Override
-	public List<ProductDTO> list04() {
-		// TODO Auto-ProductDTO method stub
-		return catDogDAO.list04();
-	}
-	// (나현 추가) 카테고리 별 보기
-	@Override
-	public List<ProductDTO> list05() {
-		// TODO Auto-generated method stub
-		return catDogDAO.list05();
+		return catDogDAO.deleteWish(wishDTO);
 	}
 
 	/*

@@ -33,15 +33,15 @@ public class HomeController {
 	@RequestMapping(value = "/", method = RequestMethod.GET) // 프로젝트 처음 시작할 때 "/" 하나 있는 애 부터 실행이 된다.
 	public ModelAndView list() {
 		ModelAndView mav = new ModelAndView();
-		List<ProductDTO> list01 = catDogService.list01();
+		List<ProductDTO> list01 = catDogService.list(1);
 		mav.addObject("list01", list01);
-		List<ProductDTO> list02 = catDogService.list02();
+		List<ProductDTO> list02 = catDogService.list(2);
 		mav.addObject("list02", list02);
-		List<ProductDTO> list03 = catDogService.list03();
+		List<ProductDTO> list03 = catDogService.list(3);
 		mav.addObject("list03", list03);
-		List<ProductDTO> list04 = catDogService.list04();
-		mav.addObject("list02", list04);
-		List<ProductDTO> list05 = catDogService.list05();
+		List<ProductDTO> list04 = catDogService.list(4);
+		mav.addObject("list04", list04);
+		List<ProductDTO> list05 = catDogService.list(5);
 		mav.addObject("list05", list05);
 		mav.setViewName("home");
 		return mav;
