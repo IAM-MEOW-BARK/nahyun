@@ -47,7 +47,7 @@
                 <ul class="d-flex justify-content-end list-unstyled m-0">
                     <li>
                     <c:if test="${user_id==null}">
-                        <a href="login" class="p-2 mx-1 d-flex flex-column align-items-center text-center">
+                        <a href="catdog-login" class="p-2 mx-1 d-flex flex-column align-items-center text-center">
                             <i class="bi bi-box-arrow-in-right"></i>
                             <span>로그인</span>
                         </a>
@@ -55,6 +55,7 @@
                         <c:if test="${user_id!=null}">
                           <a href="logout" class="p-2 mx-1 d-flex flex-column align-items-center text-center">
                             <i class="bi bi-box-arrow-right"></i>
+                            <span>로그아웃</span>
                             </a>
                         </c:if>
                     </li>

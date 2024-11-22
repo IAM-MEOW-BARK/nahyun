@@ -47,9 +47,29 @@ public class CatDogDAOImpl implements CatDogDAO{
 
 	// 나현 수정
 	@Override
-	public List<ProductGroupDTO> list() {
+	public List<ProductGroupDTO> list01() {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList(namespace+".list");
+		return sqlSession.selectList(namespace+".list01");
+	}
+	@Override
+	public List<ProductGroupDTO> list02() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList(namespace+".list02");
+	}
+	@Override
+	public List<ProductGroupDTO> list03() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList(namespace+".list03");
+	}
+	@Override
+	public List<ProductGroupDTO> list04() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList(namespace+".list04");
+	}
+	@Override
+	public List<ProductGroupDTO> list05() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList(namespace+".list05");
 	}
 
 	@Override

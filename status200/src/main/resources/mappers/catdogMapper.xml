@@ -4,21 +4,57 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.dong.catdogMapper">
 
-	<!-- 카테고리 1 리스트 -->
-	<select id="list" resultType="ProductGroupDTO">
+	<!-- 카테고리 01 리스트 -->
+	<select id="list01" resultType="ProductGroupDTO">
 		select *
-		from product_group
-		where product_category=1
+		from product
+		where
+		product_category=1
 		order by product_regdate desc
 	</select>
 
+	<!-- 카테고리 02 리스트 -->
+	<select id="list02" resultType="ProductGroupDTO">
+		select *
+		from product
+		where
+		product_category=2
+		order by product_regdate desc
+	</select>
+
+	<!-- 카테고리 03 리스트 -->
+	<select id="list03" resultType="ProductGroupDTO">
+		select *
+		from product
+		where
+		product_category=3
+		order by product_regdate desc
+	</select>
+	
+	<!-- 카테고리 04 리스트 -->
+	<select id="list04" resultType="ProductGroupDTO">
+		select *
+		from product
+		where
+		product_category=4
+		order by product_regdate desc
+	</select>
+
+	<!-- 카테고리 05 리스트 -->
+	<select id="list05" resultType="ProductGroupDTO">
+		select *
+		from product
+		where
+		product_category=5
+		order by product_regdate desc
+	</select>
+	
 	<!-- 리스트에서 제품 선택 -->
 	<select id="product_detail" parameterType="java.lang.Integer"
 		resultType="BoardDTO">
 		select *
 		from product_group
-		where product_group_id =
-		#{product_group_id}
+		where product_group_id = #{product_group_id}
 	</select>
 
 	<!-- 찜 추가 -->
@@ -34,6 +70,6 @@
 		where
 		user_id=#{user_id} and product_groupid = #{product_group_id}
 	</delete>
-	
-	
+
+
 </mapper>

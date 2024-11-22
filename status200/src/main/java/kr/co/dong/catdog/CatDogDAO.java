@@ -20,7 +20,15 @@ public interface CatDogDAO {
 	public int findPw(String user_id, String name, int phone_num) throws Exception;
 	
 	//제품 캐러셀 리스트 출력
-	public List <ProductGroupDTO> list();
+	public List <ProductGroupDTO> list01();
+	//제품 캐러셀 리스트 출력
+	public List <ProductGroupDTO> list02();
+	//제품 캐러셀 리스트 출력
+	public List <ProductGroupDTO> list03();
+	//제품 캐러셀 리스트 출력
+	public List <ProductGroupDTO> list04();
+	//제품 캐러셀 리스트 출력
+	public List <ProductGroupDTO> list05();
 	
 	// 찜하기 추가
     public int addWish(String user_id, int product_id) throws Exception;

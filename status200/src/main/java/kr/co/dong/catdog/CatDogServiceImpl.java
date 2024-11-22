@@ -26,9 +26,33 @@ public class CatDogServiceImpl implements CatDogService {
 
 	// (나현 추가) 카테고리 별 보기
 	@Override
-	public List<ProductGroupDTO> list() {
+	public List<ProductDTO> list01() {
 		// TODO Auto-generated method stub
-		return catDogDAO.list();
+		return catDogDAO.list01();
+	}
+	// (나현 추가) 카테고리 별 보기
+	@Override
+	public List<ProductDTO> list02() {
+		// TODO Auto-generated method stub
+		return catDogDAO.list02();
+	}
+	// (나현 추가) 카테고리 별 보기
+	@Override
+	public List<ProductDTO> list03() {
+		// TODO Auto-generated method stub
+		return catDogDAO.list03();
+	}
+	// (나현 추가) 카테고리 별 보기
+	@Override
+	public List<ProductDTO> list04() {
+		// TODO Auto-ProductDTO method stub
+		return catDogDAO.list04();
+	}
+	// (나현 추가) 카테고리 별 보기
+	@Override
+	public List<ProductDTO> list05() {
+		// TODO Auto-generated method stub
+		return catDogDAO.list05();
 	}
 
 	/*

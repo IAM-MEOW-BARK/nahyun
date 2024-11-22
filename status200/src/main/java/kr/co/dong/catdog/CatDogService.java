@@ -11,7 +11,15 @@ public interface CatDogService {
 	public int create(MemberDTO meber) throws Exception;
 
 	// (나현) 전체 목록 가져오는 메소드
-	public List<ProductGroupDTO> list();
+	public List<ProductDTO> list01();
+	// (나현) 전체 목록 가져오는 메소드
+	public List<ProductDTO> list02();
+	// (나현) 전체 목록 가져오는 메소드
+	public List<ProductDTO> list03();
+	// (나현) 전체 목록 가져오는 메소드
+	public List<ProductDTO> list04();
+	// (나현) 전체 목록 가져오는 메소드
+	public List<ProductDTO> list05();
 
 	/*
 	 * // (우진) 이메일 중복 체크 public int getMemberByEmail(String user_id) throws
