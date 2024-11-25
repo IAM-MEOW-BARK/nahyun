@@ -1,8 +1,11 @@
 package kr.co.dong;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,20 +34,39 @@ public class HomeController {
 	CatDogService catDogService;  
 
 	@RequestMapping(value = "/", method = RequestMethod.GET) // 프로젝트 처음 시작할 때 "/" 하나 있는 애 부터 실행이 된다.
-	public ModelAndView list() {
-		ModelAndView mav = new ModelAndView();
-		List<ProductDTO> list01 = catDogService.list(1);
-		mav.addObject("list01", list01);
-		List<ProductDTO> list02 = catDogService.list(2);
-		mav.addObject("list02", list02);
-		List<ProductDTO> list03 = catDogService.list(3);
-		mav.addObject("list03", list03);
-		List<ProductDTO> list04 = catDogService.list(4);
-		mav.addObject("list04", list04);
-		List<ProductDTO> list05 = catDogService.list(5);
-		mav.addObject("list05", list05);
-		mav.setViewName("home");
-		return mav;
+	public ModelAndView list(HttpSession session) {
+	    ModelAndView mav = new ModelAndView();
+	    String user_id = (String) session.getAttribute("user"); // 로그인된 사용자 ID 가져오기
+
+	    // 파라미터 맵 구성
+	    Map<String, Object> param = new HashMap<String, Object>();
+	    param.put("user_id", user_id);
+
+	    // 카테고리별 상품 목록 조회
+	    param.put("product_category", 1);
+	    List<ProductDTO> list01 = catDogService.mainlist(param);
+
+	    param.put("product_category", 2);
+	    List<ProductDTO> list02 = catDogService.mainlist(param);
+
+	    param.put("product_category", 3);
+	    List<ProductDTO> list03 = catDogService.mainlist(param);
+
+	    param.put("product_category", 4);
+	    List<ProductDTO> list04 = catDogService.mainlist(param);
+
+	    param.put("product_category", 5);
+	    List<ProductDTO> list05 = catDogService.mainlist(param);
+
+	    // 뷰에 데이터 추가
+	    mav.addObject("list01", list01);
+	    mav.addObject("list02", list02);
+	    mav.addObject("list03", list03);
+	    mav.addObject("list04", list04);
+	    mav.addObject("list05", list05);
+
+	    mav.setViewName("home");
+	    return mav;
 	}
 	
 	@RequestMapping(value="/main")

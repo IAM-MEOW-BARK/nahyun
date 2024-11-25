@@ -26,9 +26,9 @@ public class CatDogServiceImpl implements CatDogService {
 
 	// (나현 추가) 카테고리 별 보기
 	@Override
-	public List<ProductDTO> list(int product_category) {
+	public List<ProductDTO> mainlist(Map<String, Object> param) {
 		// TODO Auto-generated method stub
-		return catDogDAO.list(product_category);
+		return catDogDAO.mainlist(param);
 	}
 
 	@Override
@@ -37,6 +37,18 @@ public class CatDogServiceImpl implements CatDogService {
 		return catDogDAO.deleteWish(wishDTO);
 	}
 
+	@Override
+	public int addWish(String user_id, int product_code) throws Exception {
+		// TODO Auto-generated method stub
+		return catDogDAO.addWish(user_id, product_code);
+	}
+	
+	@Override
+	public List<String> getUserWish(String user_id) throws Exception {
+		return catDogDAO.getUserWish(user_id);
+	}
+
+	
 	/*
 	 * @Override public List<MemberDTO> getTotalMember() { // TODO Auto-generated
 	 * method stub return catDogDAO.getTotalMember(); }

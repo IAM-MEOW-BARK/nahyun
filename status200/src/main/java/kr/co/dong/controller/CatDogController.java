@@ -1,5 +1,6 @@
 package kr.co.dong.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -31,20 +33,82 @@ public class CatDogController {
 	
 	// 전체 상품 출력
 	@GetMapping(value = "/home")
-	public ModelAndView list() {
-		ModelAndView mav = new ModelAndView();
-		List<ProductDTO> list01 = catDogService.list(1);
-		mav.addObject("list01", list01);
-		List<ProductDTO> list02 = catDogService.list(2);
-		mav.addObject("list02", list02);
-		List<ProductDTO> list03 = catDogService.list(3);
-		mav.addObject("list03", list03);
-		List<ProductDTO> list04 = catDogService.list(4);
-		mav.addObject("list04", list04);
-		List<ProductDTO> list05 = catDogService.list(5);
-		mav.addObject("list05", list05);
-		mav.setViewName("home");
-		return mav;
+	public ModelAndView list(HttpSession session) {
+	    ModelAndView mav = new ModelAndView();
+	    // 세션에서 사용자 ID 가져오기
+	    Map<String, Object> userMap = (Map<String, Object>) session.getAttribute("user");
+	    String user_id = userMap != null ? (String) userMap.get("user_id") : null;
+
+	    // 파라미터 맵 구성
+	    Map<String, Object> param = new HashMap<String, Object>();
+	    param.put("user_id", user_id);
+
+	    // 카테고리별 상품 목록 조회
+	    param.put("product_category", 1);
+	    List<ProductDTO> list01 = catDogService.mainlist(param);
+	    param.put("product_category", 2);
+	    List<ProductDTO> list02 = catDogService.mainlist(param);
+	    param.put("product_category", 3);
+	    List<ProductDTO> list03 = catDogService.mainlist(param);
+	    param.put("product_category", 4);
+	    List<ProductDTO> list04 = catDogService.mainlist(param);
+	    param.put("product_category", 5);
+	    List<ProductDTO> list05 = catDogService.mainlist(param);
+
+	    // 뷰에 데이터 추가
+	    mav.addObject("list01", list01);
+	    mav.addObject("list02", list02);
+	    mav.addObject("list03", list03);
+	    mav.addObject("list04", list04);
+	    mav.addObject("list05", list05);
+
+	    mav.setViewName("home");	    
+	    return mav;
+	}
+	
+	@PostMapping("/addWish")
+	@ResponseBody
+	public Map<String, String> addWish(@RequestParam("product_code") int productCode, HttpSession session) {
+	    Map<String, String> response = new HashMap<String, String>();
+	    Map<String, Object> userMap = (Map<String, Object>) session.getAttribute("user");
+	    String userId = userMap != null ? (String) userMap.get("user_id") : null;
+
+	    if (userId == null) {
+	        response.put("message", "로그인 후 이용해주세요.");
+	        return response;
+	    }
+
+	    try {
+	        catDogService.addWish(userId, productCode);
+	        response.put("message", "찜하기가 추가되었습니다.");
+	    } catch (Exception e) {
+	        response.put("message", "찜하기 추가 중 오류가 발생했습니다.");
+	    }
+	    return response;
+	}
+
+	@PostMapping("/deleteWish")
+	@ResponseBody
+	public Map<String, String> deleteWish(@RequestParam("product_code") int productCode, HttpSession session) {
+	    Map<String, String> response = new HashMap<String, String>();
+	    Map<String, Object> userMap = (Map<String, Object>) session.getAttribute("user");
+	    String userId = userMap != null ? (String) userMap.get("user_id") : null;
+
+	    if (userId == null) {
+	        response.put("message", "로그인 후 이용해주세요.");
+	        return response;
+	    }
+
+	    try {
+	        WishDTO wishDTO = new WishDTO();
+	        wishDTO.setUser_id(userId);
+	        wishDTO.setProduct_code(productCode);
+	        catDogService.deleteWish(wishDTO);
+	        response.put("message", "찜하기가 삭제되었습니다.");
+	    } catch (Exception e) {
+	        response.put("message", "찜하기 삭제 중 오류가 발생했습니다.");
+	    }
+	    return response;
 	}
 	
 	@GetMapping(value="/catdog-term")
@@ -74,7 +138,8 @@ public class CatDogController {
 	public String login(@RequestParam Map<String, Object> map, HttpServletRequest request, HttpServletResponse response,
 			HttpSession session) throws Exception {
 		request.setCharacterEncoding("UTF-8");
-
+		logger.info("아이디 :" + map.get("user_ID"));
+		logger.info("이름 :" + map.get("name"));
 		Map user = catDogService.login(map);
 
 		if (user == null) {
@@ -91,6 +156,7 @@ public class CatDogController {
 				return "redirect:/catdog-user-list-admin";
 			} else if (userAuth == 0) {
 				logger.info("일반 사용자 계정으로 로그인");
+				System.out.println("로그인 완료"+user);
 				return "redirect:/home";
 			} else {
 				logger.warn("알 수 없는 USER_AUTH 값: " + userAuth);
@@ -199,18 +265,31 @@ public class CatDogController {
 		return "deleteUser";
 	}
 	
-	@GetMapping("/deleteWish")
-	public String deleteWish(@RequestParam("wishDTO")WishDTO wishDTO, RedirectAttributes rttr) throws Exception {
-		
-		int r = catDogService.deleteWish(wishDTO);
-		
-		if (r>0) {
-			rttr.addFlashAttribute("msg", "글 삭제 성공.");
-			return "redirect:totalWish";
-		}
-		
-		return "redirect: totalWish";
-		
-	}
+	
+	/*
+	 * // 찜 추가
+	 * 
+	 * @ResponseBody
+	 * 
+	 * @PostMapping("/addWish") public int addWish(@RequestParam("user_id")String
+	 * user_id, @RequestParam("product_code")int product_code) throws Exception {
+	 * 
+	 * return catDogService.addWish(user_id, product_code); }
+	 * 
+	 * // 찜 삭제
+	 * 
+	 * @GetMapping("/deleteWish") public String
+	 * deleteWish(@RequestParam("wishDTO")WishDTO wishDTO, RedirectAttributes rttr)
+	 * throws Exception {
+	 * 
+	 * int r = catDogService.deleteWish(wishDTO);
+	 * 
+	 * if (r>0) { rttr.addFlashAttribute("msg", "찜 삭제 완료"); return
+	 * "redirect:totalWish"; }
+	 * 
+	 * return "redirect: totalWish";
+	 * 
+	 * }
+	 */
 	
 }

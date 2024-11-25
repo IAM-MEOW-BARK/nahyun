@@ -19,11 +19,13 @@ public interface CatDogDAO {
 	// 회원 정보 찾기 (비밀번호)
 	public int findPw(String user_id, String name, int phone_num) throws Exception;
 	
-	//제품 캐러셀 리스트 출력
-	public List <ProductDTO> list(int product_category);
+	//메인페이지 제품 리스트 출력
+	public List <ProductDTO> mainlist(Map<String, Object> param);
+	
+	public List<String> getUserWish(String user_id) throws Exception;
 	
 	// 찜하기 추가
-    public int addWish(String user_id, int product_id) throws Exception;
+    public int addWish(String user_id, int product_code) throws Exception;
 
     // 찜하기 삭제
     public int deleteWish(WishDTO wishDTO) throws Exception;

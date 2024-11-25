@@ -51,7 +51,7 @@
 		</div>
 	</div>
 
-	<!-- / 우측 장바구니 슬라이더. 끝.  -->
+	<!-- / 우측 장바구니 슬라이더. 끝. -->
 
 	<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar">
 		<div class="offcanvas-header justify-content-between">
@@ -62,12 +62,12 @@
 		<div class="offcanvas-body">
 			<ul class="navbar-nav justify-content-end menu-list list-unstyled d-flex gap-md-3 mb-0">
 				<li class="nav-item border-dashed active"><a href="index.html" class="nav-link d-flex align-items-center gap-3 text-dark p-2"> <svg width="24" height="24" viewBox="0 0 24 24">
-                <use xlink:href="#fruits"></use>
-              </svg> <span>Fruits and vegetables</span>
+             <use xlink:href="#fruits"></use>
+           </svg> <span>Fruits and vegetables</span>
 				</a></li>
 				<li class="nav-item border-dashed"><a href="index.html" class="nav-link d-flex align-items-center gap-3 text-dark p-2"> <svg width="24" height="24" viewBox="0 0 24 24">
-                <use xlink:href="#dairy"></use>
-              </svg> <span>Dairy and Eggs</span>
+             <use xlink:href="#dairy"></use>
+           </svg> <span>Dairy and Eggs</span>
 				</a></li>
 			</ul>
 		</div>
@@ -77,8 +77,7 @@
 
 	<section style="display: flex; justify-content: center; align-items: center; background-color: #FFCF84; height: 300px;">
 
-		<a href="noticeList">
-		<img src="${pageContext.request.contextPath}/resources/bootstrap/images/main-banner.png" alt="배너 이미지" style="max-width: 100%; height: 300px;" />
+		<a href="noticeList"> <img src="${pageContext.request.contextPath}/resources/bootstrap/images/main-banner.png" alt="배너 이미지" style="max-width: 100%; height: 300px;" />
 		</a>
 	</section>
 
@@ -135,7 +134,7 @@
 				</div>
 			</div>
 
-			<div>
+			<div class="row">
 				<div class="col-md-12">
 					<div class="product-grid row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5">
 
@@ -148,8 +147,7 @@
 										</a>
 									</figure>
 									<div class="d-flex flex-column text-center">
-										<h3 class="fs-6 fw-normal">
-										${product01.product_name}</h3>
+										<h3 class="fs-6 fw-normal">${product01.product_name}</h3>
 										<div class="d-flex justify-content-center align-items-center gap-2">
 											<span class="text-dark fw-semibold">${product01.product_price}원</span>
 										</div>
@@ -160,14 +158,14 @@
 												</div>
 												<div class="col-7">
 													<a href="#" class="btn btn-primary rounded-1 p-2 fs-7 btn-cart"> <svg width="18" height="18">
-                          <use xlink:href="#cart"></use>
-                          </svg> 장바구니
+      <use xlink:href="#cart"></use>
+      </svg> 장바구니
 													</a>
 												</div>
 												<div class="col-2">
 													<a href="#" class="btn btn-outline-dark rounded-1 p-2 fs-6"> <svg width="18" height="18">
-                          <use xlink:href="#heart"></use>
-                          </svg>
+      <use xlink:href="#heart"></use>
+      </svg>
 													</a>
 												</div>
 											</div>
@@ -220,8 +218,7 @@
 										</a>
 									</figure>
 									<div class="d-flex flex-column text-center">
-										<h3 class="fs-6 fw-normal">
-										${product02.product_name}</h3>
+										<h3 class="fs-6 fw-normal">${product02.product_name}</h3>
 										<div class="d-flex justify-content-center align-items-center gap-2">
 											<span class="text-dark fw-semibold">${product02.product_price}원</span>
 										</div>
@@ -232,14 +229,14 @@
 												</div>
 												<div class="col-7">
 													<a href="#" class="btn btn-primary rounded-1 p-2 fs-7 btn-cart"> <svg width="18" height="18">
-                          <use xlink:href="#cart"></use>
-                          </svg> 장바구니
+      <use xlink:href="#cart"></use>
+      </svg> 장바구니
 													</a>
 												</div>
 												<div class="col-2">
 													<a href="#" class="btn btn-outline-dark rounded-1 p-2 fs-6"> <svg width="18" height="18">
-                          <use xlink:href="#heart"></use>
-                          </svg>
+      <use xlink:href="#heart"></use>
+      </svg>
 													</a>
 												</div>
 											</div>
@@ -292,8 +289,7 @@
 										</a>
 									</figure>
 									<div class="d-flex flex-column text-center">
-										<h3 class="fs-6 fw-normal">
-										${product03.product_name}</h3>
+										<h3 class="fs-6 fw-normal">${product03.product_name}</h3>
 										<div class="d-flex justify-content-center align-items-center gap-2">
 											<span class="text-dark fw-semibold">${product03.product_price}원</span>
 										</div>
@@ -304,14 +300,14 @@
 												</div>
 												<div class="col-7">
 													<a href="#" class="btn btn-primary rounded-1 p-2 fs-7 btn-cart"> <svg width="18" height="18">
-                          <use xlink:href="#cart"></use>
-                          </svg> 장바구니
+      <use xlink:href="#cart"></use>
+      </svg> 장바구니
 													</a>
 												</div>
 												<div class="col-2">
 													<a href="#" class="btn btn-outline-dark rounded-1 p-2 fs-6"> <svg width="18" height="18">
-                          <use xlink:href="#heart"></use>
-                          </svg>
+      <use xlink:href="#heart"></use>
+      </svg>
 													</a>
 												</div>
 											</div>
@@ -330,7 +326,7 @@
 
 	<!-- / Main 캐러셀 리스트 -->
 
-<!-- Main 캐러셀 리스트 -->
+	<!-- Main 캐러셀 리스트 -->
 	<section class="pb-5">
 		<div class="container-lg">
 			<div class="row">
@@ -364,8 +360,7 @@
 										</a>
 									</figure>
 									<div class="d-flex flex-column text-center">
-										<h3 class="fs-6 fw-normal">
-										${product04.product_name}</h3>
+										<h3 class="fs-6 fw-normal">${product04.product_name}</h3>
 										<div class="d-flex justify-content-center align-items-center gap-2">
 											<span class="text-dark fw-semibold">${product04.product_price}원</span>
 										</div>
@@ -376,14 +371,14 @@
 												</div>
 												<div class="col-7">
 													<a href="#" class="btn btn-primary rounded-1 p-2 fs-7 btn-cart"> <svg width="18" height="18">
-                          <use xlink:href="#cart"></use>
-                          </svg> 장바구니
+      <use xlink:href="#cart"></use>
+      </svg> 장바구니
 													</a>
 												</div>
 												<div class="col-2">
 													<a href="#" class="btn btn-outline-dark rounded-1 p-2 fs-6"> <svg width="18" height="18">
-                          <use xlink:href="#heart"></use>
-                          </svg>
+      <use xlink:href="#heart"></use>
+      </svg>
 													</a>
 												</div>
 											</div>
@@ -401,7 +396,7 @@
 	</section>
 
 	<!-- / Main 캐러셀 리스트 -->
-	
+
 	<!-- Main 캐러셀 리스트 -->
 	<section class="pb-5">
 		<div class="container-lg">
@@ -436,8 +431,7 @@
 										</a>
 									</figure>
 									<div class="d-flex flex-column text-center">
-										<h3 class="fs-6 fw-normal">
-										${product05.product_name}</h3>
+										<h3 class="fs-6 fw-normal">${product05.product_name}</h3>
 										<div class="d-flex justify-content-center align-items-center gap-2">
 											<span class="text-dark fw-semibold">${product05.product_price}원</span>
 										</div>
@@ -448,14 +442,14 @@
 												</div>
 												<div class="col-7">
 													<a href="#" class="btn btn-primary rounded-1 p-2 fs-7 btn-cart"> <svg width="18" height="18">
-                          <use xlink:href="#cart"></use>
-                          </svg> 장바구니
+      <use xlink:href="#cart"></use>
+      </svg> 장바구니
 													</a>
 												</div>
 												<div class="col-2">
 													<a href="#" class="btn btn-outline-dark rounded-1 p-2 fs-6"> <svg width="18" height="18">
-                          <use xlink:href="#heart"></use>
-                          </svg>
+      <use xlink:href="#heart"></use>
+      </svg>
 													</a>
 												</div>
 											</div>
@@ -483,24 +477,24 @@
 						<div class="social-links mt-3">
 							<ul class="d-flex list-unstyled gap-2">
 								<li><a href="#" class="btn btn-outline-light"> <svg width="16" height="16">
-                        <use xlink:href="#facebook"></use>
-                      </svg>
+                     <use xlink:href="#facebook"></use>
+                   </svg>
 								</a></li>
 								<li><a href="#" class="btn btn-outline-light"> <svg width="16" height="16">
-                        <use xlink:href="#twitter"></use>
-                      </svg>
+                     <use xlink:href="#twitter"></use>
+                   </svg>
 								</a></li>
 								<li><a href="#" class="btn btn-outline-light"> <svg width="16" height="16">
-                        <use xlink:href="#youtube"></use>
-                      </svg>
+                     <use xlink:href="#youtube"></use>
+                   </svg>
 								</a></li>
 								<li><a href="#" class="btn btn-outline-light"> <svg width="16" height="16">
-                        <use xlink:href="#instagram"></use>
-                      </svg>
+                     <use xlink:href="#instagram"></use>
+                   </svg>
 								</a></li>
 								<li><a href="#" class="btn btn-outline-light"> <svg width="16" height="16">
-                        <use xlink:href="#amazon"></use>
-                      </svg>
+                     <use xlink:href="#amazon"></use>
+                   </svg>
 								</a></li>
 							</ul>
 						</div>
