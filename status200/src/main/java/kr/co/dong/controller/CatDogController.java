@@ -62,39 +62,51 @@ public class CatDogController {
 		return "catdog-product-list-admin";
 	}
 	
-	@GetMapping(value="/catdog-login")
-	public String catdogLogin(){
+	// 로그인
+	
+	@GetMapping(value = "/catdog-login")
+	public String login() {
+		logger.info("login view 이동");
 		return "catdog-login";
 	}
 	
-	@PostMapping(value="/catdog-login")
-	public String login(@RequestParam Map<String,Object> map, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
+	@PostMapping(value = "/catdog-login")
+	public String login(@RequestParam Map<String, Object> map, HttpServletRequest request, HttpServletResponse response,
+			HttpSession session) throws Exception {
 		request.setCharacterEncoding("UTF-8");
-		
+
 		Map user = catDogService.login(map);
-		
-		if(user == null) {
+
+		if (user == null) {
 			logger.info("실패");
-			return "redirect:catdog-login"; //prefix suffix 이용해서 이동
+			return "redirect:catdog-login"; // prefix suffix 이용해서 이동
 		} else {
 			logger.info("성공");
-			session.setAttribute("user", user);			
+			session.setAttribute("user", user);
 
-	        Integer userAuth = (Integer) user.get("user_auth");
+			Integer userAuth = (Integer) user.get("user_auth");
 
-	        if (userAuth == 1) {
-	            logger.info("관리자 계정으로 로그인");
-	            return "redirect:/catdog-user-list-admin";
-	        } else if (userAuth == 0) {
-	            logger.info("일반 사용자 계정으로 로그인");
-	            return "redirect:/home";
-	        } else {
-	            logger.warn("알 수 없는 USER_AUTH 값: " + userAuth);
-	            return "redirect:/catdog-login";
-	        }
+			if (userAuth == 1) {
+				logger.info("관리자 계정으로 로그인");
+				return "redirect:/catdog-user-list-admin";
+			} else if (userAuth == 0) {
+				logger.info("일반 사용자 계정으로 로그인");
+				return "redirect:/home";
+			} else {
+				logger.warn("알 수 없는 USER_AUTH 값: " + userAuth);
+				return "redirect:/catdog-login";
+			}
 		}
 	}	
 		
+	// 로그아웃
+	   @GetMapping(value="/catdog-logout")
+	   public String logout(HttpSession session, RedirectAttributes rttr) {
+	      session.invalidate(); // 세션에 저장되어 있는 정보 삭제
+	      rttr.addFlashAttribute("msg", "로그아웃 성공"); // 1회성 저장
+	      return "redirect:/";
+	   }
+	
 	@GetMapping(value="/catdog-add-user-admin")
 	public String catdogAddUserAdmin(){
 		return "catdog-add-user-admin";
