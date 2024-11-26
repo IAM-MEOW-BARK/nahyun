@@ -37,7 +37,6 @@
 		where product_code = #{product_code}
 	</select>
 
-
 	<insert id="addWish" parameterType="java.util.Map">
 		INSERT INTO wish (user_id, product_code)
 		VALUES (#{user_id}, #{product_code})
@@ -70,4 +69,45 @@
 		ORDER BY
 		p.product_regdate DESC
 	</select>
+	
+	<!-- 주문 기본 정보 -->
+	<select id="getOrderInfo" parameterType="java.lang.Integer" resultType="OrderDTO">
+		SELECT
+			order_code
+			ordered_at
+			user_id_fk
+			product_cost
+		FROM order
+		WHERE
+			order_code = #{order_code}
+	</select>
+	
+	<!-- 상품 주문 리스트 -->
+	<select id="getOrderItems" parameterType="java.lang.Integer" resultType="ProductDTO">
+		SELECT
+			p.prodcut_code
+			p.prodcut_name
+			p.thumbnail_img
+			oi.order_quantity
+			(p.product_price * oi.order_quantity) as productPrice
+			oi.order_status
+		FROM order_item oi
+		JOIN product p on oi.product_code = p.product_code
+		WHERE oi.order_code = #{order_code}
+	</select>
+	
+	<!-- 주문 상품 후기 정보 -->
+	<select id="getReivew" parameterType="java.lang.Integer" resultType="ReviewDTO">
+		SELECT
+			r.review_no
+			r.product_code
+			r.user_id
+			r.content
+			r.rating
+		FROM review r
+		WHERE r.product_code in (SELECT product_code
+								 FROM order_item
+								 WHERE order_code = #{order_code})
+	</select>
+	
 </mapper>

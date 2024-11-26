@@ -47,8 +47,40 @@ public class CatDogServiceImpl implements CatDogService {
 	public List<String> getUserWish(String user_id) throws Exception {
 		return catDogDAO.getUserWish(user_id);
 	}
-
 	
+	@Override
+	public OrderDTO getOrderDetail(int order_code) throws Exception {
+		
+		OrderDTO orderInfo = catDogDAO.getOrderInfo(order_code);
+		List<ProductDTO> orderItems = catDogDAO.getOrderItems(order_code);
+		List<ReviewDTO> reviews = catDogDAO.getReview(order_code);
+		
+		int totalCost = 0;
+		for (ProductDTO item : orderItems) {
+		    totalCost += item.getProduct_price() * item.getOrder_quantity();
+		}
+		
+		orderInfo.setProduct_cost(totalCost);
+		orderInfo.setReviews(reviews);
+		
+		return orderInfo;
+	}
+	
+	/* 주문 상세보기 관련
+	@Override
+	public OrderDTO getOrderInfo(int order_code) throws Exception {
+		return catDogDAO.getOrderItems(order_code);
+	}
+	@Override
+	public OrderDTO getOrderItems(int order_code) throws Exception {
+		return catDogDAO.getOrderItems(order_code);
+	}
+	@Override
+	public ReviewDTO getReview(int order_code) throws Exception {
+		return catDogDAO.getReview(order_code);
+	}
+	 * 
+	 * 	*/
 	/*
 	 * @Override public List<MemberDTO> getTotalMember() { // TODO Auto-generated
 	 * method stub return catDogDAO.getTotalMember(); }

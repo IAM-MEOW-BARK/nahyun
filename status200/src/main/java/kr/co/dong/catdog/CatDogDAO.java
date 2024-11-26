@@ -22,6 +22,7 @@ public interface CatDogDAO {
 	//메인페이지 제품 리스트 출력
 	public List <ProductDTO> mainlist(Map<String, Object> param);
 	
+	// 메인페이지 찜한 상품
 	public List<String> getUserWish(String user_id) throws Exception;
 	
 	// 찜하기 추가
@@ -50,10 +51,16 @@ public interface CatDogDAO {
     public List<OrderDTO> getRecentOrders(String user_id) throws Exception;
 
     // 전체 주문 내역
-    public List<OrderDTO> getAllOrders(String user_id, String order_code) throws Exception;
+    public List<OrderDTO> getAllOrders(String user_id, int order_code) throws Exception;
+    
+    // 주문 기본 정보
+    public OrderDTO getOrderInfo(int order_code) throws Exception;
 
-    // 주문 내역 상세 표시
-    public OrderDTO getOrderDetail(int order_code) throws Exception;
+    // 주문 상품 상세 정보
+    public List<ProductDTO> getOrderItems(int order_code) throws Exception;
+    
+    // 주문 상품 후기 정보
+    public List<ReviewDTO> getReview(int order_code) throws Exception;
     
     /*관리자*/
     // 전체 상품 관리 리스트

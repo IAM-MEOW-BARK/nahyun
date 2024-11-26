@@ -19,6 +19,17 @@ public interface CatDogService {
 	
 	public List<String> getUserWish(String user_id) throws Exception;
 	
+	public OrderDTO getOrderDetail(int order_code) throws Exception;
+	
+	/* 주문 상세보기 관련
+	 * 
+	 * public OrderDTO getOrderInfo(int order_code) throws Exception;
+	 * 
+	 * public OrderDTO getOrderItems(int order_code) throws Exception;
+	 * 
+	 * public ReviewDTO getReview(int order_code) throws Exception;
+	 */
+	
 	
 	/*
 	 * // (우진) 이메일 중복 체크 public int getMemberByEmail(String user_id) throws

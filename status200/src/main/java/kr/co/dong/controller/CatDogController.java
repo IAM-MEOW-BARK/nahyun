@@ -8,11 +8,14 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.websocket.server.PathParam;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -21,6 +24,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.co.dong.catdog.CatDogService;
 import kr.co.dong.catdog.MemberDTO;
+import kr.co.dong.catdog.OrderDTO;
 import kr.co.dong.catdog.ProductDTO;
 import kr.co.dong.catdog.WishDTO;
 
@@ -230,10 +234,10 @@ public class CatDogController {
 		return "totalOrder";
 	}
 
-	@GetMapping("/detailOrder")
-	public String detailOrder() {
-		return "detailOrder";
-	}
+	/*
+	 * @GetMapping("/detailOrder") public String detailOrder() { return
+	 * "detailOrder"; }
+	 */
 	
 	@GetMapping("/totalWish")
 	public String totalWish() {
@@ -263,6 +267,16 @@ public class CatDogController {
 	@GetMapping("/deleteUser")
 	public String deleteUser() {
 		return "deleteUser";
+	}
+	
+	// @GetMapping("/orderDetail/{orderCode}")
+	
+	@GetMapping("/detailOrder")
+	public String getOrderDetail(@RequestParam("order_code")int orderCode, Model model) throws Exception {
+	    OrderDTO order = catDogService.getOrderDetail(orderCode);
+	    model.addAttribute("order", order);
+	    System.out.println(order);
+	    return "detailOrder";
 	}
 	
 	

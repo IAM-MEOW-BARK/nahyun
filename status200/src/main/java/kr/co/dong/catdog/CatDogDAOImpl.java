@@ -85,6 +85,24 @@ public class CatDogDAOImpl implements CatDogDAO{
 	 * wishDTO); }
 	 */
 
+    // 주문 기본 정보
+	@Override
+    public OrderDTO getOrderInfo(int order_code) throws Exception {
+    	return sqlSession.selectOne(namespace + ".getOrderInfo", order_code);
+    }
+
+    // 주문 상품 상세 정보
+	@Override
+    public List<ProductDTO> getOrderItems(int order_code) throws Exception {
+    	return sqlSession.selectList(namespace + ".getOrderItems", order_code);
+    }
+    
+    // 주문 상품 후기 정보
+	@Override
+    public List<ReviewDTO> getReview(int order_code) throws Exception {
+    	return sqlSession.selectList(namespace + ".getReview", order_code);
+    }
+	
 	@Override
 	public int addCart(CartDTO cartDTO) throws Exception {
 		// TODO Auto-generated method stub
@@ -122,13 +140,7 @@ public class CatDogDAOImpl implements CatDogDAO{
 	}
 
 	@Override
-	public List<OrderDTO> getAllOrders(String user_id, String order_code) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public OrderDTO getOrderDetail(int order_code) throws Exception {
+	public List<OrderDTO> getAllOrders(String user_id, int order_code) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

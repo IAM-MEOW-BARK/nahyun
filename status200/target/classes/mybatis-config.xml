@@ -8,5 +8,9 @@
  		<typeAlias alias="BoardReply" type="kr.co.dong.board.BoardReply"/>
  		<typeAlias alias="ProductDTO" type="kr.co.dong.catdog.ProductDTO"/>
  		<typeAlias alias="WishDTO" type="kr.co.dong.catdog.WishDTO"/>
+ 		<typeAlias alias="OrderDTO" type="kr.co.dong.catdog.OrderDTO"/>
+ 		<typeAlias alias="ReviewDTO" type="kr.co.dong.catdog.ReviewDTO"/>
+ 		<typeAlias alias="QADTO" type="kr.co.dong.catdog.QADTO"/>
+ 		<typeAlias alias="MemberDTO" type="kr.co.dong.catdog.MemberDTO"/>
  	</typeAliases>
  </configuration>

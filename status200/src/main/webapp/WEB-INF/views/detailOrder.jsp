@@ -36,9 +36,9 @@
 					<table class="table" style="text-align: center;">
 						<tr>
 							<th class="col-md-1 table-light">주문 번호</th>
-							<td class="col-md-2">20241117</td>
+							<td class="col-md-2">${order.order_code}</td>
 							<th class="col-md-1 table-light">주문자(아이디)</th>
-							<td class="col-md-2">박송송(song)</td>
+							<td class="col-md-2">${order.user_id}</td>
 						</tr>
 					</table>
 				</div>
@@ -55,16 +55,30 @@
 							<th class="table-light">상태</th>
 							<th class="table-light">구매후기</th>
 						</tr>
-						<tr>
-							<td class="col-md-1">제품이미지</td>
-							<td class="col-md-2">맛있는 제품명</td>
-							<td class="col-md-1">1개</td>
-							<td class="col-md-1">25,000원</td>
-							<td class="col-md-1">구매완료</td>
-							<td class="col-md-1">
-								<button class="btn btn-outline-secondary" onclick="location.href='reviewPop'">구매후기</button>
-							</td>
-						</tr>
+
+						<c:forEach var="product" items="${order.productList }">
+
+							<tr>
+								<td class="col-md-1">
+									<img src="${product.thumbnail_img}" alt="${product.product_name} 이미지" style="width: 50px; height: 50px;">
+								</td>
+								<td class="col-md-2">${product.product_name }</td>
+								<td class="col-md-1">${order.order_quantity }개</td>
+								<td class="col-md-1">${order.product_price * product.order_quantity}원</td>
+								<td class="col-md-1">${product.order_status}</td>
+								<td class="col-md-1">
+									<!-- 구매후기 버튼 -->
+									<c:choose>
+										<c:when test="${product.review != null}">
+											<button class="btn btn-outline-secondary" onclick="location.href='reviewDetail?reviewNo=${product.review.reviewNo}'">후기보기</button>
+										</c:when>
+										<c:otherwise>
+											<button class="btn btn-outline-secondary" onclick="location.href='writeReview?productCode=${product.product_code}'">후기작성</button>
+										</c:otherwise>
+									</c:choose>
+								</td>
+							</tr>
+						</c:forEach>
 					</table>
 				</div>
 				<!-- / 내 주문상품 정보. 끝. -->

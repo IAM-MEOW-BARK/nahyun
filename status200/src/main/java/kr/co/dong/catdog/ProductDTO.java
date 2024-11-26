@@ -11,6 +11,7 @@ public class ProductDTO {
 	private String product_regdate;
 	private String product_update;
 	private int wish_no;
+	private int order_quantity;
 
 	public int getProduct_code() {
 		return product_code;
@@ -84,12 +85,22 @@ public class ProductDTO {
 		this.product_update = product_update;
 	}
 
+	
+	// 필요해서 추가해봄
 	public int getWish_no() {
 		return wish_no;
 	}
 
 	public void setWish_no(int wish_no) {
 		this.wish_no = wish_no;
+	}
+
+	public int getOrder_quantity() {
+		return order_quantity;
+	}
+
+	public void setOrder_quantity(int order_quantity) {
+		this.order_quantity = order_quantity;
 	}
 
 	@Override
