@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -225,8 +226,28 @@ public class CatDogController {
 	// 페이지 이동
 	
 	@GetMapping("/mypage")
-	public String mypage() {
+	public String mypage(HttpSession session, Model model) throws Exception {
+		Map<String, Object> user = (Map<String, Object>) session.getAttribute("user");
+		if (user == null) {
+			return "redirect:/catdog-login";
+		}
+		
+		model.addAttribute("user_name", user.get("name"));
+		model.addAttribute("user_id", user.get("user_id"));
+		
+		List<OrderDTO> recentOrders = catDogService.getRecentOrder((String) user.get("user_id"));
+		model.addAttribute("recentOrders", recentOrders);
+		
 		return "mypage";
+	}
+	
+	@GetMapping("/mypage/detailOrder")
+	public String detailOrder(@RequestParam("order_code") String order_code, Model model) throws Exception {
+		
+		List<OrderDTO> orderDTO = catDogService.detailOrder("order_code");
+		model.addAttribute("order", orderDTO);
+		
+		return "detailOrder";
 	}
 	
 	@GetMapping("/totalOrder")
@@ -268,16 +289,14 @@ public class CatDogController {
 	public String deleteUser() {
 		return "deleteUser";
 	}
-	
-	// @GetMapping("/orderDetail/{orderCode}")
-	
-	@GetMapping("/detailOrder")
-	public String getOrderDetail(@RequestParam("order_code")int orderCode, Model model) throws Exception {
-	    OrderDTO order = catDogService.getOrderDetail(orderCode);
-	    model.addAttribute("order", order);
-	    System.out.println(order);
-	    return "detailOrder";
-	}
+		
+	/*
+	 * @GetMapping("/detailOrder") public String
+	 * getOrderDetail(@RequestParam("order_code")int orderCode, Model model) throws
+	 * Exception { OrderDTO order = catDogService.getOrderDetail(orderCode);
+	 * model.addAttribute("order", order); System.out.println(order); return
+	 * "detailOrder"; }
+	 */
 	
 	
 	/*

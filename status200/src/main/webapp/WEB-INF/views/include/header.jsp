@@ -59,7 +59,7 @@
 						</a>
 						</li>
 							<li>
-							<a href="mypage?page=mypage" class="p-2 mx-1 d-flex flex-column align-items-center text-center">
+							<a href="mypage" class="p-2 mx-1 d-flex flex-column align-items-center text-center">
 							<i class="bi bi-person-circle"></i>
 							<span>마이페이지</span>
 							</a></li>

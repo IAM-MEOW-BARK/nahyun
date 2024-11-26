@@ -49,22 +49,35 @@ public class CatDogServiceImpl implements CatDogService {
 	}
 	
 	@Override
-	public OrderDTO getOrderDetail(int order_code) throws Exception {
+	public List<OrderDTO> getRecentOrder(String user_id) throws Exception {
 		
-		OrderDTO orderInfo = catDogDAO.getOrderInfo(order_code);
-		List<ProductDTO> orderItems = catDogDAO.getOrderItems(order_code);
-		List<ReviewDTO> reviews = catDogDAO.getReview(order_code);
-		
-		int totalCost = 0;
-		for (ProductDTO item : orderItems) {
-		    totalCost += item.getProduct_price() * item.getOrder_quantity();
-		}
-		
-		orderInfo.setProduct_cost(totalCost);
-		orderInfo.setReviews(reviews);
-		
-		return orderInfo;
+		return catDogDAO.getRecentOrders(user_id);
 	}
+	
+	@Override
+	public List<OrderDTO> detailOrder(String order_code) throws Exception {
+		return catDogDAO.getDetailOrder(order_code);
+	}
+
+	
+//	@Override
+//	public OrderDTO getOrderDetail(int order_code) throws Exception {
+//		
+//		OrderDTO orderInfo = catDogDAO.getOrderInfo(order_code);
+//		List<ProductDTO> orderItems = catDogDAO.getOrderItems(order_code);
+//		List<ReviewDTO> reviews = catDogDAO.getReview(order_code);
+//		
+//		int totalCost = 0;
+//		for (ProductDTO item : orderItems) {
+//		    totalCost += item.getProduct_price() * item.getOrder_quantity();
+//		}
+//		
+//		orderInfo.setProduct_cost(totalCost);
+//		orderInfo.setReviews(reviews);
+//		
+//		return orderInfo;
+//	}
+	
 	
 	/* 주문 상세보기 관련
 	@Override
