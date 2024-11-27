@@ -10,11 +10,12 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class CatDogDAOImpl implements CatDogDAO{
-	
-	@Inject SqlSession sqlSession;	
-	
-	private static final String namespace ="kr.co.dong.catdogMapper";
+public class CatDogDAOImpl implements CatDogDAO {
+
+	@Inject
+	SqlSession sqlSession;
+
+	private static final String namespace = "kr.co.dong.catdogMapper";
 
 	@Override
 	public Map login(Map<String, Object> map) {
@@ -50,32 +51,31 @@ public class CatDogDAOImpl implements CatDogDAO{
 	@Override
 	public List<ProductDTO> mainlist(Map<String, Object> param) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList(namespace+".mainlist", param);
+		return sqlSession.selectList(namespace + ".mainlist", param);
 	}
-	
+
 	@Override
 	public List<String> getUserWish(String user_id) throws Exception {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList(namespace+".getUserWish", user_id);
+		return sqlSession.selectList(namespace + ".getUserWish", user_id);
 	}
 
-	
 	@Override
 	public int addWish(String user_id, int product_code) throws Exception {
-	    Map<String, Object> param = new HashMap<String, Object>();
-	    param.put("user_id", user_id);
-	    param.put("product_code", product_code);
-	    return sqlSession.insert(namespace + ".addWish", param);
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("user_id", user_id);
+		param.put("product_code", product_code);
+		return sqlSession.insert(namespace + ".addWish", param);
 	}
 
 	@Override
 	public int deleteWish(WishDTO wishDTO) throws Exception {
-	    Map<String, Object> param = new HashMap<String, Object>();
-	    param.put("user_id", wishDTO.getUser_id());
-	    param.put("product_code", wishDTO.getProduct_code());
-	    return sqlSession.delete(namespace + ".deleteWish", param);
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("user_id", wishDTO.getUser_id());
+		param.put("product_code", wishDTO.getProduct_code());
+		return sqlSession.delete(namespace + ".deleteWish", param);
 	}
-	
+
 	/*
 	 * @Override public int addWish(String user_id, int product_code) throws
 	 * Exception { // TODO Auto-generated method stub return 0; }
@@ -85,29 +85,28 @@ public class CatDogDAOImpl implements CatDogDAO{
 	 * wishDTO); }
 	 */
 
-    public List<OrderDTO> getDetailOrder(String order_code) throws Exception {
-    	return sqlSession.selectList(namespace + ".getDetailOrder", order_code);
-    }
+	public List<OrderDTO> getDetailOrder(String order_code) throws Exception {
+		return sqlSession.selectList(namespace + ".getDetailOrder", order_code);
+	}
 
-	
-    // 주문 기본 정보
+	// 주문 기본 정보
 	@Override
-    public OrderDTO getOrderInfo(String order_code) throws Exception {
-    	return sqlSession.selectOne(namespace + ".getOrderInfo", order_code);
-    }
+	public OrderDTO getOrderInfo(String order_code) throws Exception {
+		return sqlSession.selectOne(namespace + ".getOrderInfo", order_code);
+	}
 
-    // 주문 상품 상세 정보
+	// 주문 상품 상세 정보
 	@Override
-    public List<ProductDTO> getOrderItems(String order_code) throws Exception {
-    	return sqlSession.selectList(namespace + ".getOrderItems", order_code);
-    }
-    
-    // 주문 상품 후기 정보
+	public List<ProductDTO> getOrderItems(String order_code) throws Exception {
+		return sqlSession.selectList(namespace + ".getOrderItems", order_code);
+	}
+
+	// 주문 상품 후기 정보
 	@Override
-    public List<ReviewDTO> getReview(String order_code) throws Exception {
-    	return sqlSession.selectList(namespace + ".getReview", order_code);
-    }
-	
+	public List<ReviewDTO> getReview(String order_code) throws Exception {
+		return sqlSession.selectList(namespace + ".getReview", order_code);
+	}
+
 	@Override
 	public int addCart(CartDTO cartDTO) throws Exception {
 		// TODO Auto-generated method stub
@@ -138,10 +137,14 @@ public class CatDogDAOImpl implements CatDogDAO{
 		return 0;
 	}
 
+	public List<MyDTO> getMyOrders(String user_id) throws Exception {
+		return sqlSession.selectList(namespace + ".getMyOrders", user_id);
+	}
+
 	@Override
 	public List<OrderDTO> getRecentOrders(String user_id) throws Exception {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList(namespace+".getRecentOrders", user_id);
+		return sqlSession.selectList(namespace + ".getRecentOrders", user_id);
 	}
 
 	@Override
@@ -180,9 +183,10 @@ public class CatDogDAOImpl implements CatDogDAO{
 		return null;
 	}
 
+	@Override
+	public List<OrderDTO> getDetailOrders(String order_code) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-
-
-
-	
 }

@@ -61,17 +61,38 @@
 		SELECT
 		p.*,
 		(SELECT wish_no
-		FROM wish w
-		WHERE w.user_id = #{user_id} AND w.product_code = p.product_code) AS
-		wish_no
+			FROM wish w
+			WHERE w.user_id = #{user_id} AND w.product_code = p.product_code) AS wish_no
 		FROM
-		product p
+			product p
 		WHERE
-		p.product_category = #{product_category}
+			p.product_category = #{product_category}
 		ORDER BY
-		p.product_regdate DESC
+			p.product_regdate DESC
 	</select>
 
+<select id="getMyOrders" parameterType="java.lang.String" resultType="kr.co.dong.catdog.MyDTO">
+    SELECT
+        o.ordered_at AS orderedAt,
+        o.order_code AS orderCode,
+        (SELECT p.product_name
+	         FROM order_item oi
+	         JOIN product p ON oi.product_code = p.product_code
+	         WHERE oi.order_code = o.order_code
+	         ORDER BY oi.product_code ASC
+	         LIMIT 1) AS firstProductName,
+        (SELECT SUM(p.product_price * oi.order_quantity)
+	         FROM order_item oi
+	         JOIN product p ON oi.product_code = p.product_code
+	         WHERE oi.order_code = o.order_code) AS totalPrice,
+	    o.payment_status AS paymentStatus
+    FROM
+        orders o
+    WHERE
+        o.user_id_fk = #{user_id}
+    ORDER BY
+        o.ordered_at DESC
+</select>
 	
 	
 <resultMap id="orderResultMap" type="OrderDTO">

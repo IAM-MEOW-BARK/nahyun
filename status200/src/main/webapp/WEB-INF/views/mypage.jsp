@@ -120,14 +120,14 @@
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach var="order" items="${recentOrders}">
+							<c:forEach var="order" items="${myOrders}">
 								<tr>
 									<td>${order.orderedAt}</td>
 									<td>
 										<a href="detailOrder=?">${order.orderCode}</a>
 									</td>
-									<td>{order.대표제품}</td>
-									<td>{order.totalPrice}</td>
+									<td>${order.firstProductName}</td>
+									<td>${order.totalPrice}</td>
 								</tr>
 							</c:forEach>
 						</tbody>

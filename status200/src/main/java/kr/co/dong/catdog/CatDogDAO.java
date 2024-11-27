@@ -47,11 +47,13 @@ public interface CatDogDAO {
     // 회원 탈퇴
     public int deleteUser(String user_id);
 
+    public List<MyDTO> getMyOrders(String user_id) throws Exception;
+    
     // 최근 주문 내역 (최신 5개 등 제한)
     public List<OrderDTO> getRecentOrders(String user_id) throws Exception;
 
     // 
-    public List<OrderDTO> getDetailOrder(String order_code) throws Exception;
+    public List<OrderDTO> getDetailOrders(String order_code) throws Exception;
     
     // 전체 주문 내역
     public List<OrderDTO> getAllOrders(String user_id, String order_code) throws Exception;
