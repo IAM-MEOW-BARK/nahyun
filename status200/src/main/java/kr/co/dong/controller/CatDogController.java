@@ -23,7 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import kr.co.dong.catdog.CatDogService;
 import kr.co.dong.catdog.MemberDTO;
 import kr.co.dong.catdog.MyDTO;
-import kr.co.dong.catdog.OrderDTO;
+import kr.co.dong.catdog.OrderDetailDTO;
 import kr.co.dong.catdog.ProductDTO;
 import kr.co.dong.catdog.WishDTO;
 
@@ -259,17 +259,35 @@ public class CatDogController {
 		return "mypage";
 	}
 	
-	@GetMapping("/mypage/detailOrder")
-	public String detailOrder(@RequestParam("order_code") String order_code, Model model) throws Exception {
-		
-		List<OrderDTO> orderDTO = catDogService.detailOrder("order_code");
-		model.addAttribute("order", orderDTO);
-		
-		return "detailOrder";
-	}
 	
+	@GetMapping("/detailOrder")
+	public String detailOrder(@RequestParam("order_code") String order_code, Model model) throws Exception {
+	    OrderDetailDTO orderDetail = catDogService.getOrderDetail(order_code); // orderDetail에 order_code 전달
+	    model.addAttribute("orderDetail", orderDetail); // jsp 사용할 데이터
+	    return "detailOrder"; // 상세 페이지
+	}
+	/*
+	@GetMapping("/detailOrder")
+	public String detailOrder(@RequestParam("order_code") String order_code, Model model) throws Exception {
+	    // Service를 통해 상세 주문 정보 가져오기
+	    List<OrderDTO> orderDTO = catDogService.detailOrder(order_code); // order_code 전달
+	    model.addAttribute("orderInfo", orderDTO); // JSP에서 사용할 데이터
+	    return "detailOrder"; // 상세 페이지
+	}
+	*/
 	@GetMapping("/totalOrder")
-	public String totalOrder() {
+	public String totalOrder(HttpSession session, Model model) throws Exception {
+		Map<String, Object> user = (Map<String, Object>) session.getAttribute("user");
+		if (user == null) {
+			return "redirect:/catdog-login";
+		}		
+		model.addAttribute("user_name", user.get("name"));
+		model.addAttribute("user_id", user.get("user_id"));
+		
+		List<MyDTO> myOrders = catDogService.getMyOrders((String) user.get("user_id"));
+		model.addAttribute("myOrders", myOrders);
+		
+		System.out.println(myOrders);
 		return "totalOrder";
 	}
 

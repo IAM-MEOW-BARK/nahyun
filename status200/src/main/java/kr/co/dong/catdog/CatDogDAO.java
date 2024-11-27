@@ -47,6 +47,9 @@ public interface CatDogDAO {
     // 회원 탈퇴
     public int deleteUser(String user_id);
 
+    // 정보 확인
+    public OrderDetailDTO getOrderDetail(String order_code) throws Exception;
+    
     public List<MyDTO> getMyOrders(String user_id) throws Exception;
     
     // 최근 주문 내역 (최신 5개 등 제한)
@@ -67,23 +70,5 @@ public interface CatDogDAO {
     // 주문 상품 후기 정보
     public List<ReviewDTO> getReview(String order_code) throws Exception;
     
-    /*관리자*/
-    // 전체 상품 관리 리스트
-    public List <ProductDTO> getTotalProduct();
-    
-    // 상품 등록
-    public int addProduct(ProductDTO productDTO);
-    
-    // 상품 수정
-    public int updateProduct(ProductDTO productDTO);
-    
-    // 상품 삭제
-    public int deleteProduct(int product_id);
-    
-    // 전체 회원 리스트
-    public List <MemberDTO> getTotalMember();
-    
-    // 회원 삭제 위에 deleteUser 참고
-    
-    // 결제 skip 2차
+
 }

@@ -85,7 +85,12 @@ public class CatDogDAOImpl implements CatDogDAO {
 	 * wishDTO); }
 	 */
 
-	public List<OrderDTO> getDetailOrder(String order_code) throws Exception {
+	// 수정한 거
+	public OrderDetailDTO getOrderDetail(String order_code) throws Exception {
+	    return sqlSession.selectOne(namespace + ".getOrderDetail", order_code);
+	}
+
+	public List<OrderDTO> getDetailOrders(String order_code) throws Exception {
 		return sqlSession.selectList(namespace + ".getDetailOrder", order_code);
 	}
 
@@ -149,42 +154,6 @@ public class CatDogDAOImpl implements CatDogDAO {
 
 	@Override
 	public List<OrderDTO> getAllOrders(String user_id, String order_code) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<ProductDTO> getTotalProduct() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int addProduct(ProductDTO productDTO) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int updateProduct(ProductDTO productDTO) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int deleteProduct(int product_id) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public List<MemberDTO> getTotalMember() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<OrderDTO> getDetailOrders(String order_code) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

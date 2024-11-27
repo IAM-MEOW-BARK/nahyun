@@ -25,6 +25,8 @@ public interface CatDogService {
 	
 	public List<OrderDTO> detailOrder(String order_code) throws Exception;
 	
+	public OrderDetailDTO getOrderDetail(String order_code) throws Exception;
+	
 	public List<MyDTO> getMyOrders(String user_id) throws Exception;
 	
 	/* 주문 상세보기 관련

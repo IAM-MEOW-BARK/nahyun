@@ -32,13 +32,40 @@
 			<div class="col-md-9">
 				<!-- 주문 정보 -->
 				<div class="table-container">
-					<h5>주문 정보</h5>
+					<h5>주문 정보</h5>	
+					
+					<h1>주문 상세 정보</h1>
+<p>주문 코드: ${orderDetail.orderCode}</p>
+<p>주문 날짜: ${orderDetail.orderedAt}</p>
+<p>배송지: ${orderDetail.address}, ${orderDetail.detailAddress}</p>
+
+<h2>주문 상품 목록</h2>
+<table>
+    <tr>
+        <th>상품 이미지</th>
+        <th>상품 이름</th>
+        <th>수량</th>
+        <th>총 가격</th>
+        <th>상태</th>
+    </tr>
+    <c:forEach var="item" items="${orderDetail.orderItems}">
+        <tr>
+            <td><img src="${item.productThumbnailImg}" alt="상품 이미지"></td>
+            <td>${item.productName}</td>
+            <td>${item.orderQuantity}</td>
+            <td>${item.totalPrice}</td>
+            <td>${item.orderStatus}</td>
+        </tr>
+    </c:forEach>
+</table>
+
+				
 					<table class="table" style="text-align: center;">
 						<tr>
 							<th class="col-md-1 table-light">주문 번호</th>
-							<td class="col-md-2">${order.order_code}</td>
+							<td class="col-md-2">${orderInfo.order_code}</td>
 							<th class="col-md-1 table-light">주문자(아이디)</th>
-							<td class="col-md-2">${order.user_id}</td>
+							<td class="col-md-2">${orderInfo.user_id}</td>
 						</tr>
 					</table>
 				</div>
@@ -114,7 +141,7 @@
 						<tr>
 							<th class="table-light align-middle" style="text-align: center;">주소</th>
 							<td style="text-align: left;">
-								{우편번호}<br> {도로주소}<br> {상세주소}
+								${user.zipcode}<br> {user.address}<br> {user.detailaddress}
 							</td>
 						</tr>
 						<tr>

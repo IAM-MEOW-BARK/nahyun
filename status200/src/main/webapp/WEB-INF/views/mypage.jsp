@@ -124,7 +124,7 @@
 								<tr>
 									<td>${order.orderedAt}</td>
 									<td>
-										<a href="detailOrder=?">${order.orderCode}</a>
+										<a href="detailOrder?order_code=${order.orderCode}">${order.orderCode}</a>
 									</td>
 									<td>${order.firstProductName}</td>
 									<td>${order.totalPrice}</td>

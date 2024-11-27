@@ -11,7 +11,8 @@
 		resultType="java.util.Map">
 		Select user_id, name, user_auth
 		From member
-		Where user_id=#{user_id} and password=#{password}
+		Where
+		user_id=#{user_id} and password=#{password}
 	</select>
 
 	<!-- 카테고리 리스트 -->
@@ -21,7 +22,8 @@
 		p.*,
 		(SELECT wish_no
 		FROM wish w
-		WHERE w.user_id = #{user_id} AND w.product_code = p.product_code) AS
+		WHERE w.user_id =
+		#{user_id} AND w.product_code = p.product_code) AS
 		wish_no
 		FROM
 		product p
@@ -40,16 +42,18 @@
 	</select>
 
 	<insert id="addWish" parameterType="java.util.Map">
-		INSERT INTO wish (user_id, product_code)
+		INSERT INTO wish (user_id,
+		product_code)
 		VALUES (#{user_id}, #{product_code})
 	</insert>
 
 	<delete id="deleteWish" parameterType="java.util.Map">
 		DELETE FROM wish
-		WHERE user_id = #{user_id} AND product_code = #{product_code}
+		WHERE
+		user_id = #{user_id} AND product_code = #{product_code}
 	</delete>
 
-<!-- 찜 추가 제거 -->
+	<!-- 찜 추가 제거 -->
 	<!-- <insert id="addWish" parameterType="WishDTO"> insert into wish values 
 		(#{user_id}, #{product_code}) </insert> <delete id="deleteWish" parameterType="WishDTO"> 
 		delete from wish where user_id=#{user_id} and product_code = #{product_code} 
@@ -61,93 +65,162 @@
 		SELECT
 		p.*,
 		(SELECT wish_no
-			FROM wish w
-			WHERE w.user_id = #{user_id} AND w.product_code = p.product_code) AS wish_no
+		FROM wish w
+		WHERE w.user_id =
+		#{user_id} AND w.product_code = p.product_code) AS
+		wish_no
 		FROM
-			product p
+		product p
 		WHERE
-			p.product_category = #{product_category}
+		p.product_category = #{product_category}
 		ORDER BY
-			p.product_regdate DESC
+		p.product_regdate DESC
 	</select>
 
-<select id="getMyOrders" parameterType="java.lang.String" resultType="kr.co.dong.catdog.MyDTO">
-    SELECT
-        o.ordered_at AS orderedAt,
-        o.order_code AS orderCode,
-        (SELECT p.product_name
-	         FROM order_item oi
-	         JOIN product p ON oi.product_code = p.product_code
-	         WHERE oi.order_code = o.order_code
-	         ORDER BY oi.product_code ASC
-	         LIMIT 1) AS firstProductName,
-        (SELECT SUM(p.product_price * oi.order_quantity)
-	         FROM order_item oi
-	         JOIN product p ON oi.product_code = p.product_code
-	         WHERE oi.order_code = o.order_code) AS totalPrice,
-	    o.payment_status AS paymentStatus
-    FROM
-        orders o
-    WHERE
-        o.user_id_fk = #{user_id}
-    ORDER BY
-        o.ordered_at DESC
-</select>
-	
-	
-<resultMap id="orderResultMap" type="OrderDTO">
-    <result property="orderCode" column="order_code" />
-    <result property="userIdFk" column="user_id_fk" />
-    <result property="orderedAt" column="ordered_at" />
-    <result property="productCost" column="product_cost" />
-    <result property="paymentStatus" column="payment_status" />
-</resultMap>
-	
-<select id="getRecentOrders" parameterType="java.util.Map" resultMap="orderResultMap">
-    SELECT 
-        order_code, 
-        user_id_fk, 
-        ordered_at, 
-        product_cost, 
-        payment_status
-    FROM orders
-    WHERE user_id_fk = #{user_id}
-    ORDER BY ordered_at DESC
-</select>
-	
-<select id="getDetailOrder" parameterType="java.util.Map" resultType="OrderDTO">
-	SELECT *
-	FROM orders
-	WHERE order_code = #{order_code}
-</select>
-	
-	
-	<!-- 상품 주문 리스트 -->
-	<select id="getOrderItems" parameterType="java.lang.Integer" resultType="ProductDTO">
+	<!-- 마이페이지 주문 내역 -->
+	<select id="getMyOrders" parameterType="java.lang.String"
+		resultType="MyDTO">
 		SELECT
-			p.prodcut_code
-			p.prodcut_name
-			p.thumbnail_img
-			oi.order_quantity
-			(p.product_price * oi.order_quantity) as productPrice
-			oi.order_status
+		o.ordered_at AS orderedAt,
+		o.order_code AS orderCode,
+		(SELECT p.product_name
 		FROM order_item oi
-		JOIN product p on oi.product_code = p.product_code
+		JOIN product p ON
+		oi.product_code = p.product_code
+		WHERE oi.order_code = o.order_code
+		ORDER BY oi.product_code ASC
+		LIMIT 1) AS firstProductName,
+		(SELECT
+		SUM(p.product_price *
+		oi.order_quantity)
+		FROM order_item oi
+		JOIN product
+		p ON oi.product_code = p.product_code
+		WHERE oi.order_code =
+		o.order_code) AS totalPrice,
+		o.payment_status AS paymentStatus
+		FROM
+		orders o
+		WHERE
+		o.user_id_fk = #{user_id}
+		ORDER BY
+		o.ordered_at DESC
+	</select>
+
+	<resultMap id="orderResultMap" type="OrderDTO">
+		<result property="orderCode" column="order_code" />
+		<result property="userIdFk" column="user_id_fk" />
+		<result property="orderedAt" column="ordered_at" />
+		<result property="productCost" column="product_cost" />
+		<result property="paymentStatus" column="payment_status" />
+	</resultMap>
+
+	<select id="getRecentOrders" parameterType="java.util.Map"
+		resultMap="orderResultMap">
+		SELECT
+		order_code,
+		user_id_fk,
+		ordered_at,
+		product_cost,
+		payment_status
+		FROM orders
+		WHERE user_id_fk = #{user_id}
+		ORDER BY
+		ordered_at DESC
+	</select>
+
+	<resultMap id="orderDetailMap"
+		type="kr.co.dong.catdog.OrderDetailDTO">
+		<!-- 주문 정보 -->
+		<result property="orderCode" column="orderCode" />
+		<result property="userId" column="userId" />
+		<result property="orderedAt" column="orderedAt" />
+
+		<!-- 배송지 정보 -->
+		<result property="zipcode" column="zipcode" />
+		<result property="address" column="address" />
+		<result property="detailAddress" column="detailAddress" />
+
+		<!-- 상품 리스트 -->
+		<collection property="orderItems"
+			ofType="kr.co.dong.catdog.OrderItemDTO">
+			<result property="productThumbnailImg"
+				column="productThumbnailImg" />
+			<result property="productName" column="productName" />
+			<result property="orderQuantity" column="orderQuantity" />
+			<result property="totalPrice" column="totalPrice" />
+			<result property="orderStatus" column="orderStatus" />
+		</collection>
+	</resultMap>
+
+	<select id="getOrderDetail" parameterType="java.lang.String"
+		resultMap="orderDetailMap">
+		SELECT
+		o.order_code AS orderCode,
+		o.user_id_fk AS userId,
+		o.ordered_at AS orderedAt,
+
+		member.zipcode AS zipcode,
+		member.address AS
+		address,
+		member.detail_address AS detailAddress,
+
+		p.product_thumbnail_img AS productThumbnailImg,
+		p.product_name AS
+		productName,
+		oi.order_quantity AS orderQuantity,
+		(p.product_price *
+		oi.order_quantity) AS totalPrice,
+		oi.order_status AS orderStatus
+		FROM
+		orders o
+		LEFT JOIN member m ON o.user_id_fk = m.user_id
+		LEFT JOIN
+		order_item oi ON o.order_code = oi.order_code
+		LEFT JOIN product p ON
+		oi.product_code = p.product_code
+		WHERE
+		o.order_code = #{order_code}
+		ORDER BY
+		oi.product_code ASC;
+	</select>
+
+	<!-- <select id="getDetailOrder" parameterType="java.lang.String" resultType="kr.co.dong.catdog.OrderDTO"> 
+		SELECT o.order_code, o.ordered_at, o.user_id_fk, o.payment_status, oi.product_code, 
+		oi.order_quantity, p.product_name, p.product_price FROM orders o LEFT JOIN 
+		order_item oi ON o.order_code = oi.order_code LEFT JOIN product p ON oi.product_code 
+		= p.product_code WHERE o.order_code = #{order_code} </select> -->
+
+	<!-- 상품 주문 리스트 -->
+	<select id="getOrderItems" parameterType="java.lang.Integer"
+		resultType="ProductDTO">
+		SELECT
+		p.prodcut_code
+		p.prodcut_name
+		p.thumbnail_img
+		oi.order_quantity
+		(p.product_price * oi.order_quantity) as productPrice
+		oi.order_status
+		FROM order_item oi
+		JOIN product p on oi.product_code =
+		p.product_code
 		WHERE oi.order_code = #{order_code}
 	</select>
-	
+
 	<!-- 주문 상품 후기 정보 -->
-	<select id="getReivew" parameterType="java.lang.Integer" resultType="ReviewDTO">
+	<select id="getReivew" parameterType="java.lang.Integer"
+		resultType="ReviewDTO">
 		SELECT
-			r.review_no
-			r.product_code
-			r.user_id
-			r.content
-			r.rating
+		r.review_no
+		r.product_code
+		r.user_id
+		r.content
+		r.rating
 		FROM review r
 		WHERE r.product_code in (SELECT product_code
-								 FROM order_item
-								 WHERE order_code = #{order_code})
+		FROM
+		order_item
+		WHERE order_code = #{order_code})
 	</select>
-	
+
 </mapper>

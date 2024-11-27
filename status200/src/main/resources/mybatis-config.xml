@@ -12,5 +12,6 @@
  		<typeAlias alias="ReviewDTO" type="kr.co.dong.catdog.ReviewDTO"/>
  		<typeAlias alias="QADTO" type="kr.co.dong.catdog.QADTO"/>
  		<typeAlias alias="MemberDTO" type="kr.co.dong.catdog.MemberDTO"/>
+ 		<typeAlias alias="MyDTO" type="kr.co.dong.catdog.MyDTO"/>
  	</typeAliases>
  </configuration>

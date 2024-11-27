@@ -58,7 +58,13 @@ public class CatDogServiceImpl implements CatDogService {
 	public List<OrderDTO> detailOrder(String order_code) throws Exception {
 		return catDogDAO.getDetailOrders(order_code);
 	}
-
+	
+	
+	@Override
+	public OrderDetailDTO getOrderDetail(String order_code) throws Exception {
+	    return catDogDAO.getOrderDetail(order_code); // DAO 호출
+	}
+	
 	public List<MyDTO> getMyOrders(String user_id) throws Exception {
 		return catDogDAO.getMyOrders(user_id);
 	}

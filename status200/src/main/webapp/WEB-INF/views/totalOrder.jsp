@@ -84,15 +84,15 @@
 							<th class="col-md-1 table-light">결제금액</th>
 							<th class="col-md-1 table-light">주문상태</th>
 						</tr>
-						<c:forEach var="order" items="{list }">
+						<c:forEach var="order" items="${myOrders}">
 							<tr>
-								<td>{order.주문일자}</td>
+								<td>${order.orderedAt}</td>
 								<td>
-									<a href="detail?bno={order.주문번호}"> {order.주문번호} </a>
+									<a href="detail?bno={order.주문번호}"> ${order.orderCode} </a>
 								</td>
-								<td>{order.대표제품}</td>
-								<td>{order.total금액}</td>
-								<td>구매확정</td>
+								<td>${order.firstProductName}</td>
+								<td>${order.totalPrice}</td>
+								<td>${order.paymentStatus}</td>
 							</tr>
 						</c:forEach>
 					</table>
