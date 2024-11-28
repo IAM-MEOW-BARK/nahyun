@@ -8,6 +8,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>로그인 페이지</title>
+    <%@ include file="include/head.jsp"%>
     <style>
       .container-wrapper {
         width: 500px;
@@ -88,6 +89,7 @@
     </style>
   </head>
   <body>
+  <%@ include file="include/header.jsp" %>
     <div class="container-wrapper">
       <div style="display: flex; justify-content: center;  width:500px; height:300px; overflow:hidden; margin:0 auto;">
         <img

@@ -32,40 +32,12 @@
 			<div class="col-md-9">
 				<!-- 주문 정보 -->
 				<div class="table-container">
-					<h5>주문 정보</h5>	
-					
-					<h1>주문 상세 정보</h1>
-<p>주문 코드: ${orderDetail.orderCode}</p>
-<p>주문 날짜: ${orderDetail.orderedAt}</p>
-<p>배송지: ${orderDetail.address}, ${orderDetail.detailAddress}</p>
-
-<h2>주문 상품 목록</h2>
-<table>
-    <tr>
-        <th>상품 이미지</th>
-        <th>상품 이름</th>
-        <th>수량</th>
-        <th>총 가격</th>
-        <th>상태</th>
-    </tr>
-    <c:forEach var="item" items="${orderDetail.orderItems}">
-        <tr>
-            <td><img src="${item.productThumbnailImg}" alt="상품 이미지"></td>
-            <td>${item.productName}</td>
-            <td>${item.orderQuantity}</td>
-            <td>${item.totalPrice}</td>
-            <td>${item.orderStatus}</td>
-        </tr>
-    </c:forEach>
-</table>
-
-				
 					<table class="table" style="text-align: center;">
 						<tr>
 							<th class="col-md-1 table-light">주문 번호</th>
-							<td class="col-md-2">${orderInfo.order_code}</td>
+							<td class="col-md-2">${orderDetail.orderCode}</td>
 							<th class="col-md-1 table-light">주문자(아이디)</th>
-							<td class="col-md-2">${orderInfo.user_id}</td>
+							<td class="col-md-2">${orderDetail.userId}</td>
 						</tr>
 					</table>
 				</div>
@@ -83,17 +55,17 @@
 							<th class="table-light">구매후기</th>
 						</tr>
 
-						<c:forEach var="product" items="${order.productList }">
+						<c:forEach var="item" items="${orderItemDetail}">
 
 							<tr>
-								<td class="col-md-1">
-									<img src="${product.thumbnail_img}" alt="${product.product_name} 이미지" style="width: 50px; height: 50px;">
+								<td class="col-md-1" style="vertical-align: middle;">
+									<img src="${pageContext.request.contextPath}/resources/img/${item.thumbnailImg}" alt="상품 이미지" style="height: 100px; width: 100px;">
 								</td>
-								<td class="col-md-2">${product.product_name }</td>
-								<td class="col-md-1">${order.order_quantity }개</td>
-								<td class="col-md-1">${order.product_price * product.order_quantity}원</td>
-								<td class="col-md-1">${product.order_status}</td>
-								<td class="col-md-1">
+								<td class="col-md-2" style="vertical-align: middle;">${item.productName}</td>
+								<td class="col-md-1" style="vertical-align: middle;">${item.orderQuantity}개</td>
+								<td class="col-md-1" style="vertical-align: middle;">${item.totalPrice}원</td>
+								<td class="col-md-1" style="vertical-align: middle;">${item.orderStatus}</td>
+								<td class="col-md-1" style="vertical-align: middle;">
 									<!-- 구매후기 버튼 -->
 									<c:choose>
 										<c:when test="${product.review != null}">
@@ -122,9 +94,9 @@
 						</tr>
 						<tr>
 							<th class="table-light col-md-1">결제금액</th>
-							<td class="col-md-2">25,000원</td>
+							<td class="col-md-2">${totalCost}원</td>
 							<th class="table-light col-md-1">결제 처리일</th>
-							<td class="col-md-2">2024.11.12. 12:06:36</td>
+							<td class="col-md-2">${orderDetail.orderedAt}</td>
 						</tr>
 					</table>
 				</div>
@@ -141,7 +113,7 @@
 						<tr>
 							<th class="table-light align-middle" style="text-align: center;">주소</th>
 							<td style="text-align: left;">
-								${user.zipcode}<br> {user.address}<br> {user.detailaddress}
+								${orderDetail.zipcode}<br> ${orderDetail.address}<br> ${orderDetail.detailAddress}
 							</td>
 						</tr>
 						<tr>
@@ -150,7 +122,7 @@
 						</tr>
 						<tr>
 							<th class="table-light" style="text-align: center;">배송 요청사항</th>
-							<td style="text-align: left;">문 앞 부탁드립니다. 감사합니다.</td>
+							<td style="text-align: left;"></td>
 						</tr>
 					</table>
 				</div>

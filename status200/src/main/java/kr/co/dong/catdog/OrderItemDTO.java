@@ -4,6 +4,7 @@ public class OrderItemDTO {
 	private int order_item_code;
 	private int order_code;
 	private int product_id;
+	private String product_name;
 	private int cart_quantity;
 	private int order_status;
 	private int order_return;
@@ -31,6 +32,14 @@ public class OrderItemDTO {
 
 	public void setProduct_id(int product_id) {
 		this.product_id = product_id;
+	}
+
+	public String getProduct_name() {
+		return product_name;
+	}
+
+	public void setProduct_name(String product_name) {
+		this.product_name = product_name;
 	}
 
 	public int getCart_quantity() {
@@ -68,7 +77,8 @@ public class OrderItemDTO {
 	@Override
 	public String toString() {
 		return "OrderItemDTO [order_item_code=" + order_item_code + ", order_code=" + order_code + ", product_id="
-				+ product_id + ", cart_quantity=" + cart_quantity + ", order_status=" + order_status + ", order_return="
-				+ order_return + ", product_price=" + product_price + "]";
+				+ product_id + ", product_name=" + product_name + ", cart_quantity=" + cart_quantity + ", order_status="
+				+ order_status + ", order_return=" + order_return + ", product_price=" + product_price + "]";
 	}
+
 }

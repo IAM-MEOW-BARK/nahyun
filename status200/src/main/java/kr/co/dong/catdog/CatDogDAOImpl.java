@@ -89,6 +89,11 @@ public class CatDogDAOImpl implements CatDogDAO {
 	public OrderDetailDTO getOrderDetail(String order_code) throws Exception {
 	    return sqlSession.selectOne(namespace + ".getOrderDetail", order_code);
 	}
+	
+    public List<OrderItemDetailDTO> getOrderItemDetail(String order_code) throws Exception {
+    	return sqlSession.selectList(namespace + ".getOrderItemDetail", order_code);
+    }
+
 
 	public List<OrderDTO> getDetailOrders(String order_code) throws Exception {
 		return sqlSession.selectList(namespace + ".getDetailOrder", order_code);
@@ -105,6 +110,11 @@ public class CatDogDAOImpl implements CatDogDAO {
 	public List<ProductDTO> getOrderItems(String order_code) throws Exception {
 		return sqlSession.selectList(namespace + ".getOrderItems", order_code);
 	}
+	
+	// 주문 총 결제액
+    public int getTotalCost(String order_code) throws Exception {
+    	return sqlSession.selectOne(namespace + ".getTotalCost", order_code);
+    }
 
 	// 주문 상품 후기 정보
 	@Override

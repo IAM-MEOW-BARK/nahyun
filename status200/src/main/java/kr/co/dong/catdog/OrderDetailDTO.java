@@ -6,6 +6,7 @@ public class OrderDetailDTO {
 	// 주문 정보
 	private String orderCode;
 	private String userId;
+	private String name;
 	private String orderedAt;
 
 	// 배송지 정보
@@ -30,6 +31,14 @@ public class OrderDetailDTO {
 
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setUserName(String name) {
+		this.name = name;
 	}
 
 	public String getOrderedAt() {
@@ -74,9 +83,9 @@ public class OrderDetailDTO {
 
 	@Override
 	public String toString() {
-		return "OrderDetailDTO [orderCode=" + orderCode + ", userId=" + userId + ", orderedAt=" + orderedAt
-				+ ", zipcode=" + zipcode + ", address=" + address + ", detailAddress=" + detailAddress + ", orderItems="
-				+ orderItems + "]";
+		return "OrderDetailDTO [orderCode=" + orderCode + ", userId=" + userId + ", name=" + name
+				+ ", orderedAt=" + orderedAt + ", zipcode=" + zipcode + ", address=" + address + ", detailAddress="
+				+ detailAddress + ", orderItems=" + orderItems + "]";
 	}
 
 }

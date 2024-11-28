@@ -2,18 +2,27 @@ package kr.co.dong.catdog;
 
 public class OrderItemDetailDTO {
 
-	private String productThumbnailImg;
+	private String productCode;
+	private String thumbnailImg;
 	private String productName;
 	private int orderQuantity;
 	private int totalPrice; // 상품 가격 * 수량
 	private String orderStatus;
 
-	public String getProductThumbnailImg() {
-		return productThumbnailImg;
+	public String getProductCode() {
+		return productCode;
 	}
 
-	public void setProductThumbnailImg(String productThumbnailImg) {
-		this.productThumbnailImg = productThumbnailImg;
+	public void setProductCode(String productCode) {
+		this.productCode = productCode;
+	}
+
+	public String getThumbnailImg() {
+		return thumbnailImg;
+	}
+
+	public void setThumbnailImg(String thumbnailImg) {
+		this.thumbnailImg = thumbnailImg;
 	}
 
 	public String getProductName() {
@@ -50,9 +59,9 @@ public class OrderItemDetailDTO {
 
 	@Override
 	public String toString() {
-		return "OrderItemDetailDTO [productThumbnailImg=" + productThumbnailImg + ", productName=" + productName
-				+ ", orderQuantity=" + orderQuantity + ", totalPrice=" + totalPrice + ", orderStatus=" + orderStatus
-				+ "]";
+		return "OrderItemDetailDTO [productCode=" + productCode + ", thumbnailImg=" + thumbnailImg + ", productName="
+				+ productName + ", orderQuantity=" + orderQuantity + ", totalPrice=" + totalPrice + ", orderStatus="
+				+ orderStatus + "]";
 	}
 
 }

@@ -42,29 +42,37 @@ public class CatDogServiceImpl implements CatDogService {
 		// TODO Auto-generated method stub
 		return catDogDAO.addWish(user_id, product_code);
 	}
-	
+
 	@Override
 	public List<String> getUserWish(String user_id) throws Exception {
 		return catDogDAO.getUserWish(user_id);
 	}
-	
+
 	@Override
 	public List<OrderDTO> getRecentOrder(String user_id) throws Exception {
-		
+
 		return catDogDAO.getRecentOrders(user_id);
 	}
-	
+
 	@Override
 	public List<OrderDTO> detailOrder(String order_code) throws Exception {
 		return catDogDAO.getDetailOrders(order_code);
 	}
-	
-	
+
 	@Override
 	public OrderDetailDTO getOrderDetail(String order_code) throws Exception {
-	    return catDogDAO.getOrderDetail(order_code); // DAO 호출
+		return catDogDAO.getOrderDetail(order_code); // DAO 호출
 	}
+
+	public int getTotalCost(String order_code) throws Exception {
+		return catDogDAO.getTotalCost(order_code);
+	}
+
 	
+	public List<OrderItemDetailDTO> getOrderItemDetail(String order_code) throws Exception {
+		return catDogDAO.getOrderItemDetail(order_code);
+	}
+
 	public List<MyDTO> getMyOrders(String user_id) throws Exception {
 		return catDogDAO.getMyOrders(user_id);
 	}
@@ -86,23 +94,20 @@ public class CatDogServiceImpl implements CatDogService {
 //		
 //		return orderInfo;
 //	}
-	
-	
-	/* 주문 상세보기 관련
-	@Override
-	public OrderDTO getOrderInfo(int order_code) throws Exception {
-		return catDogDAO.getOrderItems(order_code);
-	}
-	@Override
-	public OrderDTO getOrderItems(int order_code) throws Exception {
-		return catDogDAO.getOrderItems(order_code);
-	}
-	@Override
-	public ReviewDTO getReview(int order_code) throws Exception {
-		return catDogDAO.getReview(order_code);
-	}
+
+	/*
+	 * 주문 상세보기 관련
 	 * 
-	 * 	*/
+	 * @Override public OrderDTO getOrderInfo(int order_code) throws Exception {
+	 * return catDogDAO.getOrderItems(order_code); }
+	 * 
+	 * @Override public OrderDTO getOrderItems(int order_code) throws Exception {
+	 * return catDogDAO.getOrderItems(order_code); }
+	 * 
+	 * @Override public ReviewDTO getReview(int order_code) throws Exception {
+	 * return catDogDAO.getReview(order_code); }
+	 * 
+	 */
 	/*
 	 * @Override public List<MemberDTO> getTotalMember() { // TODO Auto-generated
 	 * method stub return catDogDAO.getTotalMember(); }
