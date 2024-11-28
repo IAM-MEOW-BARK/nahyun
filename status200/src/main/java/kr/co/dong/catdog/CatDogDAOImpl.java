@@ -129,7 +129,7 @@ public class CatDogDAOImpl implements CatDogDAO {
 	}
 
 	@Override
-	public int deleteCart(int product_id) throws Exception {
+	public int deleteCart(int product_code) throws Exception {
 		// TODO Auto-generated method stub
 		return 0;
 	}

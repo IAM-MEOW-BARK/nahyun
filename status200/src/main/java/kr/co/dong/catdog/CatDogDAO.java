@@ -36,7 +36,7 @@ public interface CatDogDAO {
     public int addCart(CartDTO cartDTO) throws Exception;
     
     // 장바구니 삭제
-    public int deleteCart(int product_id) throws Exception;
+    public int deleteCart(int product_code) throws Exception;
     
     // 찜한 상품 리스트 조회
     public List<ProductDTO> getWish(String user_id) throws Exception;
