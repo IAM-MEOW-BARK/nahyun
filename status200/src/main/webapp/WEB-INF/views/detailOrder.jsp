@@ -37,7 +37,7 @@
 							<th class="col-md-1 table-light">주문 번호</th>
 							<td class="col-md-2">${orderDetail.orderCode}</td>
 							<th class="col-md-1 table-light">주문자(아이디)</th>
-							<td class="col-md-2">${orderDetail.userId}</td>
+							<td class="col-md-2">${orderDetail.name} (${orderDetail.userId})</td>
 						</tr>
 					</table>
 				</div>

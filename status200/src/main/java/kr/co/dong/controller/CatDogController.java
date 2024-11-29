@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import kr.co.dong.catdog.CartDTO;
 import kr.co.dong.catdog.CatDogService;
 import kr.co.dong.catdog.MemberDTO;
 import kr.co.dong.catdog.MyDTO;
@@ -237,7 +238,7 @@ public class CatDogController {
 	 * 
 	 * return "mypage";
 	 */
-
+	
 	@GetMapping("/mypage")
 	public String mypage(HttpSession session, Model model) throws Exception {
 		Map<String, Object> user = (Map<String, Object>) session.getAttribute("user");
@@ -275,14 +276,6 @@ public class CatDogController {
 		return "detailOrder"; // 상세 페이지
 	}
 
-	/*
-	 * @GetMapping("/detailOrder") public String
-	 * detailOrder(@RequestParam("order_code") String order_code, Model model)
-	 * throws Exception { // Service를 통해 상세 주문 정보 가져오기 List<OrderDTO> orderDTO =
-	 * catDogService.detailOrder(order_code); // order_code 전달
-	 * model.addAttribute("orderInfo", orderDTO); // JSP에서 사용할 데이터 return
-	 * "detailOrder"; // 상세 페이지 }
-	 */
 	@GetMapping("/totalOrder")
 	public String totalOrder(HttpSession session, Model model) throws Exception {
 		Map<String, Object> user = (Map<String, Object>) session.getAttribute("user");
@@ -299,18 +292,30 @@ public class CatDogController {
 		return "totalOrder";
 	}
 
-	/*
-	 * @GetMapping("/detailOrder") public String detailOrder() { return
-	 * "detailOrder"; }
-	 */
-
 	@GetMapping("/totalWish")
 	public String totalWish() {
 		return "wish";
 	}
 
 	@GetMapping("/cart")
-	public String cart() {
+	public String cart(@RequestParam("user_id") String user_id, HttpSession session, Model model) throws Exception {
+		Map<String, Object> user = (Map<String, Object>) session.getAttribute("user");
+		if (user == null) {
+			return "redirect:/catdog-login";
+		}
+		model.addAttribute("user_name", user.get("name"));
+		model.addAttribute("user_id", user.get("user_id"));
+		
+		List<CartDTO> cartInfo = catDogService.getCartInfo(user_id);
+		model.addAttribute("cartInfo", cartInfo);
+		System.out.println("cartInfo = " + cartInfo);
+		
+		/*
+		 * List<CartDTO> cartItem = catDogService.getCartItem(user_id);
+		 * model.addAttribute("cartItems", cartItem); System.out.println("cartItems = "
+		 * + cartItem);
+		 */
+		
 		return "cart";
 	}
 

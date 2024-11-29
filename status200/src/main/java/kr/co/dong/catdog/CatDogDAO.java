@@ -47,6 +47,12 @@ public interface CatDogDAO {
     // 회원 탈퇴
     public int deleteUser(String user_id);
 
+    // 장바구니 정보
+    public List<CartDTO> getCartInfo(String user_id) throws Exception;
+    
+    // 장바구니 상품 정보
+    public List<CartDTO> getCartItem(String user_id) throws Exception;
+    
     // 정보 확인
     public OrderDetailDTO getOrderDetail(String order_code) throws Exception;
     

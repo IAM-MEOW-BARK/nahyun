@@ -76,14 +76,15 @@ public class CatDogDAOImpl implements CatDogDAO {
 		return sqlSession.delete(namespace + ".deleteWish", param);
 	}
 
-	/*
-	 * @Override public int addWish(String user_id, int product_code) throws
-	 * Exception { // TODO Auto-generated method stub return 0; }
-	 * 
-	 * @Override public int deleteWish(WishDTO wishDTO) throws Exception { // TODO
-	 * Auto-generated method stub return sqlSession.delete(namespace+".deleteWish",
-	 * wishDTO); }
-	 */
+    // 장바구니 정보
+    public List<CartDTO> getCartInfo(String user_id) throws Exception {
+    	return sqlSession.selectList(namespace + ".getCartInfo", user_id);
+    }
+    
+    // 장바구니 상품 정보
+    public List<CartDTO> getCartItem(String user_id) throws Exception {
+    	return sqlSession.selectList(namespace + ".getCartItem", user_id);
+    }
 
 	// 수정한 거
 	public OrderDetailDTO getOrderDetail(String order_code) throws Exception {

@@ -47,7 +47,18 @@ public class CatDogServiceImpl implements CatDogService {
 	public List<String> getUserWish(String user_id) throws Exception {
 		return catDogDAO.getUserWish(user_id);
 	}
+	
+	@Override
+	public List<CartDTO> getCartInfo(String user_id) throws Exception {
+		return catDogDAO.getCartInfo(user_id);
+	}
+	
+	@Override
+	public List<CartDTO> getCartItem(String user_id) throws Exception {
+		return catDogDAO.getCartItem(user_id);
+	}
 
+	
 	@Override
 	public List<OrderDTO> getRecentOrder(String user_id) throws Exception {
 

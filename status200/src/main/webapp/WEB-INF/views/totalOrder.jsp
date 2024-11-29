@@ -88,7 +88,7 @@
 							<tr>
 								<td>${order.orderedAt}</td>
 								<td>
-									<a href="detail?bno={order.주문번호}"> ${order.orderCode} </a>
+									<a href="detailOrder?order_code=${order.orderCode}">${order.orderCode}</a>
 								</td>
 								<td>${order.firstProductName}</td>
 								<td>${order.totalPrice}</td>

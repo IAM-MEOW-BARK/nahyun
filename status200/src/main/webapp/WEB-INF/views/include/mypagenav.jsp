@@ -25,12 +25,12 @@
 		<div class="list-group">
 			<!-- 현재 페이지가 'orderList'일 경우 활성화 클래스 추가 -->
 			<c:set var="currentPage" value="${param.page}" />
-			<a href="mypage?page=mypage" class="list-group-item list-group-item-action ${currentPage == 'mypage' ? 'active' : ''}">
+			<a href="mypage" class="list-group-item list-group-item-action ${currentPage == 'mypage' ? 'active' : ''}">
 			<i class="bi bi-person"></i>마이페이지 </a>
 			<a href="totalOrder?page=totalOrder" class="list-group-item list-group-item-action ${currentPage == 'totalOrder' ? 'active' : ''}">
 			<i class="bi bi-receipt"></i>
 			주문 내역 </a>
-			<a href="cart?page=cart" class="list-group-item list-group-item-action ${currentPage == 'cart' ? 'active' : ''}">
+			<a href="cart?user_id=${user_id}" class="list-group-item list-group-item-action ${currentPage == 'cart' ? 'active' : ''}">
 			<i class="bi bi-cart"></i>
 			장바구니 </a>
 			<a href="totalWish?page=wish" class="list-group-item list-group-item-action ${currentPage == 'wish' ? 'active' : ''}">

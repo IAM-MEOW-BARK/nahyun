@@ -19,6 +19,10 @@ public interface CatDogService {
 	
 	public List<String> getUserWish(String user_id) throws Exception;
 	
+	public List<CartDTO> getCartInfo(String user_id) throws Exception; 
+	
+	public List<CartDTO> getCartItem(String user_id) throws Exception;
+	
 	public List<OrderDTO> getRecentOrder(String user_id) throws Exception;
 	
 	public List<OrderDTO> detailOrder(String order_code) throws Exception;
