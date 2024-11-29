@@ -238,7 +238,7 @@ public class CatDogController {
 	 * 
 	 * return "mypage";
 	 */
-	
+
 	@GetMapping("/mypage")
 	public String mypage(HttpSession session, Model model) throws Exception {
 		Map<String, Object> user = (Map<String, Object>) session.getAttribute("user");
@@ -260,7 +260,7 @@ public class CatDogController {
 	@GetMapping("/detailOrder")
 	public String detailOrder(@RequestParam("order_code") String order_code, Model model) throws Exception {
 		System.out.println("전달 받은 order_code = " + order_code);
-		
+
 		OrderDetailDTO orderDetail = catDogService.getOrderDetail(order_code); // orderDetail에 order_code 전달
 		System.out.println(orderDetail);
 
@@ -269,7 +269,7 @@ public class CatDogController {
 		List<OrderItemDetailDTO> orderItemDetail = catDogService.getOrderItemDetail(order_code);
 		System.out.println(orderItemDetail);
 		model.addAttribute("orderItemDetail", orderItemDetail);
-		
+
 		int totalCost = catDogService.getTotalCost(order_code);
 		model.addAttribute("totalCost", totalCost);
 
@@ -305,19 +305,19 @@ public class CatDogController {
 		}
 		model.addAttribute("user_name", user.get("name"));
 		model.addAttribute("user_id", user.get("user_id"));
-		
+
 		List<CartDTO> cartInfo = catDogService.getCartInfo(user_id);
 		model.addAttribute("cartInfo", cartInfo);
 		System.out.println("cartInfo = " + cartInfo);
-		
-		/*
-		 * List<CartDTO> cartItem = catDogService.getCartItem(user_id);
-		 * model.addAttribute("cartItems", cartItem); System.out.println("cartItems = "
-		 * + cartItem);
-		 */
-		
+
 		return "cart";
 	}
+
+	/*
+	 * 위에 List<CartDTO> cartItem = catDogService.getCartItem(user_id);
+	 * model.addAttribute("cartItems", cartItem); System.out.println("cartItems = "
+	 * + cartItem);
+	 */
 
 	@GetMapping("/reviewPop")
 	public String reviewPop() {

@@ -61,13 +61,14 @@
 								<td>
 									<input type='checkbox' name='item' value='${item.product_code}' />
 								</td>
-								<td><img src="${pageContext.request.contextPath}/resources/upload/${item.thumbnail_img}" alt="${item.product_name }" style="width: 30px; height: 30px;" ></td>
+								<td>
+									<img src="${pageContext.request.contextPath}/resources/upload/${item.thumbnail_img}" alt="${item.product_name }" style="width: 30px; height: 30px;">
+								</td>
 								<td style="text-align: left;">${item.product_name }</td>
 								<td>
+									<!-- 상품 개수 -->
 									<div class="product-quantity-control">
-										<button type="button" class="btn btn-outline-secondary" onclick="decreaseQuantity(this)">-</button>
-										<input type="text" class="form-control d-inline" value="${item.cart_quantity }" readonly>
-										<button type="button" class="btn btn-outline-secondary" onclick="increaseQuantity(this)">+</button>
+										<input type="button" class="btn btn-outline-secondary" onclick="decreaseQuantity(this)" value="-"> <input type="text" class="form-control d-inline" id="quantity" value="${item.cart_quantity }" onchange="updateTotalPrice()" readonly> <input type="button" class="btn btn-outline-secondary" onclick="increaseQuantity(this)" value="+">
 									</div>
 								</td>
 								<td>${item.totalPrice}원</td>
@@ -106,7 +107,7 @@ function selectAll(selectAll)  {
 	    checkbox.checked = selectAll.checked
 	  })
 	}
-	
+		
 function decreaseQuantity(button) {
     const input = button.nextElementSibling;
     let quantity = parseInt(input.value);
@@ -120,8 +121,26 @@ function increaseQuantity(button) {
     let quantity = parseInt(input.value);
     input.value = quantity + 1;
 }
+</script>
+	<script type="text/javascript">
+//상품 가격 변수
+const productPrice = ${item.product_price}; // JSP에서 가격 가져오기
+
+// 총 금액 업데이트 함수
+function updateTotalPrice() {
+    // 수량 값 가져오기
+    const quantity = document.getElementById("quantity").value;
+    
+    // 계산된 총 금액
+    const totalPrice = productPrice * quantity;
+
+    // 총 금액 표시 영역 업데이트
+    document.getElementById("totalPrice").innerText = total.toLocaleString(); // 천 단위 구분
+}
+
+// 초기화: 페이지 로드 시 총 금액 계산
+window.onload = updateTotalPrice;
 	
 </script>
-
 </body>
 </html>
