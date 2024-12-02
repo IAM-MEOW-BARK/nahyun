@@ -58,6 +58,10 @@ public class CatDogServiceImpl implements CatDogService {
 		return catDogDAO.getCartItem(user_id);
 	}
 
+	@Override
+	public int deleteCart(CartDTO cartDTO) throws Exception {
+		return catDogDAO.deleteCart(cartDTO);
+	}
 	
 	@Override
 	public List<OrderDTO> getRecentOrder(String user_id) throws Exception {

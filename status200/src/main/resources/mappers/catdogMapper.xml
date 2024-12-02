@@ -92,6 +92,12 @@
 			c.user_id = #{user_id}
 	</select>
 	
+	<!-- 장바구니 아이템 삭제 -->
+	<delete id="deleteCart" parameterType="CartDTO">
+		DELETE FROM cart
+		WHERE user_id = #{user_id} and product_code = #{product_code}
+	</delete>
+	
 <!-- 	
 	<select id="getCartInfo" parameterType="java.lang.String" resultType="CartDTO">
 		SELECT
