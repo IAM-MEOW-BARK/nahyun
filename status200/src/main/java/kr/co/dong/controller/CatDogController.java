@@ -24,7 +24,9 @@ import kr.co.dong.catdog.CartDTO;
 import kr.co.dong.catdog.CatDogService;
 import kr.co.dong.catdog.MemberDTO;
 import kr.co.dong.catdog.MyDTO;
+import kr.co.dong.catdog.OrderDTO;
 import kr.co.dong.catdog.OrderDetailDTO;
+import kr.co.dong.catdog.OrderItemDTO;
 import kr.co.dong.catdog.OrderItemDetailDTO;
 import kr.co.dong.catdog.ProductDTO;
 import kr.co.dong.catdog.WishDTO;
@@ -311,6 +313,20 @@ public class CatDogController {
 		System.out.println("cartInfo = " + cartInfo);
 
 		return "cart";
+	}
+	
+	@PostMapping("/cart")
+	public String cart(CartDTO cartDTO, OrderDTO orderDTO, OrderItemDTO orderItemDTO, HttpServletRequest request, RedirectAttributes rttr) throws Exception {
+		request.setCharacterEncoding("UTF-8");
+		logger.info("카트 내용 : " + cartDTO);
+		int o = catDogService.addOrder(orderDTO);
+		
+		if (o>0) {
+			rttr.addFlashAttribute("msg", "주문 추가 성공");
+		}
+		
+		
+		return "catdog-payment";
 	}
 
 	@PostMapping("/cart/delete")
