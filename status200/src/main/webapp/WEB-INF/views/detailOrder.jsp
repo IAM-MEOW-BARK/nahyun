@@ -59,7 +59,7 @@
 
 							<tr>
 								<td class="col-md-1" style="vertical-align: middle;">
-									<img src="${pageContext.request.contextPath}/resources/img/${item.thumbnailImg}" alt="상품 이미지" style="height: 100px; width: 100px;">
+									<img src="${pageContext.request.contextPath}/resources/upload/${item.thumbnailImg}" alt="${item.productName}" style="width: 50px; height: 50px;">
 								</td>
 								<td class="col-md-2" style="vertical-align: middle;">${item.productName}</td>
 								<td class="col-md-1" style="vertical-align: middle;">${item.orderQuantity}개</td>
