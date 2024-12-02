@@ -49,19 +49,18 @@
 				<!-- 장바구니 -->
 				<div class="table-container">
 					<h4>장바구니</h4>
-					<form action="">
 					<table class="table justify-content-center align-middle" style="text-align: center">
 						<tr>
-							<th class="col-md-1 table-light"><input type="checkbox" name="cart" value="selectall" onclick="selectAll(this)" checked /></th>
-							<th class="col-md-6 table-light" colspan="2">상품명</th>
-							<th class="col-md-2 table-light">수량</th>
-							<th class="col-md-2 table-light">가격</th>
-							<th class="col-md-2 table-light">삭제</th>
+							<th><input type="checkbox" name="cart" value="selectall" checked /></th>
+							<th colspan="2">상품명</th>
+							<th>수량</th>
+							<th>가격</th>
+							<th>삭제</th>
 						</tr>
 						<c:forEach var="item" items="${cartInfo}">
 							<tr>
 								<td>
-									<input type='checkbox' name='item' value='${item.product_code}' checked />
+									<input type="checkbox" name="item" value="${item.product_code}" checked />
 								</td>
 								<td>
 									<img src="${pageContext.request.contextPath}/resources/upload/${item.thumbnail_img}" alt="${item.product_name}" style="width: 30px; height: 30px;">
@@ -79,24 +78,20 @@
 									원
 								</td>
 								<td>
-									<form action="/cart/delete" method="post" class="cart_delete">
-										<button class="btn btn-outline-secondary delete_btn">삭제</button>
-										<input type="hidden" name="user_id" value="${user_id}"> <input type="hidden" name="product_code" value="${product_code}">
-									</form>
+									<button class="btn btn-outline-secondary delete_btn">삭제</button>
 								</td>
 							</tr>
 						</c:forEach>
 					</table>
 				</div>
-
-				<div class="table-container d-flex justify-content-end" style="align-items: flex-end;">
+				<div class="table-container d-flex justify-content-end">
 					<table>
 						<tr>
 							<td style="text-align: right; padding-right: 20px">
 								총 금액: <span id="finalPriceTag">0</span>
 							</td>
 							<td>
-								<button class="btn" style="background: #ff6600; color: #ffffff" onclick="location.href='order'">구매하기</button>
+								<button class="btn" style="background: #ff6600; color: #ffffff">구매하기</button>
 							</td>
 						</tr>
 					</table>
@@ -104,77 +99,74 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<!-- / 장바구니. 끝. -->
 
 	<script type="text/javascript">
-	
-	function selectAll(masterCheckbox) {
-	    // 마스터 체크박스 상태 확인
-	    const isChecked = masterCheckbox.checked;
+        document.addEventListener("DOMContentLoaded", function () {
+            // 초기 개별 상품 총 가격 설정
+            document.querySelectorAll("table tr").forEach((row) => {
+                const priceElement = row.querySelector(".price");
+                if (priceElement) {
+                    const productPrice = parseInt(priceElement.dataset.price);
+                    const quantity = parseInt(row.querySelector(".quantity").value);
+                    priceElement.innerText = (productPrice * quantity).toLocaleString() + " 원";
+                }
+            });
 
-	    // 모든 개별 체크박스 선택
-	    const checkboxes = document.querySelectorAll('input[name="item"]');
-	    checkboxes.forEach((checkbox) => {
-	        checkbox.checked = isChecked; // 마스터 체크박스 상태에 따라 체크 상태 변경
-	    });
+            // 마스터 체크박스 동작
+            document.querySelector('input[name="cart"]').addEventListener("click", function () {
+                const isChecked = this.checked;
+                document.querySelectorAll('input[name="item"]').forEach((checkbox) => {
+                    checkbox.checked = isChecked;
+                });
+                updateFinalPrice();
+            });
 
-	    // 총 금액 업데이트
-	    updateFinalPrice();
-	}
-	
-	document.addEventListener("DOMContentLoaded", function () {
-	    // 수량 변경 버튼 이벤트 위임
-	    document.querySelector("table").addEventListener("click", function (e) {
-	        if (e.target.classList.contains("btn-increase")) {
-	            updateQuantity(e.target, 1); // 수량 증가
-	        } else if (e.target.classList.contains("btn-decrease")) {
-	            updateQuantity(e.target, -1); // 수량 감소
-	        }
-	        updateFinalPrice();
-	    });
+            // 개별 체크박스 동작
+            document.querySelectorAll('input[name="item"]').forEach((checkbox) => {
+                checkbox.addEventListener("change", function () {
+                    const allChecked = Array.from(document.querySelectorAll('input[name="item"]')).every(cb => cb.checked);
+                    document.querySelector('input[name="cart"]').checked = allChecked;
+                    updateFinalPrice();
+                });
+            });
 
-	    // 수량 업데이트 함수
-	    function updateQuantity(button, change) {
-	        const row = button.closest("tr");
-	        const input = row.querySelector(".quantity");
-	        const price = parseInt(row.querySelector(".price").dataset.price);
+            // 수량 변경 버튼 동작
+            document.querySelector("table").addEventListener("click", function (e) {
+                const button = e.target;
+                if (button.classList.contains("btn-increase") || button.classList.contains("btn-decrease")) {
+                    const row = button.closest("tr");
+                    const quantityInput = row.querySelector(".quantity");
+                    const priceElement = row.querySelector(".price");
+                    const productPrice = parseInt(priceElement.dataset.price);
+                    let quantity = parseInt(quantityInput.value);
 
-	        let quantity = parseInt(input.value);
-	        quantity = Math.max(1, quantity + change); // 최소 수량 1로 제한
-	        input.value = quantity;
+                    // 수량 증가/감소 처리
+                    quantity = button.classList.contains("btn-increase") ? quantity + 1 : Math.max(1, quantity - 1);
+                    quantityInput.value = quantity;
+                    priceElement.innerText = (productPrice * quantity).toLocaleString() + " 원";
+                    updateFinalPrice();
+                }
+            });
 
-	        const totalPriceElement = row.querySelector(".price");
-	        totalPriceElement.innerText = (price * quantity).toLocaleString() + "원";
+            // 총 금액 계산
+            function updateFinalPrice() {
+                let total = 0;
+                document.querySelectorAll("table tr").forEach((row) => {
+                    const checkbox = row.querySelector('input[name="item"]');
+                    if (checkbox && checkbox.checked) {
+                        const priceElement = row.querySelector(".price");
+                        const productPrice = parseInt(priceElement.innerText.replace(/[^0-9]/g, ""));
+                        total += productPrice;
+                    }
+                });
+                document.querySelector("#finalPriceTag").innerText = total.toLocaleString() + " 원";
+            }
 
-	        updateFinalPrice();
-	    }
-
-	    // 총 금액 업데이트
-function updateFinalPrice() {
-    const rows = document.querySelectorAll("table tr");
-    let total = 0;
-
-    rows.forEach((row) => {
-        const checkbox = row.querySelector('input[name="item"]');
-        if (checkbox && checkbox.checked) {
-            const price = parseInt(row.querySelector(".price").dataset.price);
-            const quantity = parseInt(row.querySelector(".quantity").value);
-            total += price * quantity;
-        }
-    });
-
-    document.querySelector("#finalPriceTag").innerText = total > 0 ? total.toLocaleString() + "원" : "0원";
-}
-	    // 체크박스 선택 시 총 금액 업데이트
-	    document.querySelectorAll('input[name="item"]').forEach((checkbox) => {
-	        checkbox.addEventListener("change", updateFinalPrice);
-	    });
-
-	    // 페이지 로드 시 총 금액 계산
-	    updateFinalPrice();
-	});
-
-</script>
+            // 초기 총 금액 계산
+            updateFinalPrice();
+        });
+    </script>
 </body>
 </html>

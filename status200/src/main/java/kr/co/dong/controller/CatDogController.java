@@ -328,21 +328,6 @@ public class CatDogController {
 	 * model.addAttribute("cartItems", cartItem); System.out.println("cartItems = "
 	 * + cartItem);
 	 */
-
-	@PostMapping("/cart/update")
-	@ResponseBody
-	public ResponseEntity<?> updateCartQuantity(@RequestBody Map<String, Object> requestData) {
-	    String productCode = (String) requestData.get("productCode");
-	    int quantity = (int) requestData.get("quantity");
-
-	    boolean success = cartService.updateCartQuantity(productCode, quantity); // 서비스 호출
-	    if (success) {
-	        return ResponseEntity.ok().body(Map.of("status", "success"));
-	    } else {
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("status", "failure"));
-	    }
-	}
-
 	
 	@GetMapping("/reviewPop")
 	public String reviewPop() {
