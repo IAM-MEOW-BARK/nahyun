@@ -169,4 +169,10 @@ public class CatDogDAOImpl implements CatDogDAO {
 		return null;
 	}
 
+	@Override
+	public int addOrder(OrderDTO orderDTO) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne(namespace + ".addOrder", orderDTO);
+	}
+
 }

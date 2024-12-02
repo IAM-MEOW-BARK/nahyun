@@ -92,6 +92,11 @@ public class CatDogServiceImpl implements CatDogService {
 		return catDogDAO.getMyOrders(user_id);
 	}
 
+	@Override
+	public int addOrder(OrderDTO orderDTO) throws Exception {
+		return catDogDAO.addOrder(orderDTO);
+	}
+
 //	@Override
 //	public OrderDTO getOrderDetail(int order_code) throws Exception {
 //		

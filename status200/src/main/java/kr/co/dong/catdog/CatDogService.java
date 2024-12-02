@@ -37,6 +37,8 @@ public interface CatDogService {
 	
 	public List<MyDTO> getMyOrders(String user_id) throws Exception;
 	
+	public int addOrder(OrderDTO orderDTO) throws Exception;
+	
 	/* 주문 상세보기 관련
 	 * 
 	 * public OrderDTO getOrderInfo(int order_code) throws Exception;

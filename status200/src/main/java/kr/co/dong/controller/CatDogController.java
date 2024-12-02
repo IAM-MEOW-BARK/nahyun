@@ -324,8 +324,6 @@ public class CatDogController {
 		if (o>0) {
 			rttr.addFlashAttribute("msg", "주문 추가 성공");
 		}
-		
-		
 		return "catdog-payment";
 	}
 
