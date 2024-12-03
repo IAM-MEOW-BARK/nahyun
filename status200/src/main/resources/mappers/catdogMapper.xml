@@ -138,6 +138,7 @@
 
 		WHERE
 		o.user_id_fk = #{user_id}
+		and o.payment_status = 1
 		ORDER BY
 		o.ordered_at DESC
 	</select>
@@ -293,4 +294,26 @@
 		;
 	</insert>
 
+	<!-- 장바구니 삭제 -->
+	<delete id="deleteSelectedItems" parameterType="list">
+		DELETE FROM cart WHERE product_code IN
+		<foreach item="item" collection="list" open="(" separator=","
+			close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<insert id="createOrder" parameterType="OrderDTO"
+		useGeneratedKeys="true" keyProperty="order_code">
+		INSERT INTO orders (user_id_fk, payment_status)
+		VALUES (#{user_id_fk}, #{payment_status});
+	</insert>
+
+	<insert id="insertOrderItems" parameterType="list">
+		INSERT INTO order_item (order_code, product_code, order_quantity)
+		VALUES
+		<foreach item="item" collection="list" separator=",">
+			(#{item.order_code}, #{item.product_code}, #{item.order_quantity})
+		</foreach>
+	</insert>
 </mapper>

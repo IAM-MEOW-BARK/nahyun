@@ -76,25 +76,24 @@ public class CatDogDAOImpl implements CatDogDAO {
 		return sqlSession.delete(namespace + ".deleteWish", param);
 	}
 
-    // 장바구니 정보
-    public List<CartDTO> getCartInfo(String user_id) throws Exception {
-    	return sqlSession.selectList(namespace + ".getCartInfo", user_id);
-    }
-    
-    // 장바구니 상품 정보
-    public List<CartDTO> getCartItem(String user_id) throws Exception {
-    	return sqlSession.selectList(namespace + ".getCartItem", user_id);
-    }
+	// 장바구니 정보
+	public List<CartDTO> getCartInfo(String user_id) throws Exception {
+		return sqlSession.selectList(namespace + ".getCartInfo", user_id);
+	}
+
+	// 장바구니 상품 정보
+	public List<CartDTO> getCartItem(String user_id) throws Exception {
+		return sqlSession.selectList(namespace + ".getCartItem", user_id);
+	}
 
 	// 수정한 거
 	public OrderDetailDTO getOrderDetail(String order_code) throws Exception {
-	    return sqlSession.selectOne(namespace + ".getOrderDetail", order_code);
+		return sqlSession.selectOne(namespace + ".getOrderDetail", order_code);
 	}
-	
-    public List<OrderItemDetailDTO> getOrderItemDetail(String order_code) throws Exception {
-    	return sqlSession.selectList(namespace + ".getOrderItemDetail", order_code);
-    }
 
+	public List<OrderItemDetailDTO> getOrderItemDetail(String order_code) throws Exception {
+		return sqlSession.selectList(namespace + ".getOrderItemDetail", order_code);
+	}
 
 	public List<OrderDTO> getDetailOrders(String order_code) throws Exception {
 		return sqlSession.selectList(namespace + ".getDetailOrder", order_code);
@@ -111,11 +110,11 @@ public class CatDogDAOImpl implements CatDogDAO {
 	public List<ProductDTO> getOrderItems(String order_code) throws Exception {
 		return sqlSession.selectList(namespace + ".getOrderItems", order_code);
 	}
-	
+
 	// 주문 총 결제액
-    public int getTotalCost(String order_code) throws Exception {
-    	return sqlSession.selectOne(namespace + ".getTotalCost", order_code);
-    }
+	public int getTotalCost(String order_code) throws Exception {
+		return sqlSession.selectOne(namespace + ".getTotalCost", order_code);
+	}
 
 	// 주문 상품 후기 정보
 	@Override
@@ -171,8 +170,8 @@ public class CatDogDAOImpl implements CatDogDAO {
 
 	@Override
 	public String addOrder(OrderDTO orderDTO) throws Exception {
-	    sqlSession.insert(namespace + ".addOrder", orderDTO);
-	    return orderDTO.getOrder_code(); // MyBatis에서 반환된 order_code 사용
+		sqlSession.insert(namespace + ".addOrder", orderDTO);
+		return orderDTO.getOrder_code(); // MyBatis에서 반환된 order_code 사용
 	}
 
 	@Override
@@ -180,4 +179,19 @@ public class CatDogDAOImpl implements CatDogDAO {
 		sqlSession.insert(namespace + ".addOrderItems", orderItems);
 	}
 
+	@Override
+	public void deleteSelectedItems(List<Integer> selectedItems) throws Exception {
+		sqlSession.delete(namespace + ".deleteSelectedItems", selectedItems);
+	}
+
+	@Override
+	public String createOrder(OrderDTO order) throws Exception {
+		sqlSession.insert(namespace + ".createOrder", order);
+		return order.getOrder_code(); // 생성된 order_code 반환
+	}
+
+	@Override
+	public void insertOrderItems(List<OrderItemDTO> orderItems) throws Exception {
+		sqlSession.insert(namespace + ".insertOrderItems", orderItems);
+	}
 }

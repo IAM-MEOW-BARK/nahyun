@@ -12,11 +12,11 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -228,22 +228,6 @@ public class CatDogController {
 		return "redirect:/catdog-user-list-admin";
 	}
 
-	// 페이지 이동
-	/*
-	 * @GetMapping("/mypage") public String mypage(HttpSession session, Model model)
-	 * throws Exception { Map<String, Object> user = (Map<String, Object>)
-	 * session.getAttribute("user"); if (user == null) { return
-	 * "redirect:/catdog-login"; }
-	 * 
-	 * model.addAttribute("user_name", user.get("name"));
-	 * model.addAttribute("user_id", user.get("user_id"));
-	 * 
-	 * List<OrderDTO> recentOrders = catDogService.getRecentOrder((String)
-	 * user.get("user_id")); model.addAttribute("recentOrders", recentOrders);
-	 * 
-	 * return "mypage";
-	 */
-
 	@GetMapping("/mypage")
 	public String mypage(HttpSession session, Model model) throws Exception {
 		Map<String, Object> user = (Map<String, Object>) session.getAttribute("user");
@@ -302,80 +286,90 @@ public class CatDogController {
 		return "wish";
 	}
 
+//	@GetMapping("/cart")
+//	public String cart(@RequestParam("user_id") String user_id, HttpSession session, Model model) throws Exception {
+//		Map<String, Object> user = (Map<String, Object>) session.getAttribute("user");
+//		if (user == null) {
+//			return "redirect:/catdog-login";
+//		}
+//		model.addAttribute("user_name", user.get("name"));
+//		model.addAttribute("user_id", user.get("user_id"));
+//
+//		List<CartDTO> cartInfo = catDogService.getCartInfo(user_id);
+//		model.addAttribute("cartInfo", cartInfo);
+//		System.out.println("cartInfo = " + cartInfo);
+//
+//		return "cart";
+//	}
+
 	@GetMapping("/cart")
-	public String cart(@RequestParam("user_id") String user_id, HttpSession session, Model model) throws Exception {
-		Map<String, Object> user = (Map<String, Object>) session.getAttribute("user");
-		if (user == null) {
-			return "redirect:/catdog-login";
-		}
-		model.addAttribute("user_name", user.get("name"));
-		model.addAttribute("user_id", user.get("user_id"));
+	public String cart(HttpSession session, Model model) throws Exception {
+	    Map<String, Object> user = (Map<String, Object>) session.getAttribute("user");
+	    if (user == null) {
+	        return "redirect:/catdog-login";
+	    }
+	    String userId = (String) user.get("user_id");
+	    model.addAttribute("user_name", user.get("name"));
+	    model.addAttribute("user_id", userId);
 
-		List<CartDTO> cartInfo = catDogService.getCartInfo(user_id);
-		model.addAttribute("cartInfo", cartInfo);
-		System.out.println("cartInfo = " + cartInfo);
+	    List<CartDTO> cartInfo = catDogService.getCartInfo(userId);
+	    model.addAttribute("cartInfo", cartInfo);
+	    System.out.println("cartInfo = " + cartInfo);
 
-		return "cart";
+	    return "cart";
 	}
-
+	
 	@PostMapping("/cart")
-	public String cart(@RequestParam("user_id_fk") String user_id, HttpServletRequest request,
-			RedirectAttributes rttr) throws Exception {
-		
+	public String cart(@RequestParam("user_id_fk") String user_id,
+			@RequestParam(value = "selectedItems", required = false) List<String> selectedItems,
+			HttpServletRequest request, RedirectAttributes rttr) throws Exception {
+
 		request.setCharacterEncoding("UTF-8");
+
+		// 선택된 상품 없음
+		if (selectedItems == null || selectedItems.isEmpty()) {
+			rttr.addFlashAttribute("msg", "선택된 상품이 없습니다. 상품을 선택해주세요.");
+			return "redirect:/cart";
+		}
 
 		// 1. OrderDTO 생성 및 저장
 		OrderDTO order = new OrderDTO();
 		order.setUser_id_fk(user_id);
 		order.setPayment_status(0); // 0: 미결제
 		String orderCode = catDogService.addOrder(order);
-		logger.info("Generated order_code: " + orderCode); // orderCode 확인
-		
-		logger.info("Generated order_code: " + orderCode); // orderCode 반환 확인
-		
-		// 2. CartDTO 데이터를 OrderItemDTO로 변환하여 저장
-		List<CartDTO> cartItems = catDogService.getCartInfo(user_id);
+
+		// 2. 선택된 CartDTO 데이터를 OrderItemDTO로 변환하여 저장
 		List<OrderItemDTO> orderItems = new ArrayList<OrderItemDTO>();
-		for (CartDTO cart : cartItems) {
+		for (String productCodeStr : selectedItems) {
+			int productCode = Integer.parseInt(productCodeStr); // product_code를 정수로 변환
+
+			// 수량 값 가져오기 (null 처리 추가)
+			String cartQuantityStr = request.getParameter("cart_quantity_" + productCodeStr);
+			if (cartQuantityStr == null) {
+				rttr.addFlashAttribute("msg", "수량 정보를 가져올 수 없습니다. 다시 시도해주세요.");
+				return "redirect:/cart";
+			}
+
+			int cartQuantity = Integer.parseInt(cartQuantityStr); // 수량을 정수로 변환
+
 			OrderItemDTO orderItem = new OrderItemDTO();
 			orderItem.setOrder_code(orderCode);
-			orderItem.setProduct_code(cart.getProduct_code());
-			orderItem.setOrder_quantity(cart.getCart_quantity());
-			orderItem.setProduct_name(cart.getProduct_name());
-			orderItem.setProduct_price(cart.getProduct_price());
-			orderItems.add(orderItem);			
+			orderItem.setProduct_code(productCode);
+			orderItem.setOrder_quantity(cartQuantity);
+			orderItems.add(orderItem);
 		}
-		catDogService.addOrderItems(orderItems);
-		
-		// 3. 결과 메시지 및 페이지 이동
-		System.out.println("★★★★★★★★★★order = " + order);
-		System.out.println("★★★★★★★★★★orderItems = " + orderItems);
-//		int o = catDogService.addOrder(orderDTO);
-//
-//		if (o > 0) {
-//			rttr.addFlashAttribute("msg", "주문 추가 성공");
-//		}
 
-		return "catdog-payment";
+		// 선택된 항목 저장
+		catDogService.addOrderItems(orderItems);
+
+		rttr.addFlashAttribute("msg", "주문이 성공적으로 처리되었습니다.");
+		return "redirect:/catdog-payment";
 	}
 
 	@PostMapping("/cart/delete")
 	public String deleteCart(CartDTO cartDTO) throws Exception {
 		return "redirect:/cart/" + cartDTO.getUser_id();
 	}
-
-	/*
-	 * @GetMapping("/order/{user_id}") public void payment(@PathVariable("user_id")
-	 * String user_id, OrderDTO orderDTO, OrderItemDTO orderItemDTO, Model model)
-	 * throws Exception { System.out.println("★★★★★★★★★★user_id = " + user_id);
-	 * System.out.println("★★★★★★★★★★OrderDTO = " + orderDTO); }
-	 */
-
-	/*
-	 * 위에 List<CartDTO> cartItem = catDogService.getCartItem(user_id);
-	 * model.addAttribute("cartItems", cartItem); System.out.println("cartItems = "
-	 * + cartItem);
-	 */
 
 	@GetMapping("/reviewPop")
 	public String reviewPop() {
@@ -396,39 +390,39 @@ public class CatDogController {
 	public String deleteUser() {
 		return "deleteUser";
 	}
+	
+	@PostMapping("/cart/deleteSelected")
+	@ResponseBody
+	public ResponseEntity<String> deleteSelected(@RequestParam List<Integer> selectedItems) {
+	    try {
+	        catDogService.deleteSelectedItems(selectedItems); // catDogService 사용
+	        return ResponseEntity.ok("선택한 항목이 삭제되었습니다.");
+	    } catch (Exception e) {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("삭제 중 오류가 발생했습니다.");
+	    }
+	}
 
-	/*
-	 * @GetMapping("/detailOrder") public String
-	 * getOrderDetail(@RequestParam("order_code")int orderCode, Model model) throws
-	 * Exception { OrderDTO order = catDogService.getOrderDetail(orderCode);
-	 * model.addAttribute("order", order); System.out.println(order); return
-	 * "detailOrder"; }
-	 */
+	@PostMapping("/cart/orderSelected")
+	public String orderSelected(@RequestParam("user_id_fk") String userId,
+	                             @RequestParam("selectedItems") List<Integer> selectedItems,
+	                             HttpServletRequest request, RedirectAttributes rttr) {
+	    try {
+	        List<OrderItemDTO> orderItems = new ArrayList<OrderItemDTO>();
+	        for (Integer productCode : selectedItems) {
+	            int cartQuantity = Integer.parseInt(request.getParameter("cart_quantity_" + productCode));
+	            OrderItemDTO orderItem = new OrderItemDTO();
+	            orderItem.setProduct_code(productCode);
+	            orderItem.setOrder_quantity(cartQuantity);
+	            orderItems.add(orderItem);
+	        }
 
-	/*
-	 * // 찜 추가
-	 * 
-	 * @ResponseBody
-	 * 
-	 * @PostMapping("/addWish") public int addWish(@RequestParam("user_id")String
-	 * user_id, @RequestParam("product_code")int product_code) throws Exception {
-	 * 
-	 * return catDogService.addWish(user_id, product_code); }
-	 * 
-	 * // 찜 삭제
-	 * 
-	 * @GetMapping("/deleteWish") public String
-	 * deleteWish(@RequestParam("wishDTO")WishDTO wishDTO, RedirectAttributes rttr)
-	 * throws Exception {
-	 * 
-	 * int r = catDogService.deleteWish(wishDTO);
-	 * 
-	 * if (r>0) { rttr.addFlashAttribute("msg", "찜 삭제 완료"); return
-	 * "redirect:totalWish"; }
-	 * 
-	 * return "redirect: totalWish";
-	 * 
-	 * }
-	 */
+	        catDogService.orderSelectedItems(userId, orderItems); // catDogService 사용
+	        rttr.addFlashAttribute("msg", "선택한 상품이 성공적으로 주문되었습니다.");
+	        return "redirect:/catdog-payment";
+	    } catch (Exception e) {
+	        rttr.addFlashAttribute("msg", "주문 중 오류가 발생했습니다.");
+	        return "redirect:/cart";
+	    }
+	}
 
 }

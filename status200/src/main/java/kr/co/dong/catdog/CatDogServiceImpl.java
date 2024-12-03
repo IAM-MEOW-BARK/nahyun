@@ -111,52 +111,24 @@ public class CatDogServiceImpl implements CatDogService {
 		catDogDAO.addOrderItems(orderItems);
 	}
 
-//	@Override
-//	public OrderDTO getOrderDetail(int order_code) throws Exception {
-//		
-//		OrderDTO orderInfo = catDogDAO.getOrderInfo(order_code);
-//		List<ProductDTO> orderItems = catDogDAO.getOrderItems(order_code);
-//		List<ReviewDTO> reviews = catDogDAO.getReview(order_code);
-//		
-//		int totalCost = 0;
-//		for (ProductDTO item : orderItems) {
-//		    totalCost += item.getProduct_price() * item.getOrder_quantity();
-//		}
-//		
-//		orderInfo.setProduct_cost(totalCost);
-//		orderInfo.setReviews(reviews);
-//		
-//		return orderInfo;
-//	}
+	@Override
+	public void deleteSelectedItems(List<Integer> selectedItems) throws Exception {
+		catDogDAO.deleteSelectedItems(selectedItems); // DAO 호출
+	}
 
-	/*
-	 * 주문 상세보기 관련
-	 * 
-	 * @Override public OrderDTO getOrderInfo(int order_code) throws Exception {
-	 * return catDogDAO.getOrderItems(order_code); }
-	 * 
-	 * @Override public OrderDTO getOrderItems(int order_code) throws Exception {
-	 * return catDogDAO.getOrderItems(order_code); }
-	 * 
-	 * @Override public ReviewDTO getReview(int order_code) throws Exception {
-	 * return catDogDAO.getReview(order_code); }
-	 * 
-	 */
-	/*
-	 * @Override public List<MemberDTO> getTotalMember() { // TODO Auto-generated
-	 * method stub return catDogDAO.getTotalMember(); }
-	 * 
-	 * @Override public int deleteUser(String user_id) { // TODO Auto-generated
-	 * method stub return catDogDAO.deleteUser(user_id); }
-	 * 
-	 * @Override public int deleteUsers(List<String> userIds) { return
-	 * catDogDAO.deleteUsers(userIds); }
-	 * 
-	 * @Override public int getMemberByEmail(String user_id) throws Exception { //
-	 * TODO Auto-generated method stub return catDogDAO.getMemberByEmail(user_id); }
-	 * 
-	 * @Override public List<BoardReply> detail1(int bno) { // TODO Auto-generated
-	 * method stub return boardDAO.detail1(bno); }
-	 */
+	@Override
+	public void orderSelectedItems(String userId, List<OrderItemDTO> orderItems) throws Exception {
+		// 1. 주문 생성
+		OrderDTO order = new OrderDTO();
+		order.setUser_id_fk(userId);
+		order.setPayment_status(0); // 미결제 상태
+		String orderCode = catDogDAO.createOrder(order); // 생성된 주문 코드 반환
+
+		// 2. 주문 항목 저장
+		for (OrderItemDTO item : orderItems) {
+			item.setOrder_code(orderCode); // 주문 코드 설정
+		}
+		catDogDAO.insertOrderItems(orderItems); // 주문 항목 저장
+	}
 
 }
