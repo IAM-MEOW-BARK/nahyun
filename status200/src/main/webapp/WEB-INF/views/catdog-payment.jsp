@@ -29,29 +29,6 @@
     </style>
 </head>
 <body>                
-   <%--   <div class="card-body">
-         <div class="d-flex justify-content-between align-items-center">
-             <h5 class="card-title mb-0">
-                 <i class="bi bi-geo-alt"></i>
-                 <span th:text="${deliveryName}">써리빙타워</span>
-                 <span th:text="${deliveryName}">써리빙타워</span>
-                 <span class="badge bg-secondary ms-2">기본배송지</span>
-             </h5>
-             <button class="btn btn-outline-primary btn-sm">변경</button>
-         </div>
-         <hr>
-         <p class="card-text mb-1">
-             <strong th:text="${recipientName}">김우진</strong> / 
-             <span th:text="${phoneNumber}">010-7545-3256</span>
-         </p>
-         <p class="card-text">
-             [<span th:text="${zipCode}">08392</span>] 
-             <span th:text="${address}">서울특별시 구로구 디지털로32다길 26-8 (구로동) 402호</span>
-         </p>
-         <div class="bg-light p-3 text-muted">
-             <span th:text="${memo}">문 앞에 놓아주세요.</span>
-         </div>
-     </div> --%>
      <!-- 좌측 -->
      <div class="container mt-5">
         <div class="row">

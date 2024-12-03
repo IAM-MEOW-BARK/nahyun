@@ -24,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.co.dong.catdog.CartDTO;
+import kr.co.dong.catdog.CatDogDAO;
 import kr.co.dong.catdog.CatDogService;
 import kr.co.dong.catdog.MemberDTO;
 import kr.co.dong.catdog.MyDTO;
@@ -321,54 +322,28 @@ public class CatDogController {
 	
 	@PostMapping("/cart")
 	public String cart(@RequestParam("user_id_fk") String user_id,
-			@RequestParam(value = "selectedItems", required = false) List<String> selectedItems,
 			HttpServletRequest request, RedirectAttributes rttr) throws Exception {
 
-		request.setCharacterEncoding("UTF-8");
-
-		// 선택된 상품 없음
-		if (selectedItems == null || selectedItems.isEmpty()) {
-			rttr.addFlashAttribute("msg", "선택된 상품이 없습니다. 상품을 선택해주세요.");
-			return "redirect:/cart";
-		}
-
-		// 1. OrderDTO 생성 및 저장
-		OrderDTO order = new OrderDTO();
-		order.setUser_id_fk(user_id);
-		order.setPayment_status(0); // 0: 미결제
-		String orderCode = catDogService.addOrder(order);
-
-		// 2. 선택된 CartDTO 데이터를 OrderItemDTO로 변환하여 저장
-		List<OrderItemDTO> orderItems = new ArrayList<OrderItemDTO>();
-		for (String productCodeStr : selectedItems) {
-			int productCode = Integer.parseInt(productCodeStr); // product_code를 정수로 변환
-
-			// 수량 값 가져오기 (null 처리 추가)
-			String cartQuantityStr = request.getParameter("cart_quantity_" + productCodeStr);
-			if (cartQuantityStr == null) {
-				rttr.addFlashAttribute("msg", "수량 정보를 가져올 수 없습니다. 다시 시도해주세요.");
-				return "redirect:/cart";
-			}
-
-			int cartQuantity = Integer.parseInt(cartQuantityStr); // 수량을 정수로 변환
-
-			OrderItemDTO orderItem = new OrderItemDTO();
-			orderItem.setOrder_code(orderCode);
-			orderItem.setProduct_code(productCode);
-			orderItem.setOrder_quantity(cartQuantity);
-			orderItems.add(orderItem);
-		}
-
-		// 선택된 항목 저장
-		catDogService.addOrderItems(orderItems);
-
-		rttr.addFlashAttribute("msg", "주문이 성공적으로 처리되었습니다.");
 		return "redirect:/catdog-payment";
+	}
+	
+	@PostMapping("/cart/update")
+	public String updateCartQuantity(CartDTO cartDTO) throws Exception {
+		
+		System.out.println("업데이트 아직인겨 = " + cartDTO);
+		System.out.println("업데이트 아직이여 = " + cartDTO.getCart_quantity());
+		catDogService.updateCartQuantity(cartDTO);
+		System.out.println("업데이트 눌럿슈 = " + cartDTO);
+		System.out.println("업데이트 햇슈 = " + cartDTO.getCart_quantity());
+		return "redirect:/cart";
 	}
 
 	@PostMapping("/cart/delete")
+	@ResponseBody
 	public String deleteCart(CartDTO cartDTO) throws Exception {
-		return "redirect:/cart/" + cartDTO.getUser_id();
+		System.out.println("뭐 가져온겨???????? " + cartDTO);
+		 int result = catDogService.deleteCart(cartDTO);
+		 return result > 0 ? "success" : "failure";
 	}
 
 	@GetMapping("/reviewPop")
@@ -391,38 +366,4 @@ public class CatDogController {
 		return "deleteUser";
 	}
 	
-	@PostMapping("/cart/deleteSelected")
-	@ResponseBody
-	public ResponseEntity<String> deleteSelected(@RequestParam List<Integer> selectedItems) {
-	    try {
-	        catDogService.deleteSelectedItems(selectedItems); // catDogService 사용
-	        return ResponseEntity.ok("선택한 항목이 삭제되었습니다.");
-	    } catch (Exception e) {
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("삭제 중 오류가 발생했습니다.");
-	    }
-	}
-
-	@PostMapping("/cart/orderSelected")
-	public String orderSelected(@RequestParam("user_id_fk") String userId,
-	                             @RequestParam("selectedItems") List<Integer> selectedItems,
-	                             HttpServletRequest request, RedirectAttributes rttr) {
-	    try {
-	        List<OrderItemDTO> orderItems = new ArrayList<OrderItemDTO>();
-	        for (Integer productCode : selectedItems) {
-	            int cartQuantity = Integer.parseInt(request.getParameter("cart_quantity_" + productCode));
-	            OrderItemDTO orderItem = new OrderItemDTO();
-	            orderItem.setProduct_code(productCode);
-	            orderItem.setOrder_quantity(cartQuantity);
-	            orderItems.add(orderItem);
-	        }
-
-	        catDogService.orderSelectedItems(userId, orderItems); // catDogService 사용
-	        rttr.addFlashAttribute("msg", "선택한 상품이 성공적으로 주문되었습니다.");
-	        return "redirect:/catdog-payment";
-	    } catch (Exception e) {
-	        rttr.addFlashAttribute("msg", "주문 중 오류가 발생했습니다.");
-	        return "redirect:/cart";
-	    }
-	}
-
 }

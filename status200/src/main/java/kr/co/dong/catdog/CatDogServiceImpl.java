@@ -112,23 +112,8 @@ public class CatDogServiceImpl implements CatDogService {
 	}
 
 	@Override
-	public void deleteSelectedItems(List<Integer> selectedItems) throws Exception {
-		catDogDAO.deleteSelectedItems(selectedItems); // DAO 호출
-	}
-
-	@Override
-	public void orderSelectedItems(String userId, List<OrderItemDTO> orderItems) throws Exception {
-		// 1. 주문 생성
-		OrderDTO order = new OrderDTO();
-		order.setUser_id_fk(userId);
-		order.setPayment_status(0); // 미결제 상태
-		String orderCode = catDogDAO.createOrder(order); // 생성된 주문 코드 반환
-
-		// 2. 주문 항목 저장
-		for (OrderItemDTO item : orderItems) {
-			item.setOrder_code(orderCode); // 주문 코드 설정
-		}
-		catDogDAO.insertOrderItems(orderItems); // 주문 항목 저장
+	public int updateCartQuantity(CartDTO cartDTO) throws Exception {
+		return catDogDAO.updateCartQuantity(cartDTO);
 	}
 
 }

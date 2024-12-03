@@ -129,9 +129,15 @@ public class CatDogDAOImpl implements CatDogDAO {
 	}
 
 	@Override
+	public int updateCartQuantity(CartDTO cartDTO) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.update(namespace + ".updateCartQuantity", cartDTO);
+	}
+
+	@Override
 	public int deleteCart(CartDTO cartDTO) throws Exception {
 		// TODO Auto-generated method stub
-		return sqlSession.selectOne(namespace + ".deleteCart", cartDTO);
+		return sqlSession.delete(namespace + ".deleteCart", cartDTO);
 	}
 
 	@Override
@@ -179,19 +185,4 @@ public class CatDogDAOImpl implements CatDogDAO {
 		sqlSession.insert(namespace + ".addOrderItems", orderItems);
 	}
 
-	@Override
-	public void deleteSelectedItems(List<Integer> selectedItems) throws Exception {
-		sqlSession.delete(namespace + ".deleteSelectedItems", selectedItems);
-	}
-
-	@Override
-	public String createOrder(OrderDTO order) throws Exception {
-		sqlSession.insert(namespace + ".createOrder", order);
-		return order.getOrder_code(); // 생성된 order_code 반환
-	}
-
-	@Override
-	public void insertOrderItems(List<OrderItemDTO> orderItems) throws Exception {
-		sqlSession.insert(namespace + ".insertOrderItems", orderItems);
-	}
 }

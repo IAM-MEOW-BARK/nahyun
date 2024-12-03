@@ -41,7 +41,6 @@ public interface CatDogService {
 
 	public void addOrderItems(List<OrderItemDTO> orderItems) throws Exception;
 
-	public void deleteSelectedItems(List<Integer> selectedItems) throws Exception;
+	public int updateCartQuantity(CartDTO cartDTO) throws Exception;
 
-    public void orderSelectedItems(String userId, List<OrderItemDTO> orderItems) throws Exception;
 }

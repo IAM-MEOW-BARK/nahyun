@@ -95,20 +95,6 @@
 		c.user_id = #{user_id}
 	</select>
 
-	<!-- 장바구니 아이템 삭제 -->
-	<delete id="deleteCart" parameterType="CartDTO">
-		DELETE FROM cart
-		WHERE
-		user_id = #{user_id} and product_code = #{product_code}
-	</delete>
-
-	<!-- <select id="getCartInfo" parameterType="java.lang.String" resultType="CartDTO"> 
-		SELECT product_code, cart_quantity FROM cart WHERE user_id = #{user_id} </select> 
-		장바구니 상품 정보 <select id="getCartItem" parameterType="java.lang.String" resultType="CartDTO"> 
-		SELECT p.thumbnail_img, p.product_name, p.product_price, (p.product_price 
-		* c.cart_quantity) as totalPrice FROM cart c LEFT JOIN product p ON c.product_code 
-		= p.product_code WHERE c.user_id = #{user_id} </select> -->
-
 	<!-- 마이페이지 주문 내역 -->
 	<select id="getMyOrders" parameterType="java.lang.String"
 		resultType="MyDTO">
@@ -291,29 +277,21 @@
 		<foreach collection="list" item="item" separator=",">
 			(#{item.order_code}, #{item.product_code}, #{item.order_quantity})
 		</foreach>
-		;
 	</insert>
 
 	<!-- 장바구니 삭제 -->
-	<delete id="deleteSelectedItems" parameterType="list">
-		DELETE FROM cart WHERE product_code IN
-		<foreach item="item" collection="list" open="(" separator=","
-			close=")">
-			#{item}
-		</foreach>
+	<delete id="deleteCart" parameterType="CartDTO">
+		DELETE FROM cart
+		WHERE
+		user_id = #{user_id} and product_code = #{product_code}
 	</delete>
 
-	<insert id="createOrder" parameterType="OrderDTO"
-		useGeneratedKeys="true" keyProperty="order_code">
-		INSERT INTO orders (user_id_fk, payment_status)
-		VALUES (#{user_id_fk}, #{payment_status});
-	</insert>
+	<!-- 장바구니 수량 변경 -->
+	<update id="updateCartQuantity" parameterType="CartDTO">
+		UPDATE cart
+		SET cart_quantity = #{cart_quantity}
+		WHERE user_id = #{user_id}
+		AND product_code = #{product_code}
+	</update>
 
-	<insert id="insertOrderItems" parameterType="list">
-		INSERT INTO order_item (order_code, product_code, order_quantity)
-		VALUES
-		<foreach item="item" collection="list" separator=",">
-			(#{item.order_code}, #{item.product_code}, #{item.order_quantity})
-		</foreach>
-	</insert>
 </mapper>

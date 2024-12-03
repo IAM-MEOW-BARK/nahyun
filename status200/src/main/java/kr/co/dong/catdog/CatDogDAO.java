@@ -31,12 +31,14 @@ public interface CatDogDAO {
 	// 찜하기 삭제
 	public int deleteWish(WishDTO wishDTO) throws Exception;
 
-	/* 장바구니 보류 */
 	// 장바구니 추가
 	public int addCart(CartDTO cartDTO) throws Exception;
 
 	// 장바구니 삭제
 	public int deleteCart(CartDTO cartDTO) throws Exception;
+	
+	//장바구니 수량 변경
+	public int updateCartQuantity(CartDTO cartDTO) throws Exception;
 
 	// 찜한 상품 리스트 조회
 	public List<ProductDTO> getWish(String user_id) throws Exception;
@@ -52,6 +54,7 @@ public interface CatDogDAO {
 
 	// 장바구니 상품 정보
 	public List<CartDTO> getCartItem(String user_id) throws Exception;
+
 
 	// 정보 확인
 	public OrderDetailDTO getOrderDetail(String order_code) throws Exception;
@@ -81,13 +84,10 @@ public interface CatDogDAO {
 	// 주문 상품 후기 정보
 	public List<ReviewDTO> getReview(String order_code) throws Exception;
 
+	// 주문하기 (주문 정보 생성)
 	public String addOrder(OrderDTO orderDTO) throws Exception;
-
+	
+	// 주문하기 (주문 아이템 생성)
 	public void addOrderItems(List<OrderItemDTO> orderItems) throws Exception;
 
-	public void deleteSelectedItems(List<Integer> selectedItems) throws Exception;
-
-	public String createOrder(OrderDTO order) throws Exception;
-
-	public void insertOrderItems(List<OrderItemDTO> orderItems) throws Exception;
 }
