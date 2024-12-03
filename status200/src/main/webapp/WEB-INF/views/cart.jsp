@@ -47,55 +47,61 @@
 			<!-- 오른쪽 콘텐츠 -->
 			<div class="col-md-9">
 				<!-- 장바구니 -->
-				<div class="table-container">
-					<h4>장바구니</h4>
-					<table class="table justify-content-center align-middle" style="text-align: center">
-						<tr>
-							<th><input type="checkbox" name="cart" value="selectall" checked /></th>
-							<th colspan="2">상품명</th>
-							<th>수량</th>
-							<th>가격</th>
-							<th>삭제</th>
-						</tr>
-						<c:forEach var="item" items="${cartInfo}">
+				<form action="payment" method="get">
+					<input type="hidden" value="${user_id}">
+					<div class="table-container">
+						<h4>장바구니</h4>
+						<table class="table justify-content-center align-middle" style="text-align: center">
 							<tr>
-								<td>
-									<input type="checkbox" name="item" value="${item.product_code}" checked />
+								<th><input type="checkbox" name="cart" value="selectall" checked /></th>
+								<th colspan="2">상품명</th>
+								<th>수량</th>
+								<th>가격</th>
+								<th>삭제</th>
+							</tr>
+							<c:forEach var="item" items="${cartInfo}">
+								<tr>
+									<td class="cart_info_td">
+										<input type="checkbox" name="item" value="${item.product_code}" checked />
+									</td>
+									<td>
+										<img src="${pageContext.request.contextPath}/resources/upload/${item.thumbnail_img}" alt="${item.product_name}" style="width: 30px; height: 30px;">
+									</td>
+									<td style="text-align: left;">${item.product_name}</td>
+									<td>
+										<div class="product-quantity-control">
+											<button class="btn btn-outline-secondary btn-decrease">-</button>
+											<input type="text" class="form-control d-inline quantity" value="${item.cart_quantity}" readonly>
+											<button class="btn btn-outline-secondary btn-increase">+</button>
+										</div>
+									</td>
+									<td class="price" data-price="${item.product_price}">
+										<fmt:formatNumber value="${item.product_price}" type="number" groupingUsed="true" />
+										원
+									</td>
+									<td>
+										<button class="btn btn-outline-secondary delete_btn">삭제</button>
+									</td>
+								</tr>
+								<input type="hidden" value="${item.product_code}">
+								<input type="hidden" value="${item.product_price}">
+								<input type="hidden" value="${item.cart_quantity}">
+							</c:forEach>
+						</table>
+					</div>
+					<div class="table-container d-flex justify-content-end">
+						<table>
+							<tr>
+								<td style="text-align: right; padding-right: 20px">
+									총 금액: <span id="finalPriceTag">0</span>
 								</td>
 								<td>
-									<img src="${pageContext.request.contextPath}/resources/upload/${item.thumbnail_img}" alt="${item.product_name}" style="width: 30px; height: 30px;">
-								</td>
-								<td style="text-align: left;">${item.product_name}</td>
-								<td>
-									<div class="product-quantity-control">
-										<button class="btn btn-outline-secondary btn-decrease">-</button>
-										<input type="text" class="form-control d-inline quantity" value="${item.cart_quantity}" readonly>
-										<button class="btn btn-outline-secondary btn-increase">+</button>
-									</div>
-								</td>
-								<td class="price" data-price="${item.product_price}">
-									<fmt:formatNumber value="${item.product_price}" type="number" groupingUsed="true" />
-									원
-								</td>
-								<td>
-									<button class="btn btn-outline-secondary delete_btn">삭제</button>
+									<button class="btn order_btn" type="submit" style="background: #ff6600; color: #ffffff">구매하기</button>
 								</td>
 							</tr>
-						</c:forEach>
-					</table>
-				</div>
-				<div class="table-container d-flex justify-content-end">
-					<table>
-						<tr>
-							<td style="text-align: right; padding-right: 20px">
-								총 금액: <span id="finalPriceTag">0</span>
-							</td>
-							<td>
-								<button class="btn" style="background: #ff6600; color: #ffffff">구매하기</button>
-							</td>
-						</tr>
-					</table>
-				</div>
+						</table>
+					</div>
+				</form>
 			</div>
 		</div>
 	</div>
@@ -166,6 +172,36 @@
 
             // 초기 총 금액 계산
             updateFinalPrice();
+        });
+        
+        
+        /* 주문 페이지 이동 */	
+        $(".order_btn").on("click", function(){
+        	
+        	let form_contents ='';
+        	let orderNumber = 0;
+        	
+        	$(".cart_info_td").each(function(index, element){
+        		
+        		if($(element).find(".individual_cart_checkbox").is(":checked") === true){	//체크여부
+        			
+        			let product_code = $(element).find(".individual_bookId_input").val();
+        			let cart_quantity = $(element).find(".individual_bookCount_input").val();
+        			
+        			let product_code_input = "<input name='orders[" + orderNumber + "].bookId' type='hidden' value='" + bookId + "'>";
+        			form_contents += product_code_input;
+        			
+        			let cart_quantity_input = "<input name='orders[" + orderNumber + "].bookCount' type='hidden' value='" + bookCount + "'>";
+        			form_contents += cart_quantity_input;
+        			
+        			orderNumber += 1;
+        			
+        		}
+        	});	
+
+        	$(".order_form").html(form_contents);
+        	$(".order_form").submit();
+        	
         });
     </script>
 </body>

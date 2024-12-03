@@ -143,7 +143,7 @@
 							<div class="col">
 								<div class="product-item">
 									<figure>
-										<a href="index.html" title="Product Title"> <img src="${pageContext.request.contextPath}/resources/img/${product01.thumbnail_img}" alt="Product Thumbnail" class="tab-image" />
+										<a href="index.html" title="Product Title"> <img src="${pageContext.request.contextPath}/resources/upload/${product01.thumbnail_img}" alt="Product Thumbnail" class="tab-image" />
 										</a>
 									</figure>
 									<div class="d-flex flex-column text-center">

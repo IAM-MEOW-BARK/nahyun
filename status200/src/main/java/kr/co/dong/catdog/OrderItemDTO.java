@@ -5,10 +5,12 @@ public class OrderItemDTO {
 	private int order_code;
 	private int product_code;
 	private String product_name;
+	private int product_price;
 	private int cart_quantity;
+	private int order_quantity;
+	private int total_price;
 	private int order_status;
 	private int order_return;
-	private int product_price;
 
 	public int getOrder_item_code() {
 		return order_item_code;
@@ -74,11 +76,32 @@ public class OrderItemDTO {
 		this.product_price = product_price;
 	}
 
+	public int getOrder_quantity() {
+		return order_quantity;
+	}
+
+	public void setOrder_quantity(int order_quantity) {
+		this.order_quantity = order_quantity;
+	}
+
+	public int getTotal_price() {
+		return total_price;
+	}
+
+	public void setTotal_price(int total_price) {
+		this.total_price = total_price;
+	}
+
 	@Override
 	public String toString() {
 		return "OrderItemDTO [order_item_code=" + order_item_code + ", order_code=" + order_code + ", product_code="
-				+ product_code + ", product_name=" + product_name + ", cart_quantity=" + cart_quantity + ", order_status="
-				+ order_status + ", order_return=" + order_return + ", product_price=" + product_price + "]";
+				+ product_code + ", product_name=" + product_name + ", product_price=" + product_price
+				+ ", cart_quantity=" + cart_quantity + ", order_quantity=" + order_quantity + ", total_price="
+				+ total_price + ", order_status=" + order_status + ", order_return=" + order_return + "]";
 	}
 
+	public void initTotalPrice() {
+		this.total_price = this.product_price * this.order_quantity;
+	}
+	
 }

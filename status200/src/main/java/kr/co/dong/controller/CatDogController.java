@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -332,9 +333,10 @@ public class CatDogController {
 		return "redirect:/cart/" + cartDTO.getUser_id();
 	}
 
-	@GetMapping("/payment")
-	public String payment() throws Exception{
-		return "catdog-payment";
+	@GetMapping("/order/{user_id}")
+	public void payment(@PathVariable("user_id") String user_id, OrderDTO orderDTO, OrderItemDTO orderItemDTO, Model model) throws Exception{
+		System.out.println("user_id = "+ user_id);
+		System.out.println("OrderDTI = " + orderDTO);
 	}
 	
 	/*
