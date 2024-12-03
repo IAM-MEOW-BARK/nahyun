@@ -81,6 +81,8 @@ public interface CatDogDAO {
     // 주문 상품 후기 정보
     public List<ReviewDTO> getReview(String order_code) throws Exception;
     
-    public int addOrder(OrderDTO orderDTO) throws Exception;   
+    public String addOrder(OrderDTO orderDTO) throws Exception;   
+    
+    public void addOrderItems(List<OrderItemDTO> orderItems) throws Exception;
 
 }

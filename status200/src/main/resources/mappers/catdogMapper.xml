@@ -87,7 +87,8 @@
 		p.product_name,
 		c.cart_quantity,
 		p.product_price,
-		(c.cart_quantity * p.product_price) AS totalPrice
+		(c.cart_quantity *
+		p.product_price) AS totalPrice
 		FROM cart c LEFT JOIN product p ON
 		c.product_code = p.product_code
 		WHERE
@@ -272,8 +273,24 @@
 	</select>
 
 	<!-- 장바구니에서 주문하기 -->
-	<insert id="addOrder" parameterType="OrderDTO">
-		INSERT INTO order(order_code, user_id, payment_status)
-		VALUES (#{order_code}, #{user_id}, "0")
+	<insert id="addOrder" parameterType="OrderDTO"
+		useGeneratedKeys="true" keyProperty="order_code">
+		INSERT INTO
+		orders(order_code,
+		user_id_fk, payment_status)
+		VALUES (#{order_code},
+		#{user_id_fk}, "0")
 	</insert>
+
+	<!-- 장바구니에서 주문 아이템 추가하기 -->
+	<insert id="addOrderItems" parameterType="list">
+		INSERT INTO
+		order_item (order_code, product_code, order_quantity)
+		VALUES
+		<foreach collection="list" item="item" separator=",">
+			(#{item.order_code}, #{item.product_code}, #{item.order_quantity})
+		</foreach>
+		;
+	</insert>
+
 </mapper>

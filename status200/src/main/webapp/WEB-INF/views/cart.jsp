@@ -47,8 +47,7 @@
 			<!-- 오른쪽 콘텐츠 -->
 			<div class="col-md-9">
 				<!-- 장바구니 -->
-				<form action="payment" method="get">
-					<input type="hidden" value="${user_id}">
+				<form method="post" action="/cart">
 					<div class="table-container">
 						<h4>장바구니</h4>
 						<table class="table justify-content-center align-middle" style="text-align: center">
@@ -83,9 +82,10 @@
 										<button class="btn btn-outline-secondary delete_btn">삭제</button>
 									</td>
 								</tr>
-								<input type="hidden" value="${item.product_code}">
-								<input type="hidden" value="${item.product_price}">
-								<input type="hidden" value="${item.cart_quantity}">
+								<input type="hidden" name="product_code" value="${item.product_code}">
+								<input type="hidden" name="product_price" value="${item.product_price}">
+								<input type="hidden" name="cart_quantity" value="${item.cart_quantity}">
+								<input type="hidden" name="product_name" value="${item.product_name}">
 							</c:forEach>
 						</table>
 					</div>
@@ -96,6 +96,7 @@
 									총 금액: <span id="finalPriceTag">0</span>
 								</td>
 								<td>
+									<input type="hidden" name="user_id_fk" value="${user_id}">
 									<button class="btn order_btn" type="submit" style="background: #ff6600; color: #ffffff">구매하기</button>
 								</td>
 							</tr>

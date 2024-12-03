@@ -1,5 +1,6 @@
 package kr.co.dong.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -315,16 +317,45 @@ public class CatDogController {
 
 		return "cart";
 	}
-	
+
 	@PostMapping("/cart")
-	public String cart(CartDTO cartDTO, OrderDTO orderDTO, OrderItemDTO orderItemDTO, HttpServletRequest request, RedirectAttributes rttr) throws Exception {
-		request.setCharacterEncoding("UTF-8");
-		logger.info("카트 내용 : " + cartDTO);
-		int o = catDogService.addOrder(orderDTO);
+	public String cart(@RequestParam("user_id_fk") String user_id, HttpServletRequest request,
+			RedirectAttributes rttr) throws Exception {
 		
-		if (o>0) {
-			rttr.addFlashAttribute("msg", "주문 추가 성공");
+		request.setCharacterEncoding("UTF-8");
+
+		// 1. OrderDTO 생성 및 저장
+		OrderDTO order = new OrderDTO();
+		order.setUser_id_fk(user_id);
+		order.setPayment_status(0); // 0: 미결제
+		String orderCode = catDogService.addOrder(order);
+		logger.info("Generated order_code: " + orderCode); // orderCode 확인
+		
+		logger.info("Generated order_code: " + orderCode); // orderCode 반환 확인
+		
+		// 2. CartDTO 데이터를 OrderItemDTO로 변환하여 저장
+		List<CartDTO> cartItems = catDogService.getCartInfo(user_id);
+		List<OrderItemDTO> orderItems = new ArrayList<OrderItemDTO>();
+		for (CartDTO cart : cartItems) {
+			OrderItemDTO orderItem = new OrderItemDTO();
+			orderItem.setOrder_code(orderCode);
+			orderItem.setProduct_code(cart.getProduct_code());
+			orderItem.setOrder_quantity(cart.getCart_quantity());
+			orderItem.setProduct_name(cart.getProduct_name());
+			orderItem.setProduct_price(cart.getProduct_price());
+			orderItems.add(orderItem);			
 		}
+		catDogService.addOrderItems(orderItems);
+		
+		// 3. 결과 메시지 및 페이지 이동
+		System.out.println("★★★★★★★★★★order = " + order);
+		System.out.println("★★★★★★★★★★orderItems = " + orderItems);
+//		int o = catDogService.addOrder(orderDTO);
+//
+//		if (o > 0) {
+//			rttr.addFlashAttribute("msg", "주문 추가 성공");
+//		}
+
 		return "catdog-payment";
 	}
 
@@ -333,18 +364,19 @@ public class CatDogController {
 		return "redirect:/cart/" + cartDTO.getUser_id();
 	}
 
-	@GetMapping("/order/{user_id}")
-	public void payment(@PathVariable("user_id") String user_id, OrderDTO orderDTO, OrderItemDTO orderItemDTO, Model model) throws Exception{
-		System.out.println("user_id = "+ user_id);
-		System.out.println("OrderDTI = " + orderDTO);
-	}
-	
+	/*
+	 * @GetMapping("/order/{user_id}") public void payment(@PathVariable("user_id")
+	 * String user_id, OrderDTO orderDTO, OrderItemDTO orderItemDTO, Model model)
+	 * throws Exception { System.out.println("★★★★★★★★★★user_id = " + user_id);
+	 * System.out.println("★★★★★★★★★★OrderDTO = " + orderDTO); }
+	 */
+
 	/*
 	 * 위에 List<CartDTO> cartItem = catDogService.getCartItem(user_id);
 	 * model.addAttribute("cartItems", cartItem); System.out.println("cartItems = "
 	 * + cartItem);
 	 */
-	
+
 	@GetMapping("/reviewPop")
 	public String reviewPop() {
 		return "reviewPop";

@@ -170,9 +170,14 @@ public class CatDogDAOImpl implements CatDogDAO {
 	}
 
 	@Override
-	public int addOrder(OrderDTO orderDTO) throws Exception {
-		// TODO Auto-generated method stub
-		return sqlSession.selectOne(namespace + ".addOrder", orderDTO);
+	public String addOrder(OrderDTO orderDTO) throws Exception {
+	    sqlSession.insert(namespace + ".addOrder", orderDTO);
+	    return orderDTO.getOrder_code(); // MyBatis에서 반환된 order_code 사용
+	}
+
+	@Override
+	public void addOrderItems(List<OrderItemDTO> orderItems) throws Exception {
+		sqlSession.insert(namespace + ".addOrderItems", orderItems);
 	}
 
 }

@@ -2,7 +2,7 @@ package kr.co.dong.catdog;
 
 public class OrderItemDTO {
 	private int order_item_code;
-	private int order_code;
+	private String order_code;
 	private int product_code;
 	private String product_name;
 	private int product_price;
@@ -20,11 +20,11 @@ public class OrderItemDTO {
 		this.order_item_code = order_item_code;
 	}
 
-	public int getOrder_code() {
+	public String getOrder_code() {
 		return order_code;
 	}
 
-	public void setOrder_code(int order_code) {
+	public void setOrder_code(String order_code) {
 		this.order_code = order_code;
 	}
 
