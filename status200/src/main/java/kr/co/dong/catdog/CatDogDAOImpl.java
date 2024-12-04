@@ -185,4 +185,21 @@ public class CatDogDAOImpl implements CatDogDAO {
 		sqlSession.insert(namespace + ".addOrderItems", orderItems);
 	}
 
+	@Override
+	public int isReview(ReviewDTO reviewDTO) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne(namespace + ".isReview", reviewDTO);
+	}
+
+	@Override
+	public int regReview(ReviewDTO reviewDTO) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.insert(namespace + ".regReview", reviewDTO);
+	}
+	
+	@Override
+	public ProductDTO getProductByCode(int product_code) throws Exception {
+	    return sqlSession.selectOne(namespace + ".getProductByCode", product_code);
+	}
+
 }

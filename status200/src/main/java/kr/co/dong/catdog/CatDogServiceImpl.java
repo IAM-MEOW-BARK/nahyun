@@ -117,4 +117,20 @@ public class CatDogServiceImpl implements CatDogService {
 		return catDogDAO.updateCartQuantity(cartDTO);
 	}
 
+	@Override
+	public int isReview(ReviewDTO reviewDTO) throws Exception {
+		// TODO Auto-generated method stub
+		return catDogDAO.isReview(reviewDTO);
+	}
+
+	@Override
+	public int regReview(ReviewDTO reviewDTO) throws Exception {
+		// TODO Auto-generated method stub
+		return catDogDAO.regReview(reviewDTO);
+	}
+
+	@Override
+	public ProductDTO getProductByCode(int product_code) throws Exception {
+	    return catDogDAO.getProductByCode(product_code);
+	}
 }

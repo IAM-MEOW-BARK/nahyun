@@ -90,4 +90,9 @@ public interface CatDogDAO {
 	// 주문하기 (주문 아이템 생성)
 	public void addOrderItems(List<OrderItemDTO> orderItems) throws Exception;
 
+	public int isReview(ReviewDTO reviewDTO) throws Exception;
+	
+	public int regReview(ReviewDTO reviewDTO) throws Exception;
+	
+	public ProductDTO getProductByCode(int product_code) throws Exception;
 }

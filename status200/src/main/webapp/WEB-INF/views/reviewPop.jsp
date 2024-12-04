@@ -98,10 +98,11 @@ h5 {
 		<div class="review-header">
 			<img src="placeholder-image.jpg" alt="상품 이미지">
 			<div class="product-info">
-				<strong>[3종] 주인도 좋아하는 장난감</strong><br>(옵션1) 캐치 미 이프 유 캔
+				<input type="text" value="${product_name}" readonly> 
+        		<input type="hidden" value="${product_code}">
+       			 <input type="hidden" value="${user_id}">
 			</div>
 		</div>
-
 		<h5>
 			<b>상품은 만족하셨나요?</b>
 		</h5>

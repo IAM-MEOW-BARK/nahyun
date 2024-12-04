@@ -43,4 +43,9 @@ public interface CatDogService {
 
 	public int updateCartQuantity(CartDTO cartDTO) throws Exception;
 
+	public int isReview(ReviewDTO reviewDTO) throws Exception;
+
+	public int regReview(ReviewDTO reviewDTO) throws Exception;
+
+	public ProductDTO getProductByCode(int product_code) throws Exception;
 }

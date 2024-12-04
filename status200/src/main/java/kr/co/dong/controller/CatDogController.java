@@ -9,16 +9,13 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.websocket.server.PathParam;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -26,7 +23,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.co.dong.catdog.CartDTO;
-import kr.co.dong.catdog.CatDogDAO;
 import kr.co.dong.catdog.CatDogService;
 import kr.co.dong.catdog.MemberDTO;
 import kr.co.dong.catdog.MyDTO;
@@ -35,6 +31,7 @@ import kr.co.dong.catdog.OrderDetailDTO;
 import kr.co.dong.catdog.OrderItemDTO;
 import kr.co.dong.catdog.OrderItemDetailDTO;
 import kr.co.dong.catdog.ProductDTO;
+import kr.co.dong.catdog.ReviewDTO;
 import kr.co.dong.catdog.WishDTO;
 
 @Controller
@@ -324,8 +321,8 @@ public class CatDogController {
 	}
 
 	@PostMapping("/cart")
-	public String processOrder(HttpSession session, HttpServletRequest request, RedirectAttributes rttr,
-			Model model) throws Exception {
+	public String processOrder(HttpSession session, HttpServletRequest request, RedirectAttributes rttr, Model model)
+			throws Exception {
 		Map<String, Object> user = (Map<String, Object>) session.getAttribute("user");
 		if (user == null) {
 			return "redirect:/catdog-login";
@@ -333,49 +330,49 @@ public class CatDogController {
 		String userId = (String) user.get("user_id");
 		model.addAttribute("user_name", user.get("name"));
 		model.addAttribute("user_id", userId);
-		
+
 		OrderDTO orderDTO = new OrderDTO();
-		
+
 		orderDTO.setUser_id_fk(userId);
-		orderDTO.setPayment_status(0);		
+		orderDTO.setPayment_status(0);
 		String orderCode = catDogService.addOrder(orderDTO);
 		orderDTO.setOrder_code(orderCode);
-		
+
 		List<CartDTO> cartItems = catDogService.getCartInfo(userId);
-		
+
 		List<OrderItemDTO> orderItems = new ArrayList<>();
 		for (CartDTO cartItem : cartItems) {
-		OrderItemDTO orderItem = new OrderItemDTO();
-		orderItem.setOrder_code(orderCode);
-		orderItem.setProduct_code(cartItem.getProduct_code());
-        orderItem.setProduct_name(cartItem.getProduct_name());
-        orderItem.setThumbnail_img(cartItem.getThumbnail_img());
-        orderItem.setProduct_price(cartItem.getProduct_price());
-        orderItem.setCart_quantity(cartItem.getCart_quantity());
-        orderItem.setOrder_quantity(cartItem.getCart_quantity());
-        orderItem.setTotal_price(cartItem.getCart_quantity() * cartItem.getProduct_price());
-        orderItems.add(orderItem);
-    }
+			OrderItemDTO orderItem = new OrderItemDTO();
+			orderItem.setOrder_code(orderCode);
+			orderItem.setProduct_code(cartItem.getProduct_code());
+			orderItem.setProduct_name(cartItem.getProduct_name());
+			orderItem.setThumbnail_img(cartItem.getThumbnail_img());
+			orderItem.setProduct_price(cartItem.getProduct_price());
+			orderItem.setCart_quantity(cartItem.getCart_quantity());
+			orderItem.setOrder_quantity(cartItem.getCart_quantity());
+			orderItem.setTotal_price(cartItem.getCart_quantity() * cartItem.getProduct_price());
+			orderItems.add(orderItem);
+		}
 		catDogService.addOrderItems(orderItems);
-		
-	    model.addAttribute("orderDTO", orderDTO);
-	    model.addAttribute("orderItems", orderItems);
-	    
-	    System.out.println("~~~~~~~~ orderDTO ~~~~~~~ = " + orderDTO);
-	    System.out.println("~~~~~~~~ orderItems ~~~~~~~ = " + orderItems);
-	    
-	    OrderDetailDTO orderInfo = catDogService.getOrderDetail(orderCode);
-	    System.out.println("~~~~~~~~ orderInfo ~~~~~~~ = " + orderInfo);
-	    model.addAttribute("orderInfo", orderInfo);
-	    
-	    int totalCost = catDogService.getTotalCost(orderCode);
-	    model.addAttribute("totalCost", totalCost);
-	    
-	    System.out.println("  💛💛💛💛💛💛💛💛💛💛 orderDTO: " + orderDTO);
-	    System.out.println("  💛💛💛💛💛💛💛💛💛💛 OrderItems: " + orderItems);
-	    System.out.println("  💛💛💛💛💛💛💛💛💛💛 totalCost: " + totalCost);
-	    
-	    return "/catdog-payment";
+
+		model.addAttribute("orderDTO", orderDTO);
+		model.addAttribute("orderItems", orderItems);
+
+		System.out.println("~~~~~~~~ orderDTO ~~~~~~~ = " + orderDTO);
+		System.out.println("~~~~~~~~ orderItems ~~~~~~~ = " + orderItems);
+
+		OrderDetailDTO orderInfo = catDogService.getOrderDetail(orderCode);
+		System.out.println("~~~~~~~~ orderInfo ~~~~~~~ = " + orderInfo);
+		model.addAttribute("orderInfo", orderInfo);
+
+		int totalCost = catDogService.getTotalCost(orderCode);
+		model.addAttribute("totalCost", totalCost);
+
+		System.out.println("  💛💛💛💛💛💛💛💛💛💛 orderDTO: " + orderDTO);
+		System.out.println("  💛💛💛💛💛💛💛💛💛💛 OrderItems: " + orderItems);
+		System.out.println("  💛💛💛💛💛💛💛💛💛💛 totalCost: " + totalCost);
+
+		return "/catdog-payment";
 	}
 
 	@PostMapping("/cart/update")
@@ -397,14 +394,25 @@ public class CatDogController {
 		return result > 0 ? "success" : "failure";
 	}
 
-	@GetMapping("/reviewPop")
-	public String reviewPop() {
-		return "reviewPop";
+	@PostMapping("/checkReview")
+	public  ResponseEntity<Integer> checkReview(@RequestParam int product_code, @RequestParam String user_id) throws Exception {
+		ReviewDTO reviewDTO = new ReviewDTO();
+		reviewDTO.setProduct_code(product_code);
+		reviewDTO.setUser_id(user_id);
+		int myReview = catDogService.isReview(reviewDTO);
+		return ResponseEntity.ok(myReview);
 	}
 
-	@GetMapping("/cartPop")
-	public String cartPop() {
-		return "cartPop";
+	@GetMapping("/reviewPop")
+	public String reviewPop(@RequestParam int product_code, @RequestParam String user_id, Model model) throws Exception {
+	    ProductDTO product = catDogService.getProductByCode(product_code);
+
+	    // 모델에 데이터 추가
+	    model.addAttribute("product_name", product.getProduct_name());
+	    model.addAttribute("product_code", product_code);
+	    model.addAttribute("user_id", user_id);
+	    
+		return "reviewPop";
 	}
 
 	@GetMapping("/updateProfile")

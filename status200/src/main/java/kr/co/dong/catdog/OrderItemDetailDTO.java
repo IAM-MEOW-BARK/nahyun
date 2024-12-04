@@ -8,6 +8,15 @@ public class OrderItemDetailDTO {
 	private int orderQuantity;
 	private int totalPrice; // 상품 가격 * 수량
 	private String orderStatus;
+	private int review;
+
+	public int getReview() {
+		return review;
+	}
+
+	public void setReview(int review) {
+		this.review = review;
+	}
 
 	public String getProductCode() {
 		return productCode;
@@ -61,7 +70,7 @@ public class OrderItemDetailDTO {
 	public String toString() {
 		return "OrderItemDetailDTO [productCode=" + productCode + ", thumbnailImg=" + thumbnailImg + ", productName="
 				+ productName + ", orderQuantity=" + orderQuantity + ", totalPrice=" + totalPrice + ", orderStatus="
-				+ orderStatus + "]";
+				+ orderStatus + ", review=" + review + "]";
 	}
 
 }
