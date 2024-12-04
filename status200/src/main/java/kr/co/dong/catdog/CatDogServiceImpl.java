@@ -94,9 +94,10 @@ public class CatDogServiceImpl implements CatDogService {
 		// 랜덤 코드 생성
 		String orderCode = generateOrderCode();
 		orderDTO.setOrder_code(orderCode);
+		catDogDAO.addOrder(orderDTO);
 
 		// 데이터베이스 삽입
-		return catDogDAO.addOrder(orderDTO);
+		return orderCode;
 	}
 
 	private String generateOrderCode() {

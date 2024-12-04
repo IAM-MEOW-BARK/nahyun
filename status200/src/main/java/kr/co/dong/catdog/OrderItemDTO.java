@@ -5,6 +5,7 @@ public class OrderItemDTO {
 	private String order_code;
 	private int product_code;
 	private String product_name;
+	private String thumbnail_img;
 	private int product_price;
 	private int cart_quantity;
 	private int order_quantity;
@@ -42,6 +43,14 @@ public class OrderItemDTO {
 
 	public void setProduct_name(String product_name) {
 		this.product_name = product_name;
+	}
+
+	public String getThumbnail_img() {
+		return thumbnail_img;
+	}
+
+	public void setThumbnail_img(String thumbnail_img) {
+		this.thumbnail_img = thumbnail_img;
 	}
 
 	public int getCart_quantity() {
@@ -95,13 +104,14 @@ public class OrderItemDTO {
 	@Override
 	public String toString() {
 		return "OrderItemDTO [order_item_code=" + order_item_code + ", order_code=" + order_code + ", product_code="
-				+ product_code + ", product_name=" + product_name + ", product_price=" + product_price
-				+ ", cart_quantity=" + cart_quantity + ", order_quantity=" + order_quantity + ", total_price="
-				+ total_price + ", order_status=" + order_status + ", order_return=" + order_return + "]";
+				+ product_code + ", product_name=" + product_name + ", thumbnail_img=" + thumbnail_img
+				+ ", product_price=" + product_price + ", cart_quantity=" + cart_quantity + ", order_quantity="
+				+ order_quantity + ", total_price=" + total_price + ", order_status=" + order_status + ", order_return="
+				+ order_return + "]";
 	}
 
 	public void initTotalPrice() {
 		this.total_price = this.product_price * this.order_quantity;
 	}
-	
+
 }

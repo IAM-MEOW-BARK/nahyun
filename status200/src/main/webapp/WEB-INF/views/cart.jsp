@@ -126,10 +126,12 @@
 							<td style="text-align: right; padding-right: 20px">총 금액: <span
 								id="finalPriceTag">0</span>
 							</td>
-							<td><input type="hidden" name="user_id_fk"
+							<td>
+							<form method="post" action="/cart">
+							<input type="hidden" name="user_id_fk"
 								value="${user_id}">
 								<button class="btn order_btn" type="submit"
-									style="background: #ff6600; color: #ffffff">구매하기</button></td>
+									style="background: #ff6600; color: #ffffff">구매하기</button></form></td>
 						</tr>
 					</table>
 				</div>

@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.websocket.server.PathParam;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -305,31 +307,79 @@ public class CatDogController {
 
 	@GetMapping("/cart")
 	public String cart(HttpSession session, Model model) throws Exception {
-	    Map<String, Object> user = (Map<String, Object>) session.getAttribute("user");
-	    if (user == null) {
-	        return "redirect:/catdog-login";
-	    }
-	    String userId = (String) user.get("user_id");
-	    model.addAttribute("user_name", user.get("name"));
-	    model.addAttribute("user_id", userId);
+		Map<String, Object> user = (Map<String, Object>) session.getAttribute("user");
+		if (user == null) {
+			return "redirect:/catdog-login";
+		}
+		String userId = (String) user.get("user_id");
+		model.addAttribute("user_name", user.get("name"));
+		model.addAttribute("user_id", userId);
 
-	    List<CartDTO> cartInfo = catDogService.getCartInfo(userId);
-	    model.addAttribute("cartInfo", cartInfo);
-	    System.out.println("cartInfo = " + cartInfo);
+		List<CartDTO> cartInfo = catDogService.getCartInfo(userId);
+		model.addAttribute("cartInfo", cartInfo);
+		System.out.println("cartInfo = " + cartInfo);
+		session.setAttribute("cartInfo", cartInfo); // post할 세션
 
-	    return "cart";
+		return "cart";
 	}
-	
+
 	@PostMapping("/cart")
-	public String cart(@RequestParam("user_id_fk") String user_id,
-			HttpServletRequest request, RedirectAttributes rttr) throws Exception {
-
-		return "redirect:/catdog-payment";
+	public String processOrder(HttpSession session, HttpServletRequest request, RedirectAttributes rttr,
+			Model model) throws Exception {
+		Map<String, Object> user = (Map<String, Object>) session.getAttribute("user");
+		if (user == null) {
+			return "redirect:/catdog-login";
+		}
+		String userId = (String) user.get("user_id");
+		model.addAttribute("user_name", user.get("name"));
+		model.addAttribute("user_id", userId);
+		
+		OrderDTO orderDTO = new OrderDTO();
+		
+		orderDTO.setUser_id_fk(userId);
+		orderDTO.setPayment_status(0);		
+		String orderCode = catDogService.addOrder(orderDTO);
+		orderDTO.setOrder_code(orderCode);
+		
+		List<CartDTO> cartItems = catDogService.getCartInfo(userId);
+		
+		List<OrderItemDTO> orderItems = new ArrayList<>();
+		for (CartDTO cartItem : cartItems) {
+		OrderItemDTO orderItem = new OrderItemDTO();
+		orderItem.setOrder_code(orderCode);
+		orderItem.setProduct_code(cartItem.getProduct_code());
+        orderItem.setProduct_name(cartItem.getProduct_name());
+        orderItem.setProduct_price(cartItem.getProduct_price());
+        orderItem.setCart_quantity(cartItem.getCart_quantity());
+        orderItem.setOrder_quantity(cartItem.getCart_quantity());
+        orderItem.setTotal_price(cartItem.getCart_quantity() * cartItem.getProduct_price());
+        orderItems.add(orderItem);
+    }
+		catDogService.addOrderItems(orderItems);
+		
+	    model.addAttribute("orderDTO", orderDTO);
+	    model.addAttribute("orderItems", orderItems);
+	    
+	    System.out.println("~~~~~~~~ orderDTO ~~~~~~~ = " + orderDTO);
+	    System.out.println("~~~~~~~~ orderItems ~~~~~~~ = " + orderItems);
+	    
+	    OrderDetailDTO orderInfo = catDogService.getOrderDetail(orderCode);
+	    System.out.println("~~~~~~~~ orderInfo ~~~~~~~ = " + orderInfo);
+	    model.addAttribute("orderInfo", orderInfo);
+	    
+	    int totalCost = catDogService.getTotalCost(orderCode);
+	    model.addAttribute("totalCost", totalCost);
+	    
+	    System.out.println("  💛💛💛💛💛💛💛💛💛💛 orderDTO: " + orderDTO);
+	    System.out.println("  💛💛💛💛💛💛💛💛💛💛 OrderItems: " + orderItems);
+	    System.out.println("  💛💛💛💛💛💛💛💛💛💛 totalCost: " + totalCost);
+	    
+	    return "/catdog-payment";
 	}
-	
+
 	@PostMapping("/cart/update")
 	public String updateCartQuantity(CartDTO cartDTO) throws Exception {
-		
+
 		System.out.println("업데이트 아직인겨 = " + cartDTO);
 		System.out.println("업데이트 아직이여 = " + cartDTO.getCart_quantity());
 		catDogService.updateCartQuantity(cartDTO);
@@ -342,8 +392,8 @@ public class CatDogController {
 	@ResponseBody
 	public String deleteCart(CartDTO cartDTO) throws Exception {
 		System.out.println("뭐 가져온겨???????? " + cartDTO);
-		 int result = catDogService.deleteCart(cartDTO);
-		 return result > 0 ? "success" : "failure";
+		int result = catDogService.deleteCart(cartDTO);
+		return result > 0 ? "success" : "failure";
 	}
 
 	@GetMapping("/reviewPop")
@@ -365,5 +415,5 @@ public class CatDogController {
 	public String deleteUser() {
 		return "deleteUser";
 	}
-	
+
 }

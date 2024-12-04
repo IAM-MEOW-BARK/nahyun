@@ -9,6 +9,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>배송지 정보</title>
+    
     <style type="text/css">
     	/* 라디오 버튼 커스터마이징  */
     	.form-check-input:checked {
@@ -40,16 +41,16 @@
                         <div class="mt-3">                        
                             <span class="badge bg-secondary mb-2">기본배송지</span>
                             <div>
-                            	<input type="text" id="deliveryContact" style="border: none; font-weight: bold" value="${orderInfo.name}" readonly>
+                            	<input type="text" id="deliveryContact" style="border: none; font-weight: bold" value="${paymentMember.name}" readonly>
                             </div>
                             <div>
-                            	<input type="text" id="deliveryContact" style="border: none" size="11" value="${orderInfo.phoneNum}" readonly>
+                            	<input type="text" id="deliveryContact" style="border: none" size="11" value="0${paymentMember.phone_num}" readonly>
                             </div>
                             <div>
-                            	<input type="text" id="zipcode" style="border: none;" size="70" value="${orderInfo.zipcode}" readonly>
+                            	<input type="text" id="zipcode" style="border: none;" size="70" value="${paymentMember.zipcode}" readonly>
                             </div>
                             <div>
-                            	<input type="text" id="deliveryAddress" style="border: none;" size="70" value="${orderInfo.address} ${orderInfo.detailAddress}" readonly>
+                            	<input type="text" id="deliveryAddress" style="border: none;" size="70" value="${paymentMember.address} ${paymentMember.detailaddress}" readonly>
                             </div>
                         </div>
                         <hr>
@@ -65,9 +66,9 @@
                 <div class="card shadow-sm mb-4">
                     <div class="card-body">
                         <h5 class="card-title fw-bold">주문 상품</h5>
-                        <c:forEach var="item" items="${orderItems}">
+                        <c:forEach var="item" items="${orderInfo}">
 	                        <div class="d-flex align-items-center mt-3">
-	                            <img src="${pageContext.request.contextPath}/resources/upload/${item.thumbnail_img}" alt="상품 이미지" class="img-fluid" style="width: 100px; height: auto; margin-right: 15px;">
+	                            <img src="${pageContext.request.contextPath}/resources/bootstrap/images/thumbnail_01.png" alt="상품 이미지" class="img-fluid" style="width: 100px; height: auto; margin-right: 15px;">
 	                            <div>
 	                                <h6 class="mb-1">${item.product_name}</h6>
 	                                <span class="badge bg-secondary">무료 배송</span>
@@ -77,8 +78,7 @@
 	                        <div class="mt-3">
 	                            <p class="mb-1"><span class="fw-bold">수량:</span> ${item.order_quantity}개</p>
 	                            <p class="fw-bold text-end">
-	                            	<fmt:formatNumber value="${item.product_price}" type="number" groupingUsed="true" />원 <br>
-	                            	<b><fmt:formatNumber value="${item.total_price}" type="number" groupingUsed="true" />원</b>
+	                            	<fmt:formatNumber value="${item.product_price}" type="number" groupingUsed="true" />원
 	                            </p>
 	                        </div>
 						    <hr>
@@ -86,7 +86,7 @@
 						<div class="d-flex justify-content-between">
 						    <span class="fw-bold">총 주문금액</span>
 						    <span class="fw-bold" style="color:#ff6600">
-						    	<fmt:formatNumber value="${totalCost}" type="number" groupingUsed="true" />원
+						    	<fmt:formatNumber value="${totalPrice}" type="number" groupingUsed="true" />원
 						    </span>
 						</div>
                     </div>
@@ -97,7 +97,7 @@
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <h5 class="card-title fw-bold">결제수단</h5>
                             
-                            <span class="fw-bold" style="color:#ff6600"><fmt:formatNumber value="${totalCost}" type="number" groupingUsed="true" />원</span>
+                            <span class="fw-bold" style="color:#ff6600"><fmt:formatNumber value="${totalPrice}" type="number" groupingUsed="true" />원</span>
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="paymentMethod" id="cardPayment" checked>
@@ -150,11 +150,11 @@
                             </div>
                         </div>
                         <form action="/processPayment" method="post">
-						    <input type="hidden"  id="deliveryContact" name="name" value="${orderInfo.name}">
-						    <input type="hidden"  id="deliveryContact" name="phone_num" value="${orderInfo.phoneNum}">
-						    <input type="hidden"  id="zipcode" name="zipcode" value="${orderInfo.zipcode}">
-						    <input type="hidden"  id="deliveryAddress" name="address" value="${orderInfo.address}">
-						    <input type="hidden"  id="deliveryAddress" name="detailaddress" value="${orderInfo.detailAddress}">
+						    <input type="hidden"  id="deliveryContact" name="name" value="${paymentMember.name}">
+						    <input type="hidden"  id="deliveryContact" name="phone_num" value="${paymentMember.phone_num}">
+						    <input type="hidden"  id="zipcode" name="zipcode" value="${paymentMember.zipcode}">
+						    <input type="hidden"  id="deliveryAddress" name="address" value="${paymentMember.address}">
+						    <input type="hidden"  id="deliveryAddress" name="detailaddress" value="${paymentMember.detailaddress}">
 						
 						    <button type="submit" class="btn w-100 font-bold text-white" style="background-color: #ff6600;">결제하기</button>
 						</form>
@@ -177,26 +177,26 @@
                     <form id="editAddressForm">
                         <div class="mb-3">
                             <label for="recipient" class="form-label">수령인</label>
-                            <input type="text" class="form-control" id="recipient" name="recipient" value="${orderInfo.name}">
+                            <input type="text" class="form-control" id="recipient" name="recipient" value="${paymentMember.name}">
                         </div>
                         <div class="mb-3">
                             <label for="phone" class="form-label">전화번호</label>
-                            <input type="text" class="form-control" id="phone" name="phone" value="${orderInfo.phoneNum}">
+                            <input type="text" class="form-control" id="phone" name="phone" value="${paymentMember.phone_num}">
                         </div>
                         <div class="mb-3">
                             <label for="zipCode" class="form-label">우편번호</label>
-                            <input type="text" class="form-control" id="zipCode" name="zipCode" value="${orderInfo.zipcode}" readonly>
+                            <input type="text" class="form-control" id="zipCode" name="zipCode" value="${paymentMember.zipcode}" readonly>
                         </div>
                         <div class="mb-3">
                             <label for="address" class="form-label">주소</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" id="address" name="address" value="${orderInfo.address}" readonly>
+                                <input type="text" class="form-control" id="address" name="address" value="${paymentMember.address}" readonly>
                                 <button type="button" class="btn btn-outline-secondary" onclick="openDaumPostcode()">검색</button>
                             </div>
                         </div>
                         <div id="addressDetail" class="mb-3">
                             <label for="addressDetail" class="form-label">상세 주소</label>
-                            <input type="text" class="form-control" id="detailAddress" name="detailAddress" value="${orderInfo.detailAddress}">
+                            <input type="text" class="form-control" id="detailAddress" name="detailAddress" value="${paymentMember.detailaddress}">
                         </div>
                     </form>
                 </div>
@@ -247,10 +247,10 @@
 
 	        // <form> 필드 업데이트
 	        var formRecipient = document.querySelector('form input[name="name"]');
-	        var formPhone = document.querySelector('form input[name="phoneNum"]');
+	        var formPhone = document.querySelector('form input[name="phone_num"]');
 	        var formZipCode = document.querySelector('form input[name="zipcode"]');
 	        var formAddress = document.querySelector('form input[name="address"]');
-	        var formDetailAddress = document.querySelector('form input[name="detailAddress"]');
+	        var formDetailAddress = document.querySelector('form input[name="detailaddress"]');
 
 	        if (formRecipient) formRecipient.value = recipient;
 	        if (formPhone) formPhone.value = phone;
@@ -260,10 +260,10 @@
 
 	        console.log('Form fields updated:', {
 	            name: formRecipient ? formRecipient.value : null,
-	            phoneNum: formPhone ? formPhone.value : null,
+	            phone_num: formPhone ? formPhone.value : null,
 	            zipcode: formZipCode ? formZipCode.value : null,
 	            address: formAddress ? formAddress.value : null,
-	            detailAddress: formDetailAddress ? formDetailAddress.value : null,
+	            detailaddress: formDetailAddress ? formDetailAddress.value : null,
 	        });
 
 	        // 모달 닫기
