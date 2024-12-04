@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="ko">
@@ -6,8 +7,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>상품 리뷰 작성</title>
-	<%@ include file="include/head.jsp"%>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<%@ include file="include/head.jsp"%>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <style>
 h5 {
 	margin-bottom: 5px; /* 제목과 별점 사이의 여백 축소 */
@@ -90,50 +92,68 @@ h5 {
 	padding: 10px;
 	font-size: 16px;
 }
+
+/* .btn-container {
+	display: flex;
+	justify-content: center;
+}
+
+.btn-cancel, .btn-submit {
+	width: 100%;
+	padding: 10px;
+	font-size: 16px;
+} */
 </style>
 </head>
 <body>
 
 	<div class="review-container">
+		<b>구매한 제품</b>
 		<div class="review-header">
-			<img src="${pageContext.request.contextPath}/resources/upload/${thumbnail_img}" alt="상품 이미지">
+
+			<img
+				src="${pageContext.request.contextPath}/resources/upload/${thumbnail_img}"
+				alt="상품 이미지">
 			<div class="product-info">
-				<input type="text" value="${product_name}" readonly> 
-        		<input type="hidden" value="${product_code}">
-       			 <input type="hidden" value="${user_id}">
+				<input type="text" value="${product_name}" readonly> <input
+					type="hidden" value="${product_code}"> <input type="hidden"
+					value="${user_id}">
 			</div>
 		</div>
-		<h5>
-			<b>상품은 만족하셨나요?</b>
-		</h5>
+
+		<b>상품은 만족하셨나요?</b>
+
 		<div class="review-stars">
-			<span>&#9733;</span>
-			<span>&#9733;</span>
-			<span>&#9733;</span>
-			<span>&#9733;</span>
+			<span>&#9733;</span> <span>&#9733;</span> <span>&#9733;</span> <span>&#9733;</span>
 			<span>&#9733;</span>
 		</div>
 
-		<h5>
-			<b>어떤 점이 좋았나요?</b>
-		</h5>
-		<textarea class="review-textarea" placeholder="사용하시면서 좋았던 점을 작성해주세요. (최소 10자 이상)"></textarea>
+
+		<b>어떤 점이 좋았나요?</b>
+
+		<textarea class="review-textarea"
+			placeholder="사용하시면서 좋았던 점을 작성해주세요. (최소 10자 이상)"></textarea>
+
+		<b>(선택) 사진 첨부하기</b>
 
 		<div class="upload-section">
-		<form name="fileForm" method="post" enctype="multipart/form/data" action="fileupload01.jsp">
-		<input type="file" name="reviewpic">
-		<span>&#128247; 사진 첨부하기</span>
-		</form>
+
+			<form name="fileForm" method="post" enctype="multipart/form/data"
+				action="fileupload01.jsp">
+				<input type="file" name="reviewpic">
+			</form>
 
 		</div>
 
 		<div class="btn-container">
-			<button class="btn btn-secondary btn-cancel">취소</button>
-			<button class="btn btn-submit" style="background: #ff6600; color: #ffffff">리뷰 제출</button>
+			<button class="btn btn-secondary btn-cancel" onclick="self_close()">취소</button>
+			<button class="btn btn-submit"
+				style="background: #ff6600; color: #ffffff">리뷰 제출</button>
 		</div>
 	</div>
 
-<script>
+	<script type="text/javascript">
+	
     // 별점 Hover 및 클릭 동작
     const stars = document.querySelectorAll('.review-stars span');
     let clickedIndex = -1; // 클릭된 별점 인덱스를 저장
@@ -161,6 +181,14 @@ h5 {
             }
         });
     });
+        
+});
+
+function self_close() {
+	window.open('', '_self');
+	window.close();
+	self.close();
+}
 </script>
 </body>
 </html>

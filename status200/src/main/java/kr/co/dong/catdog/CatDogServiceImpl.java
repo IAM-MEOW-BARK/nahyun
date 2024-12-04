@@ -77,14 +77,17 @@ public class CatDogServiceImpl implements CatDogService {
 		return catDogDAO.getOrderDetail(order_code); // DAO 호출
 	}
 
+	@Override
 	public int getTotalCost(String order_code) throws Exception {
 		return catDogDAO.getTotalCost(order_code);
 	}
 
+	@Override
 	public List<OrderItemDetailDTO> getOrderItemDetail(String order_code) throws Exception {
 		return catDogDAO.getOrderItemDetail(order_code);
 	}
 
+	@Override
 	public List<MyDTO> getMyOrders(String user_id) throws Exception {
 		return catDogDAO.getMyOrders(user_id);
 	}
@@ -131,6 +134,6 @@ public class CatDogServiceImpl implements CatDogService {
 
 	@Override
 	public ProductDTO getProductByCode(int product_code) throws Exception {
-	    return catDogDAO.getProductByCode(product_code);
+		return catDogDAO.getProductByCode(product_code);
 	}
 }
