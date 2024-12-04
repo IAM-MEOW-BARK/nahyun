@@ -349,6 +349,7 @@ public class CatDogController {
 		orderItem.setOrder_code(orderCode);
 		orderItem.setProduct_code(cartItem.getProduct_code());
         orderItem.setProduct_name(cartItem.getProduct_name());
+        orderItem.setThumbnail_img(cartItem.getThumbnail_img());
         orderItem.setProduct_price(cartItem.getProduct_price());
         orderItem.setCart_quantity(cartItem.getCart_quantity());
         orderItem.setOrder_quantity(cartItem.getCart_quantity());
