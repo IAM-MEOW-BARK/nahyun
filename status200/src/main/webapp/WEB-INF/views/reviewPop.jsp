@@ -96,7 +96,7 @@ h5 {
 
 	<div class="review-container">
 		<div class="review-header">
-			<img src="placeholder-image.jpg" alt="상품 이미지">
+			<img src="${pageContext.request.contextPath}/resources/upload/${thumbnail_img}" alt="상품 이미지">
 			<div class="product-info">
 				<input type="text" value="${product_name}" readonly> 
         		<input type="hidden" value="${product_code}">

@@ -316,7 +316,7 @@
 
 	<select id="getProductByCode" parameterType="int"
 		resultType="ProductDTO">
-		SELECT product_name, product_code
+		SELECT *
 		FROM product
 		WHERE product_code = #{product_code}
 	</select>

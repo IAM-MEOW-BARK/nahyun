@@ -407,11 +407,15 @@ public class CatDogController {
 	public String reviewPop(@RequestParam int product_code, @RequestParam String user_id, Model model) throws Exception {
 	    ProductDTO product = catDogService.getProductByCode(product_code);
 
+	    System.out.println("product 가져오셈" + product);
 	    // 모델에 데이터 추가
 	    model.addAttribute("product_name", product.getProduct_name());
 	    model.addAttribute("product_code", product_code);
 	    model.addAttribute("user_id", user_id);
+	    model.addAttribute("thumbnail_img", product.getThumbnail_img());
 	    
+	    System.out.println("썸네일 이름" + product.getThumbnail_img());
+	  	    
 		return "reviewPop";
 	}
 
