@@ -178,15 +178,12 @@ function selectAll(selectAll) {
     checkboxes.forEach((checkbox) => {
         checkbox.checked = selectAll.checked;
     });
-}
+};
 
 function openCartPop () {
 	  const options = 'width=600, height=600, top=300, left=600, scrollbars=yes, location= no, toolbars= no, status= no, resizable=no'
 	  window.open('cartPop','_blank',options)
-	}
-
-}
-
+	};
 </script>
 
 </body>

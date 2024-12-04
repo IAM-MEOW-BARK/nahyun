@@ -1,9 +1,13 @@
 package kr.co.dong.controller;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -16,9 +20,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -427,6 +433,28 @@ public class CatDogController {
 	@GetMapping("/deleteUser")
 	public String deleteUser() {
 		return "deleteUser";
+	}
+	
+	@GetMapping("/getProductInfo")
+	@ResponseBody
+	public ProductDTO getProductInfo(@RequestParam int product_code) throws Exception {
+	    return catDogService.getProductByCode(product_code);
+	}
+		
+	@PostMapping("/submitReview")
+	@ResponseBody
+	public String submitReview(@ModelAttribute ReviewDTO reviewDTO, @RequestParam("review_img") MultipartFile reviewImg) throws Exception {
+	    if (!reviewImg.isEmpty()) {
+	        String fileName = UUID.randomUUID() + "_" + reviewImg.getOriginalFilename();
+	        Path uploadPath = Paths.get("uploads/review-images");
+	        if (!Files.exists(uploadPath)) {
+	            Files.createDirectories(uploadPath);
+	        }
+	        reviewImg.transferTo(uploadPath.resolve(fileName).toFile());
+	        reviewDTO.setReview_img(fileName);
+	    }
+	    catDogService.regReview(reviewDTO);
+	    return "리뷰가 성공적으로 저장되었습니다.";
 	}
 
 }

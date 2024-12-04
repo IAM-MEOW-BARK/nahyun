@@ -7,6 +7,10 @@
 <meta charset="UTF-8">
 <title>상세 주문 내역</title>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+
 <%@ include file="include/head.jsp"%>
 <style>
 .center-container {
@@ -20,6 +24,23 @@
 	width: 1000px;
 	margin: 20px; /* 표 간 간격 */
 }
+
+.modal-content {
+    border-radius: 10px;
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+
+.modal-header {
+    border-bottom: none;
+    justify-content: center;
+}
+
+.modal-footer {
+    border-top: none;
+    justify-content: center;
+}
+
 </style>
 </head>
 <body>
@@ -132,7 +153,63 @@
 		</div>
 	</div>
 
-	<script type="text/javascript">
+<!-- 모달 -->
+<div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="reviewModalLabel">리뷰 작성</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="reviewForm" enctype="multipart/form-data">
+                    <div class="review-header">
+                        <img id="productImg" src="${pageContext.request.contextPath}/resources/upload/${thumbnail_img}" alt="상품 이미지" style="width: 80px; height: 80px; margin-bottom: 10px;">
+                        <div class="product-info">
+                            <input type="text" id="productName" class="form-control" readonly>
+                            <input type="hidden" id="productCode" name="product_code">
+                            <input type="hidden" id="userId" name="user_id">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label><b>상품은 만족하셨나요?</b></label>
+                        <div class="review-stars">
+                            <input type="hidden" id="reviewScore" name="review_score" value="0">
+                            <h1>
+                            <span data-score="1">&#9733;</span>
+                            <span data-score="2">&#9733;</span>
+                            <span data-score="3">&#9733;</span>
+                            <span data-score="4">&#9733;</span>
+                            <span data-score="5">&#9733;</span>
+                            </h1>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label><b>어떤 점이 좋았나요?</b></label>
+                        <textarea class="form-control" name="review_content" placeholder="최소 10자 이상 입력해주세요."></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label><b>(선택) 사진 첨부하기</b></label>
+                        <input type="file" class="form-control" name="review_img">
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                        <button type="submit" class="btn btn-primary">리뷰 제출</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- 모달 끝. -->
+
+<!-- 	<script type="text/javascript">
 	$(document).on("click", ".btn-review", function () {
 	    const productCode = $(this).data("product-code");
 	    const userId = $(this).data("user-id");
@@ -166,6 +243,72 @@
 
 	};
 	
+	</script> -->
+	
+	<!-- 모달 스크립트 -->
+	<script type="text/javascript">
+	// 리뷰 버튼 클릭
+	$(document).on("click", ".btn-review", function () {
+    const productCode = $(this).data("product-code");
+    const userId = $(this).data("user-id");
+
+    // Ajax로 상품 정보를 가져와 모달에 반영
+    $.ajax({
+        type: "GET",
+        url: "/getProductInfo",
+        data: { product_code: productCode, user_id: userId },
+        success: function (response) {
+        	console.log(response); // 응답 데이터 확인
+        	console.log("Product Code:", productCode, "User ID:", userId);
+            // 모달에 데이터 세팅
+            $("#productImg").attr("src", `/resources/upload/${response.thumbnailImg}`);
+            $("#productName").val(response.product_name);
+            $("#productCode").val(productCode);
+            $("#userId").val(userId);
+
+            // 모달 열기
+            const reviewModal = new bootstrap.Modal(document.getElementById('reviewModal'));
+            reviewModal.show();
+        },
+        error: function () {
+            alert("상품 정보를 불러오는 중 오류가 발생했습니다.");
+        },
+    });
+});
+	
+	
+	// 별점 선택
+	$(document).on("click", ".review-stars span", function () {
+	    const score = $(this).data("score");
+	    $("#reviewScore").val(score);
+
+	    // 별점 색상 업데이트
+	    $(".review-stars span").each(function (index) {
+	        $(this).css("color", index < score ? "#ff6600" : "#dddddd");
+	    });
+	});
+	
+	// 리뷰 제출
+	$("#reviewForm").on("submit", function (event) {
+    event.preventDefault();
+
+    const formData = new FormData(this);
+
+    $.ajax({
+        type: "POST",
+        url: "/submitReview",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+            alert(response); // 성공 메시지
+            $("#reviewModal").modal("hide"); // 모달 닫기
+        },
+        error: function () {
+            alert("리뷰 제출 중 오류가 발생했습니다.");
+        },
+    });
+});
 	</script>
 </body>
 </html>
