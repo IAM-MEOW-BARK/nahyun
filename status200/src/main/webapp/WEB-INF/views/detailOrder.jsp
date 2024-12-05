@@ -158,13 +158,13 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="reviewModalLabel">리뷰 작성</h5>
+                <h5 class="modal-title" id="reviewModalLabel"><b>리뷰 작성</b></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form id="reviewForm" enctype="multipart/form-data">
                     <div class="review-header">
-                        <img id="productImg" src="${pageContext.request.contextPath}/resources/upload/${thumbnail_img}" alt="상품 이미지" style="width: 80px; height: 80px; margin-bottom: 10px;">
+                        <img id="productImg" src="${pageContext.request.contextPath}/resources/upload/${thumbnailImg}" alt="상품 이미지" style="width: 80px; height: 80px; margin-bottom: 10px;">
                         <div class="product-info">
                             <input type="text" id="productName" class="form-control" readonly>
                             <input type="hidden" id="productCode" name="product_code">
@@ -208,42 +208,6 @@
 
 
 <!-- 모달 끝. -->
-
-<!-- 	<script type="text/javascript">
-	$(document).on("click", ".btn-review", function () {
-	    const productCode = $(this).data("product-code");
-	    const userId = $(this).data("user-id");
-
-	    $.ajax({
-	        type: "POST",
-	        url: "/checkReview",
-	        data: { product_code: productCode, user_id: userId },
-	        success: function (response) {
-	            if (response === 1) { // 리뷰 있음
-	                if (confirm("이미 작성된 리뷰가 있습니다. 리뷰를 확인하시겠습니까?")) {
-	                    window.location.href = `/productDetail?product_code=${productCode}`;
-	                }
-				} else { // 리뷰 없음
-					openReviewPop(productCode, userId);
-				}
-			},
-			error: function() {
-				alert("리뷰 확인 중 오류가 발생했습니다.");
-			},
-		});
-	});
-	
-	
-	function openReviewPop(productCode, userId) {
-		window.open('/reviewPop?product_code=' + productCode + '&user_id=' + userId,
-			    "리뷰 작성",
-				"width=540, height=700, top=200, left=800, scrollbars=no, menubar=no, toolbar=no, location=no, status=no, resizable=no"
-				);
-		console.log("userId::::::::::::::::::::::::::::::::", userId);
-
-	};
-	
-	</script> -->
 	
 	<!-- 모달 스크립트 -->
 	<script type="text/javascript">
@@ -251,7 +215,7 @@
 	$(document).on("click", ".btn-review", function () {
     const productCode = $(this).data("product-code");
     const userId = $(this).data("user-id");
-
+	
     // Ajax로 상품 정보를 가져와 모달에 반영
     $.ajax({
         type: "GET",
@@ -259,21 +223,33 @@
         data: { product_code: productCode, user_id: userId },
         success: function (response) {
         	console.log(response); // 응답 데이터 확인
-        	console.log("Product Code:", productCode, "User ID:", userId);
             // 모달에 데이터 세팅
-            $("#productImg").attr("src", `/resources/upload/${response.thumbnailImg}`);
-            $("#productName").val(response.product_name);
+            $("#productImg").attr("src", `/resources/upload/`+ response.thumbnail_img);
+        	$("#productName").val(response.product_name);
             $("#productCode").val(productCode);
             $("#userId").val(userId);
 
             // 모달 열기
             const reviewModal = new bootstrap.Modal(document.getElementById('reviewModal'));
             reviewModal.show();
+            console.log(productImg);
         },
         error: function () {
             alert("상품 정보를 불러오는 중 오류가 발생했습니다.");
         },
     });
+});
+	
+	// 모달 닫힐 때 초기화
+	$('#reviewModal').on('hidden.bs.modal', function () {
+    $("#reviewForm")[0].reset(); // 폼 초기화
+    $("#productImg").attr("src", ""); // 이미지 초기화
+    $("#productName").val(""); // 제품명 초기화
+    $("#productCode").val(""); // 제품 코드 초기화
+    $("#userId").val(""); // 사용자 ID 초기화
+    $(".review-stars span").css("color", "#dddddd"); // 별점 초기화
+    $("#reviewScore").val(0); // 별점 값 초기화
+    $("#productImg").attr("src", "");
 });
 	
 	
