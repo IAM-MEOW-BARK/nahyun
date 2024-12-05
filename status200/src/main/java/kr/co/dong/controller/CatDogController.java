@@ -322,7 +322,9 @@ public class CatDogController {
 		model.addAttribute("cartInfo", cartInfo);
 		System.out.println("cartInfo = " + cartInfo);
 		session.setAttribute("cartInfo", cartInfo); // post할 세션
-
+		
+		model.addAttribute("cartCost", catDogService.getCartCost(userId));
+		
 		return "cart";
 	}
 

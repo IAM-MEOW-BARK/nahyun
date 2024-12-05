@@ -95,6 +95,16 @@
 		c.user_id = #{user_id}
 	</select>
 
+	<select id="getCartCost" parameterType="java.lang.String" resultType="java.lang.Integer">
+		SELECT
+		sum(p.product_price * c.cart_quantity) as cartCost
+		FROM
+		cart c LEFT JOIN product p
+		ON c.product_code = p.product_code
+		WHERE
+		c.user_id = #{user_id}
+	</select>
+
 	<!-- 마이페이지 주문 내역 -->
 	<select id="getMyOrders" parameterType="java.lang.String"
 		resultType="MyDTO">

@@ -22,6 +22,8 @@ public interface CatDogService {
 	public List<CartDTO> getCartInfo(String user_id) throws Exception;
 
 	public List<CartDTO> getCartItem(String user_id) throws Exception;
+	
+	public int getCartCost(String user_id) throws Exception;
 
 	public int deleteCart(CartDTO cartDTO) throws Exception;
 
