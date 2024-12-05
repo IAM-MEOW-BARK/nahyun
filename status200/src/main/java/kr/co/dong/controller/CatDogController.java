@@ -441,9 +441,9 @@ public class CatDogController {
 	    return catDogService.getProductByCode(product_code);
 	}
 		
-	@PostMapping("/submitReview")
+	@PostMapping("/regReview")
 	@ResponseBody
-	public String submitReview(@ModelAttribute ReviewDTO reviewDTO, @RequestParam("review_img") MultipartFile reviewImg) throws Exception {
+	public String regReview(@ModelAttribute ReviewDTO reviewDTO, @RequestParam("review_img") MultipartFile reviewImg) throws Exception {
 	    if (!reviewImg.isEmpty()) {
 	        String fileName = UUID.randomUUID() + "_" + reviewImg.getOriginalFilename();
 	        Path uploadPath = Paths.get("uploads/review-images");
@@ -454,7 +454,7 @@ public class CatDogController {
 	        reviewDTO.setReview_img(fileName);
 	    }
 	    catDogService.regReview(reviewDTO);
-	    return "리뷰가 성공적으로 저장되었습니다.";
+	    return "리뷰가 등록되었습니다.";
 	}
 
 }

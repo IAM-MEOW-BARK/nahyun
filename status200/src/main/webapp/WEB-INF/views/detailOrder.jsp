@@ -166,7 +166,7 @@
                     <div class="review-header">
                         <img id="productImg" src="${pageContext.request.contextPath}/resources/upload/${thumbnailImg}" alt="상품 이미지" style="width: 80px; height: 80px; margin-bottom: 10px;">
                         <div class="product-info">
-                            <input type="text" id="productName" class="form-control" readonly>
+                            <input type="text" id="productName" name="" class="form-control" readonly>
                             <input type="hidden" id="productCode" name="product_code">
                             <input type="hidden" id="userId" name="user_id">
                         </div>
@@ -188,12 +188,12 @@
 
                     <div class="mb-3">
                         <label><b>어떤 점이 좋았나요?</b></label>
-                        <textarea class="form-control" name="review_content" placeholder="최소 10자 이상 입력해주세요."></textarea>
+                        <textarea class="form-control" id="reviewContent" name="review_content" placeholder="최소 10자 이상 입력해주세요."></textarea>
                     </div>
 
                     <div class="mb-3">
                         <label><b>(선택) 사진 첨부하기</b></label>
-                        <input type="file" class="form-control" name="review_img">
+                        <input type="file" class="form-control" id="reviewImg" name="review_img">
                     </div>
 
                     <div class="modal-footer">
@@ -241,7 +241,7 @@
 });
 	
 	// 모달 닫힐 때 초기화
-	$('#reviewModal').on('hidden.bs.modal', function () {
+	/* $('#reviewModal').on('hidden.bs.modal', function () {
     $("#reviewForm")[0].reset(); // 폼 초기화
     $("#productImg").attr("src", ""); // 이미지 초기화
     $("#productName").val(""); // 제품명 초기화
@@ -250,13 +250,14 @@
     $(".review-stars span").css("color", "#dddddd"); // 별점 초기화
     $("#reviewScore").val(0); // 별점 값 초기화
     $("#productImg").attr("src", "");
-});
+}); */
 	
 	
 	// 별점 선택
 	$(document).on("click", ".review-stars span", function () {
 	    const score = $(this).data("score");
 	    $("#reviewScore").val(score);
+	    console.log(score);
 
 	    // 별점 색상 업데이트
 	    $(".review-stars span").each(function (index) {
@@ -269,18 +270,25 @@
     event.preventDefault();
 
     const formData = new FormData(this);
+    console.log(formData);
 
     $.ajax({
         type: "POST",
-        url: "/submitReview",
+        url: "/regReview",
         data: formData,
         processData: false,
         contentType: false,
         success: function (response) {
+        	console.log("폼데이타 엔트리" + `[...formData.entries()]`);
+        	console.log("그냥 폼데이타" + `formData`);
             alert(response); // 성공 메시지
             $("#reviewModal").modal("hide"); // 모달 닫기
         },
         error: function () {
+        	console.log("폼데이타 엔트리");
+        	console.log([...formData.entries()]);
+        	console.log("그냥 폼데이타");
+        	console.log(formData);
             alert("리뷰 제출 중 오류가 발생했습니다.");
         },
     });
