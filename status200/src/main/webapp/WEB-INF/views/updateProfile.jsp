@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,6 +17,10 @@
 	width: 1000px;
 	margin: 20px; /* 표 간 간격 */
 }
+
+.hide {
+	display: none;
+}
 </style>
 </head>
 <body>
@@ -31,81 +34,81 @@
 
 			<!-- 오른쪽 콘텐츠 -->
 			<div class="col-md-9">
-				<div class="table-container">
-				<h4>내 정보 수정</h4>
-					<table class="table" style="text-align: center;">
-						<tr>
-							<th class="table-light col-md-1">이름</th>
-							<td class="col-md-6">
-								<div style="text-align: center; max-width: 15em;">
-									<input class="form-control" type="text" placeholder="박송송"
-										readonly>
-								</div>
-							</td>
-						</tr>
-						<tr>
-							<th class="table-light">아이디</th>
-							<td>
-								<div style="text-align: center; max-width: 15em;">
-									<input class="form-control" type="text"
-										placeholder="song@mbc.com" readonly>
-								</div>
-							</td>
-						</tr>
-						<tr>
-							<th class="table-light">새 비밀번호</th>
-							<td><div style="text-align: center; max-width: 15em;">
-									<input class="form-control" type="text">
-								</div></td>
-						</tr>
-						<tr>
-							<th class="table-light">새 비밀번호 확인</th>
-							<td><div style="text-align: center; max-width: 15em;">
-									<input class="form-control" type="text">
-								</div></td>
-						</tr>
-						<tr>
-							<th class="table-light">휴대전화 번호</th>
-							<td><div style="text-align: center; max-width: 15em;">
-									<input class="form-control" type="text">
-								</div></td>
-						</tr>
-						<tr>
-							<th class="table-light align-middle" style="text-align: center;">주소</th>
-							<td>
-								<div
-									style="display: flex; align-items: center; gap: 10px; max-width: 18em;">
-									<input class="form-control" type="text" id="zipCode"
-										name="zipCode" readonly>
-									<button class="btn"
-										style="background-color: #ff6600; color: #ffffff; white-space: nowrap; padding: 5px 10px; margin-bottom: 5px;"
-										onclick="checkPost()">우편번호 검색</button>
-								</div>
-								<div style="text-align: center; max-width: 30em; margin: 5px;">
-									<input class="form-control" type="text" id="address"
-										name="address" size="50" placeholder="주소" readonly>
-								</div>
-								<div style="text-align: center; max-width: 30em; margin: 5px;">
-									<input class="form-control" type="text" id="detailAddress"
-										name="detailAddress" size="50" placeholder="상세주소">
-								</div>
-							</td>
-						</tr>
-					</table>
-					<div class="d-flex justify-content-end">
-					<a href="deleteUser"><span>회원 탈퇴</span></a>
+				<form action="/updateProfile" method="post">
+					<div class="table-container">
+						<h4>내 정보 수정</h4>
+						<table class="table" style="text-align: center;">
+							<tr>
+								<th class="table-light col-lg-1">이름</th>
+								<td class="col-lg-5">
+									<div style="text-align: center; max-width: 15em;">
+										<input class="form-control" type="text" value="${name}" readonly>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th class="table-light">아이디</th>
+								<td>
+									<div style="text-align: center; max-width: 15em;">
+										<input class="form-control" type="text" value="${user_id}" readonly>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th class="table-light">새 비밀번호</th>
+								<td>
+									<div style="text-align: center;">
+										<input class="form-control" type="password" name="newPw" id="pass1" autocomplete="new-password" style="max-width: 15em;">
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th class="table-light">새 비밀번호 확인</th>
+								<td>
+									<div style="text-align: center; display: flex;">
+										<input class="form-control" type="password" name="rePw" id="pass2" autocomplete="new-password" style="max-width: 15em;">
+										<font id="checkPw" style="font-size: medium;"></font>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th class="table-light">휴대전화 번호</th>
+								<td>
+									<div style="text-align: center; max-width: 15em;">
+										<input class="form-control" type="text" value="${phone_num}">
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th class="table-light align-middle" style="text-align: center;">주소</th>
+								<td>
+									<div style="display: flex; align-items: center; gap: 10px; max-width: 18em;">
+										<input class="form-control" type="text" id="zipCode" name="zipCode" value="${zipcode}" readonly>
+										<button class="btn" style="background-color: #ff6600; color: #ffffff; white-space: nowrap; padding: 5px 10px; margin-bottom: 5px;" onclick="checkPost()">우편번호 검색</button>
+									</div>
+									<div style="text-align: center; max-width: 30em; margin: 5px;">
+										<input class="form-control" type="text" id="address" name="address" size="50" value="${address}" readonly>
+									</div>
+									<div style="text-align: center; max-width: 30em; margin: 5px;">
+										<input class="form-control" type="text" id="detailAddress" name="detailAddress" size="50" value="${detailaddress}">
+									</div>
+								</td>
+							</tr>
+						</table>
+						<div class="d-flex justify-content-end">
+							<a href="deleteUser"><span>회원 탈퇴</span></a>
+						</div>
 					</div>
-				</div>
-				<div class="d-flex justify-content-center">
-				<button class="btn btn-outline-secondary"
-					onclick="location.href='mypage'" style="margin: 10px">취소</button>
-				<input type="submit" class="btn" style="background-color: #ff6600; color: #ffffff; margin: 10px;" value="수정">
-				</div>
+					<div class="d-flex justify-content-center">
+						<button class="btn btn-outline-secondary" onclick="location.href='mypage'" style="margin: 10px">취소</button>
+						<input type="submit" class="btn" style="background-color: #ff6600; color: #ffffff; margin: 10px;" value="수정">
+					</div>
+				</form>
 			</div>
+
 		</div>
 	</div>
-	<script
-		src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script>
 		function checkPost() {
 			new daum.Postcode(
@@ -142,7 +145,7 @@
 								}
 								// 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
 								if (extraAddr !== '') {
-									extraAddr = ' (' + extraAddr + ')';
+									extraAddr = '(' + extraAddr + ')';
 								}
 								// 조합된 참고항목을 해당 필드에 넣는다.
 								document.getElementById("detailAddress").value = extraAddr;
@@ -152,13 +155,37 @@
 							}
 
 							// 우편번호와 주소 정보를 해당 필드에 넣는다.
-							document.getElementById('postcode').value = data.zonecode;
+							document.getElementById('zipCode').value = data.zonecode;
 							document.getElementById("address").value = addr;
+							/* document.getElementById('postcode').value = data.zonecode;
+							document.getElementById("address").value = addr; */
 							// 커서를 상세주소 필드로 이동한다.
 							document.getElementById("detailAddress").focus();
 						}
 					}).open();
 		}
+	</script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script type="text/javascript">
+		$(document).on('keyup', '#pass2', function() {
+			let pass1 = $("#pass1").val();
+			let pass2 = $("#pass2").val();
+			console.log("Keyup event triggered");
+			console.log("pass1:", pass1);
+			console.log("pass2:", pass2);
+
+			if (pass1 !== "" && pass2 !== "") {
+				if (pass1 === pass2) {
+					$("#checkPw").html(' ✅');
+					$("#checkPw").css('color', 'green');
+				} else {
+					$("#checkPw").html(' ❌일치하지 않습니다.');
+					$("#checkPw").css('color', 'red');
+				}
+			} else {
+				$("#checkPw").html(''); // 비워둘 때는 메시지도 초기화
+			}
+		});
 	</script>
 </body>
 </html>

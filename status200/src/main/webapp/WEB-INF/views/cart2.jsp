@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
@@ -52,34 +53,51 @@
 
 				<div class="table-container">
 					<h4>장바구니</h4>
-					<table class="table justify-content-center align-middle" style="text-align: center">
+					<table class="table justify-content-center align-middle"
+						style="text-align: center">
 						<tr>
+							<th><input type="checkbox" id="selectAll" name="cart"
+								value="selectall" checked /></th>
 							<th colspan="2">상품명</th>
 							<th>수량</th>
 							<th>가격</th>
 							<th>삭제</th>
 						</tr>
 						<c:forEach var="item" items="${cartInfo}">
-							<tr data-product-code="${item.product_code}" data-product-price="${item.product_price}" data-user-id="${user_id}">
-								<td class="col-sm-1">
-									<input type="hidden" class="hidden_product_code_input" value="${itme.product_code }"> <input type="hidden" class="hidden_product_name_input" value="${itme.product_name }"> <input type="hidden" class="hidden_product_price_input" value="${itme.product_price }"> <input type="hidden" class="hidden_cart_quantity_input" value="${itme.cart_quantity }"> <input type="hidden" class="hidden_totalPrice_input" value="${itme.product_price * cart_quantity }"> <input type="hidden" name="product_code" value="${item.product_code}"> <input type="hidden" name="product_price" value="${item.product_price}"> <input type="hidden" name="cart_quantity" value="${item.cart_quantity}"> <input type="hidden" name="product_name" value="${item.product_name}"> <img src="${pageContext.request.contextPath}/resources/upload/${item.thumbnail_img}" alt="${item.product_name}" style="width: 60px; height: 60px;">
+							<tr data-product-code="${item.product_code}"
+								data-product-price="${item.product_price}"
+								data-user-id="${user_id}">
+								<td class="cart_info_td"><input type="hidden" class="hidden_product_code_input" value="${itme.product_code }">
+									<input type="hidden" class="hidden_product_name_input" value="${itme.product_name }">
+									<input type="hidden" class="hidden_product_price_input" value="${itme.product_price }">
+									<input type="hidden" class="hidden_cart_quantity_input" value="${itme.cart_quantity }">
+									<input type="hidden" class="hidden_totalPrice_input" value="${itme.product_price * cart_quantity }">
+									<input type="checkbox" class="individual_cart_checkbox" name="selectedItems" value="${item.product_code}" checked />
+									<input type="hidden" name="product_code" value="${item.product_code}">
+									<input type="hidden" name="product_price" value="${item.product_price}">
+									<input type="hidden" name="cart_quantity" value="${item.cart_quantity}">
+									<input type="hidden" name="product_name" value="${item.product_name}">
 								</td>
-								<td class="col-md-2" style="text-align: left;">${item.product_name}</td>
-								<td class="col-md-2">
+								<td>
+									<img src="${pageContext.request.contextPath}/resources/upload/${item.thumbnail_img}" alt="${item.product_name}" style="width: 30px; height: 30px;">
+								</td>
+								<td style="text-align: left;">${item.product_name}</td>
+								<td>
 									<div class="product-quantity-control">
 										<button class="btn btn-outline-secondary minus_btn">-</button>
-										<input type="text" class="form-control d-inline quantity" id="cart_quantity" value="${item.cart_quantity}" readonly>
+										<input type="text" class="form-control d-inline quantity"
+											id="cart_quantity" value="${item.cart_quantity}" readonly>
 										<button class="btn btn-outline-secondary plus_btn">+</button>
-										<a class="update_quantity_btn" data-product_code="${item.product_code}">
-											<button class="btn btn-light" style="width: auto; padding: 5px 10px;">변경</button>
-										</a>
+										<a class="update_quantity_btn"
+											data-product_code="${item.product_code}"><button class="btn">변경</button></a>
 									</div>
 								</td>
-								<td class="price col-md-1" data-price="${item.product_price}">
-									<fmt:formatNumber value="${item.product_price}" pattern="#,### 원" />
-									<br> <b><fmt:formatNumber value="${item.product_price * item.cart_quantity}" pattern="#,### 원" /></b>
-								</td>
-								<td class="col-md-1">
+								<td class="price" data-price="${item.product_price}"><fmt:formatNumber
+										value="${item.product_price}" pattern="#,### 원" /> <br>
+									<b><fmt:formatNumber
+											value="${item.product_price * item.cart_quantity}"
+											pattern="#,### 원" /></b></td>
+								<td>
 									<button class="btn btn-outline-secondary delete_btn">삭제</button>
 								</td>
 							</tr>
@@ -88,22 +106,23 @@
 					</table>
 				</div>
 				<form action="/cart/update" method="post" id="quantity_update_form">
-					<input type="hidden" name="user_id" value="${user_id}"> <input type="hidden" name="product_quantity" class="update_product_quantity"> <input type="hidden" name="product_code" class="update_product_code">
+					<input type="hidden" name="user_id" value="${user_id}"> <input
+						type="hidden" name="product_quantity"
+						class="update_product_quantity"> <input type="hidden"
+						name="product_code" class="update_product_code">
 				</form>
 				<div class="table-container d-flex justify-content-end">
 					<table>
 						<tr>
-							<td style="text-align: right; padding-right: 20px">
-								총 금액:
-								<fmt:formatNumber value="${cartCost}" type="number" groupingUsed="true" />
-								원
+							<td style="text-align: right; padding-right: 20px">총 금액:
+							<fmt:formatNumber value="${cartCost}" type="number" groupingUsed="true"/>원
 							</td>
 							<td>
-								<form method="post" action="/cart">
-									<input type="hidden" name="user_id_fk" value="${user_id}">
-									<button class="btn order_btn" type="submit" style="background: #ff6600; color: #ffffff">구매하기</button>
-								</form>
-							</td>
+							<form method="post" action="/cart">
+							<input type="hidden" name="user_id_fk"
+								value="${user_id}">
+								<button class="btn order_btn" type="submit"
+									style="background: #ff6600; color: #ffffff">구매하기</button></form></td>
 						</tr>
 					</table>
 				</div>
@@ -180,33 +199,33 @@
 					}
 
 				});
+		
+		$(document).on("click", ".delete_btn", function (e) {
+		    e.preventDefault(); // 기본 동작 중단
 
-		$(document).on("click", ".delete_btn", function(e) {
-			e.preventDefault(); // 기본 동작 중단
+		    const $row = $(this).closest("tr");
+		    const productCode = $row.data("product-code");
+		    const userId = $("input[name='user_id']").val(); // 숨겨진 user_id 가져오기
 
-			const $row = $(this).closest("tr");
-			const productCode = $row.data("product-code");
-			const userId = $("input[name='user_id']").val(); // 숨겨진 user_id 가져오기
+		    if (!confirm("선택한 항목을 삭제하시겠습니까?")) {
+		        return;
+		    }
 
-			if (!confirm("선택한 항목을 삭제하시겠습니까?")) {
-				return;
-			}
-
-			$.ajax({
-				type : "POST",
-				url : "/cart/delete",
-				data : {
-					user_id : userId,
-					product_code : productCode,
-				},
-				success : function(response) {
-					alert("항목이 삭제되었습니다.");
-					location.reload(); // 페이지 새로고침
-				},
-				error : function() {
-					alert("항목 삭제 중 오류가 발생했습니다.");
-				},
-			});
+		    $.ajax({
+		        type: "POST",
+		        url: "/cart/delete",
+		        data: {
+		            user_id: userId,
+		            product_code: productCode,
+		        },
+		        success: function (response) {
+		            alert("항목이 삭제되었습니다.");
+		            location.reload(); // 페이지 새로고침
+		        },
+		        error: function () {
+		            alert("항목 삭제 중 오류가 발생했습니다.");
+		        },
+		    });
 		});
 	</script>
 </body>

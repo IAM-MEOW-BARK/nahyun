@@ -292,22 +292,6 @@ public class CatDogController {
 		return "wish";
 	}
 
-//	@GetMapping("/cart")
-//	public String cart(@RequestParam("user_id") String user_id, HttpSession session, Model model) throws Exception {
-//		Map<String, Object> user = (Map<String, Object>) session.getAttribute("user");
-//		if (user == null) {
-//			return "redirect:/catdog-login";
-//		}
-//		model.addAttribute("user_name", user.get("name"));
-//		model.addAttribute("user_id", user.get("user_id"));
-//
-//		List<CartDTO> cartInfo = catDogService.getCartInfo(user_id);
-//		model.addAttribute("cartInfo", cartInfo);
-//		System.out.println("cartInfo = " + cartInfo);
-//
-//		return "cart";
-//	}
-
 	@GetMapping("/cart")
 	public String cart(HttpSession session, Model model) throws Exception {
 		Map<String, Object> user = (Map<String, Object>) session.getAttribute("user");
@@ -322,9 +306,9 @@ public class CatDogController {
 		model.addAttribute("cartInfo", cartInfo);
 		System.out.println("cartInfo = " + cartInfo);
 		session.setAttribute("cartInfo", cartInfo); // post할 세션
-		
+
 		model.addAttribute("cartCost", catDogService.getCartCost(userId));
-		
+
 		return "cart";
 	}
 
@@ -403,7 +387,8 @@ public class CatDogController {
 	}
 
 	@PostMapping("/checkReview")
-	public  ResponseEntity<Integer> checkReview(@RequestParam int product_code, @RequestParam String user_id) throws Exception {
+	public ResponseEntity<Integer> checkReview(@RequestParam int product_code, @RequestParam String user_id)
+			throws Exception {
 		ReviewDTO reviewDTO = new ReviewDTO();
 		reviewDTO.setProduct_code(product_code);
 		reviewDTO.setUser_id(user_id);
@@ -412,51 +397,91 @@ public class CatDogController {
 	}
 
 	@GetMapping("/reviewPop")
-	public String reviewPop(@RequestParam int product_code, @RequestParam String user_id, Model model) throws Exception {
-	    ProductDTO product = catDogService.getProductByCode(product_code);
+	public String reviewPop(@RequestParam int product_code, @RequestParam String user_id, Model model)
+			throws Exception {
+		ProductDTO product = catDogService.getProductByCode(product_code);
 
-	    System.out.println("product 가져오셈" + product);
-	    // 모델에 데이터 추가
-	    model.addAttribute("product_name", product.getProduct_name());
-	    model.addAttribute("product_code", product_code);
-	    model.addAttribute("user_id", user_id);
-	    model.addAttribute("thumbnail_img", product.getThumbnail_img());
-	    
-	    System.out.println("썸네일 이름" + product.getThumbnail_img());
-	  	    
+		System.out.println("product 가져오셈" + product);
+		// 모델에 데이터 추가
+		model.addAttribute("product_name", product.getProduct_name());
+		model.addAttribute("product_code", product_code);
+		model.addAttribute("user_id", user_id);
+		model.addAttribute("thumbnail_img", product.getThumbnail_img());
+
+		System.out.println("썸네일 이름" + product.getThumbnail_img());
+
 		return "reviewPop";
 	}
 
-	@GetMapping("/updateProfile")
-	public String updateProfile() {
+	@GetMapping("/checkPW")
+	public String checkPW(Model model, HttpSession session) throws Exception {
+		Map<String, Object> user = (Map<String, Object>) session.getAttribute("user");
+		if (user == null) {
+			return "redirect:/catdog-login";
+		}
+		model.addAttribute("userID", user.get("user_id"));
+		return "checkPW";
+	}
+
+	@PostMapping("/checkPW")
+	public String chekcPW(@RequestParam Map<String, Object> map, HttpServletRequest request, HttpSession session,
+			Model model) throws Exception {
+		request.setCharacterEncoding("UTF-8");
+
+		System.out.println(map);
+
+		Map user = catDogService.login(map);
+
+		if (user == null) {
+			logger.info("비밀번호가 틀립니다.");
+			return "redirect:/checkPW";
+		}
+		logger.info("회원 조회 뿅");
+		
+		model.addAttribute("name", user.get("name"));
+		model.addAttribute("user_id", user.get("user_id"));
+		model.addAttribute("phone_num", user.get("phone_num"));
+		model.addAttribute("zipcode", user.get("zipcode"));
+		model.addAttribute("address", user.get("address"));
+		model.addAttribute("detailaddress", user.get("detailaddress"));
+		
+		System.out.println(user);
+		
 		return "updateProfile";
+	}
+
+	@PostMapping("/updateProfile")
+	public String updateProfile(@RequestParam Map<String, Object> map) throws Exception {
+		
+		return "mypage";
 	}
 
 	@GetMapping("/deleteUser")
 	public String deleteUser() {
 		return "deleteUser";
 	}
-	
+
 	@GetMapping("/getProductInfo")
 	@ResponseBody
 	public ProductDTO getProductInfo(@RequestParam int product_code) throws Exception {
-	    return catDogService.getProductByCode(product_code);
+		return catDogService.getProductByCode(product_code);
 	}
-		
+
 	@PostMapping("/regReview")
 	@ResponseBody
-	public String regReview(@ModelAttribute ReviewDTO reviewDTO, @RequestParam("review_img") MultipartFile reviewImg) throws Exception {
-	    if (!reviewImg.isEmpty()) {
-	        String fileName = UUID.randomUUID() + "_" + reviewImg.getOriginalFilename();
-	        Path uploadPath = Paths.get("uploads/review-images");
-	        if (!Files.exists(uploadPath)) {
-	            Files.createDirectories(uploadPath);
-	        }
-	        reviewImg.transferTo(uploadPath.resolve(fileName).toFile());
-	        reviewDTO.setReview_img(fileName);
-	    }
-	    catDogService.regReview(reviewDTO);
-	    return "리뷰가 등록되었습니다.";
+	public String regReview(@ModelAttribute ReviewDTO reviewDTO, @RequestParam("review_img") MultipartFile reviewImg)
+			throws Exception {
+		if (!reviewImg.isEmpty()) {
+			String fileName = UUID.randomUUID() + "_" + reviewImg.getOriginalFilename();
+			Path uploadPath = Paths.get("uploads/review-images");
+			if (!Files.exists(uploadPath)) {
+				Files.createDirectories(uploadPath);
+			}
+			reviewImg.transferTo(uploadPath.resolve(fileName).toFile());
+			reviewDTO.setReview_img(fileName);
+		}
+		catDogService.regReview(reviewDTO);
+		return "리뷰가 등록되었습니다.";
 	}
 
 }

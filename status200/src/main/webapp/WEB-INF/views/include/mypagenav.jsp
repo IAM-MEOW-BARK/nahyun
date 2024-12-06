@@ -30,13 +30,13 @@
 			<a href="totalOrder?page=totalOrder" class="list-group-item list-group-item-action ${currentPage == 'totalOrder' ? 'active' : ''}">
 			<i class="bi bi-receipt"></i>
 			주문 내역 </a>
-			<a href="cart?user_id=${user_id}" class="list-group-item list-group-item-action ${currentPage == 'cart' ? 'active' : ''}">
+			<a href="cart?page=cart&user_id=${user_id}" class="list-group-item list-group-item-action ${currentPage == 'cart' ? 'active' : ''}">
 			<i class="bi bi-cart"></i>
 			장바구니 </a>
 			<a href="totalWish?page=wish" class="list-group-item list-group-item-action ${currentPage == 'wish' ? 'active' : ''}">
 			<i class="bi bi-heart"></i>
 			찜 내역 </a>
-			<a href="updateProfile?page=updateProfile" class="list-group-item list-group-item-action ${currentPage == 'updateProfile' ? 'active' : ''}">
+			<a href="checkPW" class="list-group-item list-group-item-action ${currentPage == 'updateProfile' ? 'active' : ''}">
 			<i class="bi bi-pencil-square"></i>
 			정보 수정 </a>
 			<a href="questionList?page=questionList" class="list-group-item list-group-item-action ${currentPage == 'questionList' ? 'active' : ''}">
