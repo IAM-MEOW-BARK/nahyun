@@ -87,7 +87,7 @@
 			<div class="col-md-12">
 				<div class="category-carousel swiper d-flex justify-content-center">
 					<div class="swiper-wrapper gap-3 d-flex justify-content-center align-items-center">
-						<!-- 첫 번째 항목 -->
+						<!-- 첫 번째 -->
 						<a href="category.html" class="nav-link swiper-slide text-center"> <img src="${pageContext.request.contextPath}/resources/bootstrap/images/category-thumb-1.jpg" class="rounded-circle" alt="Category Thumbnail" style="margin: 0 auto; max-width: 100px;">
 							<h4 class="fs-6 mt-3 fw-normal category-title">사료 / 간식</h4>
 						</a>
