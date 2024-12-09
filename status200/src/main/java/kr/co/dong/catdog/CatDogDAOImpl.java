@@ -49,9 +49,9 @@ public class CatDogDAOImpl implements CatDogDAO {
 
 	// 나현 수정
 	@Override
-	public List<ProductDTO> mainlist(Map<String, Object> param) {
+	public List<ProductDTO> mainlist(int product_category) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList(namespace + ".mainlist", param);
+		return sqlSession.selectList(namespace + ".mainlist", product_category);
 	}
 
 	@Override

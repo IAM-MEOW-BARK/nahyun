@@ -27,8 +27,8 @@ public class CatDogServiceImpl implements CatDogService {
 
 	// (나현 추가) 카테고리 별 보기
 	@Override
-	public List<ProductDTO> mainlist(Map<String, Object> param) {
-		return catDogDAO.mainlist(param);
+	public List<ProductDTO> mainlist(int product_category) {
+		return catDogDAO.mainlist(product_category);
 	}
 
 	@Override

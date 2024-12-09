@@ -62,27 +62,11 @@ public class CatDogController {
 			user_id = (String) user.get("user_id");
 		}
 
-		// 파라미터 맵 구성
-		Map<String, Object> param = new HashMap<>();
-		if (user_id != null) {
-			param.put("user_id", user_id);
-		}
-
-		// 카테고리별 상품 목록 조회
-		param.put("product_category", 1);
-		List<ProductDTO> list01 = catDogService.mainlist(param);
-
-		param.put("product_category", 2);
-		List<ProductDTO> list02 = catDogService.mainlist(param);
-
-		param.put("product_category", 3);
-		List<ProductDTO> list03 = catDogService.mainlist(param);
-
-		param.put("product_category", 4);
-		List<ProductDTO> list04 = catDogService.mainlist(param);
-
-		param.put("product_category", 5);
-		List<ProductDTO> list05 = catDogService.mainlist(param);
+		List<ProductDTO> list01 = catDogService.mainlist(1);
+		List<ProductDTO> list02 = catDogService.mainlist(2);
+		List<ProductDTO> list03 = catDogService.mainlist(3);	
+		List<ProductDTO> list04 = catDogService.mainlist(4);
+		List<ProductDTO> list05 = catDogService.mainlist(5);
 
 		// 뷰에 데이터 추가
 		mav.addObject("list01", list01);

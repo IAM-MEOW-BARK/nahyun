@@ -19,21 +19,17 @@
 	</select>
 
 	<!-- 카테고리 리스트 -->
-	<select id="mainlist" parameterType="java.util.Map"
+	<select id="mainlist" parameterType="java.lang.Integer"
 		resultType="ProductDTO">
 		SELECT
-		p.*,
-		(SELECT wish_no
-		FROM wish w
-		WHERE w.user_id =
-		#{user_id} AND w.product_code = p.product_code) AS
-		wish_no
+		*
 		FROM
-		product p
+		product
 		WHERE
-		p.product_category = #{product_category}
+		product_category = #{product_category}
 		ORDER BY
-		p.product_regdate DESC
+		product_regdate DESC
+		LIMIT 20
 	</select>
 
 	<!-- 리스트에서 제품 선택 -->

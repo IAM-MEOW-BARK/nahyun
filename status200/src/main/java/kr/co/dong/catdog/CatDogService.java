@@ -11,7 +11,7 @@ public interface CatDogService {
 	public int create(MemberDTO meber) throws Exception;
 
 	// (나현) 전체 목록 가져오는 메소드
-	public List<ProductDTO> mainlist(Map<String, Object> param);
+	public List<ProductDTO> mainlist(int product_category);
 
 	public int deleteWish(WishDTO wishDTO) throws Exception;
 
