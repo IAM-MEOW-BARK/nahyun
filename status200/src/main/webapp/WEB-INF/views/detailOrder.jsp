@@ -87,7 +87,7 @@
 								</td>
 								<td class="col-md-2" style="vertical-align: middle;">${item.productName}</td>
 								<td class="col-md-1" style="vertical-align: middle;">${item.orderQuantity}개</td>
-								<td class="col-md-1" style="vertical-align: middle;">${item.totalPrice}원</td>
+								<td class="col-md-1" style="vertical-align: middle;">${item.productPrice}원<br>${item.totalPrice}원</td>
 								<td class="col-md-1" style="vertical-align: middle;">${item.orderStatus}</td>
 								<!-- 구매후기 버튼 -->
 								<td class="col-md-1" style="vertical-align: middle;">

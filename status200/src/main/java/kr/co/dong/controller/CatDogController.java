@@ -303,12 +303,16 @@ public class CatDogController {
 		model.addAttribute("user_id", userId);
 
 		List<CartDTO> cartInfo = catDogService.getCartInfo(userId);
+		
+		if(cartInfo.isEmpty()) {
+			model.addAttribute("isCartEmpty", true);
+		} else {
+		model.addAttribute("isCartEmpty", false);
 		model.addAttribute("cartInfo", cartInfo);
 		System.out.println("cartInfo = " + cartInfo);
 		session.setAttribute("cartInfo", cartInfo); // post할 세션
-
 		model.addAttribute("cartCost", catDogService.getCartCost(userId));
-
+		}
 		return "cart";
 	}
 

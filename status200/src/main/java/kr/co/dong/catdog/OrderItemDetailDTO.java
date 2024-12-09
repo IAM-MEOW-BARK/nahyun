@@ -6,9 +6,18 @@ public class OrderItemDetailDTO {
 	private String thumbnailImg;
 	private String productName;
 	private int orderQuantity;
+	private int productPrice;
 	private int totalPrice; // 상품 가격 * 수량
 	private String orderStatus;
 	private int review;
+
+	public int getProductPrice() {
+		return productPrice;
+	}
+
+	public void setProductPrice(int productPrice) {
+		this.productPrice = productPrice;
+	}
 
 	public int getReview() {
 		return review;
@@ -69,8 +78,8 @@ public class OrderItemDetailDTO {
 	@Override
 	public String toString() {
 		return "OrderItemDetailDTO [productCode=" + productCode + ", thumbnailImg=" + thumbnailImg + ", productName="
-				+ productName + ", orderQuantity=" + orderQuantity + ", totalPrice=" + totalPrice + ", orderStatus="
-				+ orderStatus + ", review=" + review + "]";
+				+ productName + ", orderQuantity=" + orderQuantity + ", productPrice=" + productPrice + ", totalPrice="
+				+ totalPrice + ", orderStatus=" + orderStatus + ", review=" + review + "]";
 	}
 
 }

@@ -92,7 +92,7 @@
 
 	<select id="getCartCost" parameterType="java.lang.String" resultType="java.lang.Integer">
 		SELECT
-		sum(p.product_price * c.cart_quantity) as cartCost
+		coalesce(sum(p.product_price * c.cart_quantity), 0) as cartCost
 		FROM
 		cart c LEFT JOIN product p
 		ON c.product_code = p.product_code
@@ -229,6 +229,7 @@
 		p.thumbnail_img as thumbnailImg,
 		oi.order_quantity as
 		orderQuantity,
+		p.product_price as productPrice,
 		(p.product_price * oi.order_quantity) as totalPrice,
 		oi.order_status as orderStatus
 		FROM
