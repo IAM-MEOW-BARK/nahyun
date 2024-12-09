@@ -52,4 +52,18 @@ public interface CatDogService {
 	public ProductDTO getProductByCode(int product_code) throws Exception;
 	
 	public int updateProfile(MemberDTO memberDTO) throws Exception;
+	
+	public OrderDTO getOrderInfo(String order_code) throws Exception;
+	
+	public PaymentDTO getMember(String user_id) throws Exception;
+	
+    // 결제 오더 정보
+    public List<String> getOrderCodeByUserId(String user_id);
+    
+    // 결제
+    public void updateAddress(String user_id, String name, String phone_num, String zipcode, String address, String detailaddress);
+    public void updatePaymentStatus(String user_id);
+    public void deleteOrderItems(String user_id, List<Integer> product_code);
+    public List<Integer> getProductCodeByUserId(String user_id);
+	
 }

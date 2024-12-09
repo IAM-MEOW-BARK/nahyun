@@ -36,6 +36,7 @@ import kr.co.dong.catdog.OrderDTO;
 import kr.co.dong.catdog.OrderDetailDTO;
 import kr.co.dong.catdog.OrderItemDTO;
 import kr.co.dong.catdog.OrderItemDetailDTO;
+import kr.co.dong.catdog.PaymentDTO;
 import kr.co.dong.catdog.ProductDTO;
 import kr.co.dong.catdog.ReviewDTO;
 import kr.co.dong.catdog.WishDTO;
@@ -51,23 +52,34 @@ public class CatDogController {
 	@GetMapping(value = "/home")
 	public ModelAndView list(HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-		// 세션에서 사용자 ID 가져오기
-		Map<String, Object> userMap = (Map<String, Object>) session.getAttribute("user");
-		String user_id = userMap != null ? (String) userMap.get("user_id") : null;
+
+		// 세션에서 사용자 정보 가져오기
+		Map<String, Object> user = (Map<String, Object>) session.getAttribute("user");
+		String user_id = null;
+
+		if (user != null && user.get("user_id") != null) {
+			user_id = (String) user.get("user_id");
+		}
 
 		// 파라미터 맵 구성
-		Map<String, Object> param = new HashMap<String, Object>();
-		param.put("user_id", user_id);
+		Map<String, Object> param = new HashMap<>();
+		if (user_id != null) {
+			param.put("user_id", user_id);
+		}
 
 		// 카테고리별 상품 목록 조회
 		param.put("product_category", 1);
 		List<ProductDTO> list01 = catDogService.mainlist(param);
+
 		param.put("product_category", 2);
 		List<ProductDTO> list02 = catDogService.mainlist(param);
+
 		param.put("product_category", 3);
 		List<ProductDTO> list03 = catDogService.mainlist(param);
+
 		param.put("product_category", 4);
 		List<ProductDTO> list04 = catDogService.mainlist(param);
+
 		param.put("product_category", 5);
 		List<ProductDTO> list05 = catDogService.mainlist(param);
 
@@ -209,9 +221,76 @@ public class CatDogController {
 		return "catdog-main";
 	}
 
-	@GetMapping(value = "/catdog-payment")
-	public String catDogPayment() {
-		return "catdog-payment";
+	// 결제 페이지 회원
+	@GetMapping(value = "catdog-payment")
+	public String paymentMember(@RequestParam("user_id") String user_id, @RequestParam("order_code") String order_code,
+			Model model, HttpSession session) throws Exception {
+		// 회원 정보 가져오기
+		Map<String, Object> user = (Map<String, Object>) session.getAttribute("user");
+
+		if (user == null) {
+			System.out.println("세션에 사용자가 없습니다.");
+			return "redirect:/catdog-login";
+		}
+
+		// 회원 정보
+		PaymentDTO pdto = catDogService.getMember((String) user.get("user_id"));
+		model.addAttribute("paymentMember", pdto);
+
+		System.out.println("Session user: " + session.getAttribute("user"));
+
+		// order_code로 주문 정보 가져오기
+		OrderDTO orderInfo = catDogService.getOrderInfo(order_code);
+
+		model.addAttribute("orderInfo", orderInfo);
+		System.out.println("orderInfo :::" + orderInfo);
+		System.out.println("주문 코드:::: " + order_code);
+
+		// 총 금액
+		int totalPrice = catDogService.getTotalCost(order_code);
+		model.addAttribute("totalPrice", totalPrice);
+
+		return "catdog-payment"; // 뷰 이름 반환
+	}
+
+	// 결제
+	@PostMapping("/processPayment")
+	public String processPayment(@RequestParam("name") String name, @RequestParam("phone_num") String phone_num,
+			@RequestParam("zipcode") String zipcode, @RequestParam("address") String address,
+			@RequestParam("detailaddress") String detailaddress, HttpSession session, Model model) {
+		Map<String, Object> user = (Map<String, Object>) session.getAttribute("user");
+
+		Object userIdObj = user.get("user_id");
+		System.out.println("user_id 값: " + userIdObj);
+		System.out.println("user_id 타입: " + (userIdObj != null ? userIdObj.getClass().getName() : "null"));
+
+		String user_id = (String) user.get("user_id");
+		if (user_id == null || user_id.isEmpty()) {
+			System.out.println("에러1");
+			return "redirect:/catdog-login";
+		}
+
+		// product_code를 데이터베이스에서 조회
+		List<Integer> product_code = catDogService.getProductCodeByUserId(user_id);
+		if (product_code == null) {
+			model.addAttribute("errorMessage", "Product code를 찾을 수 없습니다.");
+			System.out.println("에러2");
+			return "catdog-payment";
+		}
+
+		try {
+			catDogService.updateAddress(user_id, name, phone_num, zipcode, address, detailaddress);
+			catDogService.updatePaymentStatus(user_id);
+			catDogService.deleteOrderItems(user_id, product_code); // product_code 전달
+
+			return "redirect:/";
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errorMessage", "결제 처리 중 오류가 발생했습니다.");
+			System.out.println("errorMessage" + "결제 처리 중 오류가 발생했습니다.");
+			System.out.println("에러3");
+			return "catdog-payment";
+		}
 	}
 
 	// 일반 유저 회원가입
@@ -303,15 +382,15 @@ public class CatDogController {
 		model.addAttribute("user_id", userId);
 
 		List<CartDTO> cartInfo = catDogService.getCartInfo(userId);
-		
-		if(cartInfo.isEmpty()) {
+
+		if (cartInfo.isEmpty()) {
 			model.addAttribute("isCartEmpty", true);
 		} else {
-		model.addAttribute("isCartEmpty", false);
-		model.addAttribute("cartInfo", cartInfo);
-		System.out.println("cartInfo = " + cartInfo);
-		session.setAttribute("cartInfo", cartInfo); // post할 세션
-		model.addAttribute("cartCost", catDogService.getCartCost(userId));
+			model.addAttribute("isCartEmpty", false);
+			model.addAttribute("cartInfo", cartInfo);
+			System.out.println("cartInfo = " + cartInfo);
+			session.setAttribute("cartInfo", cartInfo); // post할 세션
+			model.addAttribute("cartCost", catDogService.getCartCost(userId));
 		}
 		return "cart";
 	}
@@ -441,45 +520,45 @@ public class CatDogController {
 			return "redirect:/checkPW";
 		}
 		logger.info("회원 조회 뿅");
-		
-	    session.setAttribute("name", user.get("name"));
-	    session.setAttribute("user_id", user.get("user_id"));
-	    session.setAttribute("phone_num", user.get("phone_num"));
-	    session.setAttribute("zipcode", user.get("zipcode"));
-	    session.setAttribute("address", user.get("address"));
-	    session.setAttribute("detailaddress", user.get("detailaddress"));
-		
-		
+
+		session.setAttribute("name", user.get("name"));
+		session.setAttribute("user_id", user.get("user_id"));
+		session.setAttribute("phone_num", user.get("phone_num"));
+		session.setAttribute("zipcode", user.get("zipcode"));
+		session.setAttribute("address", user.get("address"));
+		session.setAttribute("detailaddress", user.get("detailaddress"));
+
 		System.out.println(user);
-		
+
 		return "redirect:/updateProfile";
 	}
 
 	@GetMapping("/updateProfile")
 	public String updateProfile(HttpSession session, Model model) {
-	    // 세션에서 사용자 정보를 가져와 모델에 추가
-	    model.addAttribute("name", session.getAttribute("name"));
-	    model.addAttribute("user_id", session.getAttribute("user_id"));
-	    model.addAttribute("phone_num", session.getAttribute("phone_num"));
-	    model.addAttribute("zipcode", session.getAttribute("zipcode"));
-	    model.addAttribute("address", session.getAttribute("address"));
-	    model.addAttribute("detailaddress", session.getAttribute("detailaddress"));
+		// 세션에서 사용자 정보를 가져와 모델에 추가
+		model.addAttribute("name", session.getAttribute("name"));
+		model.addAttribute("user_id", session.getAttribute("user_id"));
+		model.addAttribute("phone_num", session.getAttribute("phone_num"));
+		model.addAttribute("zipcode", session.getAttribute("zipcode"));
+		model.addAttribute("address", session.getAttribute("address"));
+		model.addAttribute("detailaddress", session.getAttribute("detailaddress"));
 
-	    return "updateProfile"; // updateProfile.jsp 렌더링
+		return "updateProfile"; // updateProfile.jsp 렌더링
 	}
-	
-	@PostMapping("/updateProfile")	
-	public String updateProfile(@ModelAttribute MemberDTO memberDTO, HttpSession session, HttpServletRequest request, Model model) throws Exception {
-				
+
+	@PostMapping("/updateProfile")
+	public String updateProfile(@ModelAttribute MemberDTO memberDTO, HttpSession session, HttpServletRequest request,
+			Model model) throws Exception {
+
 		request.setCharacterEncoding("UTF-8");
-		
+
 		model.addAttribute(memberDTO);
 		System.out.println("===== 프로필 업데이트 아직인겨 ===== ");
 		System.out.println(memberDTO);
 
 		catDogService.updateProfile(memberDTO);
-		System.out.println("===== 프로필 업데이트 된겨 ===== ");		
-		System.out.println(memberDTO);	
+		System.out.println("===== 프로필 업데이트 된겨 ===== ");
+		System.out.println(memberDTO);
 		return "redirect:/mypage";
 	}
 

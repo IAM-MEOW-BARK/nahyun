@@ -115,7 +115,7 @@
                                 <span class="price-detail">상품 금액</span>
                                 <span>
 									<b>
-	                               		<fmt:formatNumber value="${totalPrice}" type="number" groupingUsed="true" />원
+	                               		<fmt:formatNumber value="${totalCost}" type="number" groupingUsed="true" />원
 	                               	</b>
 								</span>
                             </div>
@@ -140,7 +140,7 @@
                                 <span class="final-price"><b>최종 결제 금액</b></span>
                                 <span class="final-price" style="font-size:20px;">
                                 	<b>
-                                		<fmt:formatNumber value="${totalPrice}" type="number" groupingUsed="true" />원
+                                		<fmt:formatNumber value="${totalCost}" type="number" groupingUsed="true" />원
                                 	</b>
                                	</span>
                             </div>

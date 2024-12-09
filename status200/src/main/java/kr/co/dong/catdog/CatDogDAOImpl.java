@@ -110,7 +110,7 @@ public class CatDogDAOImpl implements CatDogDAO {
 	public List<ProductDTO> getOrderItems(String order_code) throws Exception {
 		return sqlSession.selectList(namespace + ".getOrderItems", order_code);
 	}
-	
+
 	@Override
 	public int getCartCost(String user_id) throws Exception {
 		return sqlSession.selectOne(namespace + ".getCartCost", user_id);
@@ -201,12 +201,61 @@ public class CatDogDAOImpl implements CatDogDAO {
 		// TODO Auto-generated method stub
 		return sqlSession.insert(namespace + ".regReview", reviewDTO);
 	}
-	
+
 	@Override
 	public ProductDTO getProductByCode(int product_code) throws Exception {
-	    return sqlSession.selectOne(namespace + ".getProductByCode", product_code);
-	    
-	    
+		return sqlSession.selectOne(namespace + ".getProductByCode", product_code);
+
+	}
+
+	@Override
+	public PaymentDTO getMember(String user_id) {
+		return sqlSession.selectOne(namespace + ".getMember", user_id);
+	}
+
+	@Override
+	public List<PaymentDTO> productPayment(String user_id) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList(namespace + ".productPayment", user_id);
+	}
+
+	@Override
+	public void updateAddress(String user_id, String name, String phone_num, String zipcode, String address,
+			String detailaddress) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("user_id", user_id);
+		params.put("name", name);
+		params.put("phone_num", phone_num);
+		params.put("zipcode", zipcode);
+		params.put("address", address);
+		params.put("detailaddress", detailaddress);
+		sqlSession.update(namespace + ".updateAddress", params);
+	}
+
+	@Override
+	public void updatePaymentStatus(String user_id) {
+		sqlSession.update(namespace + ".updatePaymentStatus", user_id);
+	}
+
+	@Override
+	   public void deleteOrderItems(String user_id, List<Integer> product_code) {
+	      // TODO Auto-generated method stub
+	      Map<String, Object> params = new HashMap<>();
+	       params.put("user_id", user_id);
+	       params.put("product_code", product_code);
+
+	       sqlSession.delete(namespace + ".deleteOrderItems", params);
+	   }
+
+	@Override
+	public List<Integer> getProductCodeByUserId(String user_id) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList(namespace + ".getProductCodeByUserId", user_id);
+	}
+
+	@Override
+	public List<String> getOrderCodeByUserId(String user_id) {
+		return sqlSession.selectList(namespace + ".getOrderCodeByUserId", user_id);
 	}
 
 }

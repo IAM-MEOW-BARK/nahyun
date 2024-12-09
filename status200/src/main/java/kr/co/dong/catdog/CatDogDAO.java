@@ -3,6 +3,8 @@ package kr.co.dong.catdog;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.taglibs.standard.lang.jstl.test.beans.PublicBean1;
+
 public interface CatDogDAO {
 	// 로그인
 	public Map login(Map<String, Object> map);
@@ -79,6 +81,8 @@ public interface CatDogDAO {
 
 	// 주문 기본 정보
 	public OrderDTO getOrderInfo(String order_code) throws Exception;
+	
+    public List<String> getOrderCodeByUserId(String user_id);
 
 	// 주문 상품 상세 정보
 	public List<ProductDTO> getOrderItems(String order_code) throws Exception;
@@ -97,5 +101,15 @@ public interface CatDogDAO {
 	public int regReview(ReviewDTO reviewDTO) throws Exception;
 	
 	public ProductDTO getProductByCode(int product_code) throws Exception;
+	
+	// 단일 회원 정보
+    public PaymentDTO getMember(String user_id);
+    
+ // 상품 결제
+    public List<PaymentDTO> productPayment(String user_id);
+    void updateAddress(String user_id, String name, String phone_num, String zipcode, String address, String detailaddress);
+    void updatePaymentStatus(String user_id);
+    public void deleteOrderItems(String user_id, List<Integer> product_code);
+    public List<Integer> getProductCodeByUserId(String user_id);	
 	
 }

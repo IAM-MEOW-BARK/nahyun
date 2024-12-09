@@ -17,5 +17,7 @@
  		<typeAlias alias="OrderItemDTO" type="kr.co.dong.catdog.OrderItemDTO"/>
  		<typeAlias alias="OrderItemDetailDTO" type="kr.co.dong.catdog.OrderItemDetailDTO"/>
  		<typeAlias alias="CartDTO" type="kr.co.dong.catdog.CartDTO"/>
+ 		<typeAlias alias="PaymentDTO" type="kr.co.dong.catdog.PaymentDTO"/>
+ 		
  	</typeAliases>
  </configuration>
