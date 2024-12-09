@@ -97,4 +97,5 @@ public interface CatDogDAO {
 	public int regReview(ReviewDTO reviewDTO) throws Exception;
 	
 	public ProductDTO getProductByCode(int product_code) throws Exception;
+	
 }

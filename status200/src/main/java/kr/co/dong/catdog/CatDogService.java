@@ -50,4 +50,6 @@ public interface CatDogService {
 	public int regReview(ReviewDTO reviewDTO) throws Exception;
 
 	public ProductDTO getProductByCode(int product_code) throws Exception;
+	
+	public int updateProfile(MemberDTO memberDTO) throws Exception;
 }

@@ -442,22 +442,45 @@ public class CatDogController {
 		}
 		logger.info("회원 조회 뿅");
 		
-		model.addAttribute("name", user.get("name"));
-		model.addAttribute("user_id", user.get("user_id"));
-		model.addAttribute("phone_num", user.get("phone_num"));
-		model.addAttribute("zipcode", user.get("zipcode"));
-		model.addAttribute("address", user.get("address"));
-		model.addAttribute("detailaddress", user.get("detailaddress"));
+	    session.setAttribute("name", user.get("name"));
+	    session.setAttribute("user_id", user.get("user_id"));
+	    session.setAttribute("phone_num", user.get("phone_num"));
+	    session.setAttribute("zipcode", user.get("zipcode"));
+	    session.setAttribute("address", user.get("address"));
+	    session.setAttribute("detailaddress", user.get("detailaddress"));
+		
 		
 		System.out.println(user);
 		
-		return "updateProfile";
+		return "redirect:/updateProfile";
 	}
 
-	@PostMapping("/updateProfile")
-	public String updateProfile(@RequestParam Map<String, Object> map) throws Exception {
+	@GetMapping("/updateProfile")
+	public String updateProfile(HttpSession session, Model model) {
+	    // 세션에서 사용자 정보를 가져와 모델에 추가
+	    model.addAttribute("name", session.getAttribute("name"));
+	    model.addAttribute("user_id", session.getAttribute("user_id"));
+	    model.addAttribute("phone_num", session.getAttribute("phone_num"));
+	    model.addAttribute("zipcode", session.getAttribute("zipcode"));
+	    model.addAttribute("address", session.getAttribute("address"));
+	    model.addAttribute("detailaddress", session.getAttribute("detailaddress"));
+
+	    return "updateProfile"; // updateProfile.jsp 렌더링
+	}
+	
+	@PostMapping("/updateProfile")	
+	public String updateProfile(@ModelAttribute MemberDTO memberDTO, HttpSession session, HttpServletRequest request, Model model) throws Exception {
+				
+		request.setCharacterEncoding("UTF-8");
 		
-		return "mypage";
+		model.addAttribute(memberDTO);
+		System.out.println("===== 프로필 업데이트 아직인겨 ===== ");
+		System.out.println(memberDTO);
+
+		catDogService.updateProfile(memberDTO);
+		System.out.println("===== 프로필 업데이트 된겨 ===== ");		
+		System.out.println(memberDTO);	
+		return "redirect:/mypage";
 	}
 
 	@GetMapping("/deleteUser")

@@ -70,7 +70,16 @@
 								<c:forEach var="item" items="${cartInfo}">
 									<tr data-product-code="${item.product_code}" data-product-price="${item.product_price}" data-user-id="${user_id}">
 										<td class="col-sm-1">
-											<input type="hidden" class="hidden_product_code_input" value="${itme.product_code }"> <input type="hidden" class="hidden_product_name_input" value="${itme.product_name }"> <input type="hidden" class="hidden_product_price_input" value="${itme.product_price }"> <input type="hidden" class="hidden_cart_quantity_input" value="${itme.cart_quantity }"> <input type="hidden" class="hidden_totalPrice_input" value="${itme.product_price * cart_quantity }"> <input type="hidden" name="product_code" value="${item.product_code}"> <input type="hidden" name="product_price" value="${item.product_price}"> <input type="hidden" name="cart_quantity" value="${item.cart_quantity}"> <input type="hidden" name="product_name" value="${item.product_name}"> <img src="${pageContext.request.contextPath}/resources/upload/${item.thumbnail_img}" alt="${item.product_name}" style="width: 60px; height: 60px;">
+											<input type="hidden" class="hidden_product_code_input" value="${itme.product_code }">
+											<input type="hidden" class="hidden_product_name_input" value="${itme.product_name }">
+											<input type="hidden" class="hidden_product_price_input" value="${itme.product_price }">
+											<input type="hidden" class="hidden_cart_quantity_input" value="${itme.cart_quantity }">
+											<input type="hidden" class="hidden_totalPrice_input" value="${itme.product_price * cart_quantity }">
+											<input type="hidden" name="product_code" value="${item.product_code}">
+											<input type="hidden" name="product_price" value="${item.product_price}">
+											<input type="hidden" name="cart_quantity" value="${item.cart_quantity}">
+											<input type="hidden" name="product_name" value="${item.product_name}">
+											<img src="${pageContext.request.contextPath}/resources/upload/${item.thumbnail_img}" alt="${item.product_name}" style="width: 60px; height: 60px;">
 										</td>
 										<td class="col-md-2" style="text-align: left;">${item.product_name}</td>
 										<td class="col-md-2">
@@ -95,7 +104,9 @@
 							</table>
 						</div>
 						<form action="/cart/update" method="post" id="quantity_update_form">
-							<input type="hidden" name="user_id" value="${user_id}"> <input type="hidden" name="product_quantity" class="update_product_quantity"> <input type="hidden" name="product_code" class="update_product_code">
+							<input type="hidden" name="user_id" value="${user_id}">
+							<input type="hidden" name="product_quantity" class="update_product_quantity">
+							<input type="hidden" name="product_code" class="update_product_code">
 						</form>
 						<div class="table-container d-flex justify-content-end">
 							<table>

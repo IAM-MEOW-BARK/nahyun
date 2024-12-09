@@ -7,13 +7,15 @@
 
 
 	<!-- 로그인 -->
-<!-- 수정함 select user_id, name, user_auth -->
+	<!-- 수정함 select user_id, name, user_auth -->
 	<select id="login" parameterType="java.util.Map"
 		resultType="java.util.Map">
-		select user_id, name, user_auth, phone_num, zipcode, address, detailaddress
+		select user_id, name, user_auth, phone_num, zipcode,
+		address, detailaddress
 		From member
 		Where
-		user_id=#{user_id} and password=#{password}
+		user_id=#{user_id} and
+		password=#{password}
 	</select>
 
 	<!-- 카테고리 리스트 -->
@@ -90,12 +92,15 @@
 		c.user_id = #{user_id}
 	</select>
 
-	<select id="getCartCost" parameterType="java.lang.String" resultType="java.lang.Integer">
+	<select id="getCartCost" parameterType="java.lang.String"
+		resultType="java.lang.Integer">
 		SELECT
-		coalesce(sum(p.product_price * c.cart_quantity), 0) as cartCost
+		coalesce(sum(p.product_price * c.cart_quantity), 0)
+		as cartCost
 		FROM
 		cart c LEFT JOIN product p
-		ON c.product_code = p.product_code
+		ON c.product_code =
+		p.product_code
 		WHERE
 		c.user_id = #{user_id}
 	</select>
@@ -191,22 +196,28 @@
 		m.phone_num AS phoneNum,
 		m.zipcode AS zipcode,
 		m.address AS address,
-		m.detailaddress AS detailAddress,
+		m.detailaddress AS
+		detailAddress,
 		p.thumbnail_img AS thumbnailImg,
-		p.product_name AS productName,
+		p.product_name AS
+		productName,
 		oi.order_quantity AS orderQuantity,
-		(p.product_price * oi.order_quantity) AS totalPrice,
+		(p.product_price *
+		oi.order_quantity) AS totalPrice,
 		oi.order_status AS orderStatus
-		FROM orders o
+		FROM
+		orders o
 		LEFT JOIN member m ON o.user_id_fk = m.user_id
-		LEFT JOIN order_item oi ON o.order_code = oi.order_code
-		LEFT JOIN product p ON oi.product_code = p.product_code
+		LEFT JOIN
+		order_item oi ON o.order_code = oi.order_code
+		LEFT JOIN product p ON
+		oi.product_code = p.product_code
 		WHERE o.order_code = #{order_code}
 		ORDER BY oi.product_code ASC;
 	</select>
 
 
-	<!-- 총합 -->
+	<!-- 총합 결제 금액 -->
 	<select id="getTotalCost" parameterType="java.lang.String"
 		resultType="java.lang.Integer">
 		SELECT
@@ -230,7 +241,8 @@
 		oi.order_quantity as
 		orderQuantity,
 		p.product_price as productPrice,
-		(p.product_price * oi.order_quantity) as totalPrice,
+		(p.product_price *
+		oi.order_quantity) as totalPrice,
 		oi.order_status as orderStatus
 		FROM
 		order_item oi
@@ -317,5 +329,17 @@
 		FROM product
 		WHERE product_code = #{product_code}
 	</select>
+
+	<!-- 회원 정보 업데이트 -->
+
+	<update id="updateProfile" parameterType="MemberDTO">
+		UPDATE member
+		SET password = #{password},
+			phone_num = #{phone_num},
+			zipcode = #{zipcode},
+			address = #{address},
+			detailaddress = #{detailaddress}
+		WHERE user_id = #{user_id}
+	</update>
 
 </mapper>

@@ -42,7 +42,7 @@
 								<th class="table-light col-lg-1">이름</th>
 								<td class="col-lg-5">
 									<div style="text-align: center; max-width: 15em;">
-										<input class="form-control" type="text" value="${name}" readonly>
+										<input class="form-control" type="text" value="${name}" name="name" readonly>
 									</div>
 								</td>
 							</tr>
@@ -50,7 +50,7 @@
 								<th class="table-light">아이디</th>
 								<td>
 									<div style="text-align: center; max-width: 15em;">
-										<input class="form-control" type="text" value="${user_id}" readonly>
+										<input class="form-control" type="text" value="${user_id}" name="user_id" readonly>
 									</div>
 								</td>
 							</tr>
@@ -58,7 +58,7 @@
 								<th class="table-light">새 비밀번호</th>
 								<td>
 									<div style="text-align: center;">
-										<input class="form-control" type="password" name="newPw" id="pass1" autocomplete="new-password" style="max-width: 15em;">
+										<input class="form-control" type="password" name="password" id="pass1" autocomplete="new-password" style="max-width: 15em;">
 									</div>
 								</td>
 							</tr>
@@ -66,8 +66,8 @@
 								<th class="table-light">새 비밀번호 확인</th>
 								<td>
 									<div style="text-align: center; display: flex;">
-										<input class="form-control" type="password" name="rePw" id="pass2" autocomplete="new-password" style="max-width: 15em;">
-										<font id="checkPw" style="font-size: medium;"></font>
+										<input class="form-control" type="password" id="pass2" autocomplete="new-password" style="max-width: 15em;">
+										<font id="checkPw" style="font-size: medium; margin-left: 1.5em; "></font>
 									</div>
 								</td>
 							</tr>
@@ -75,7 +75,7 @@
 								<th class="table-light">휴대전화 번호</th>
 								<td>
 									<div style="text-align: center; max-width: 15em;">
-										<input class="form-control" type="text" value="${phone_num}">
+										<input class="form-control" type="text" value="${phone_num}" name="phone_num">
 									</div>
 								</td>
 							</tr>
@@ -83,14 +83,14 @@
 								<th class="table-light align-middle" style="text-align: center;">주소</th>
 								<td>
 									<div style="display: flex; align-items: center; gap: 10px; max-width: 18em;">
-										<input class="form-control" type="text" id="zipCode" name="zipCode" value="${zipcode}" readonly>
-										<button class="btn" style="background-color: #ff6600; color: #ffffff; white-space: nowrap; padding: 5px 10px; margin-bottom: 5px;" onclick="checkPost()">우편번호 검색</button>
+										<input class="form-control" type="text" id="zipCode" name="zipcode" value="${zipcode}" readonly>
+										<button type="button" class="btn" style="background-color: #ff6600; color: #ffffff; white-space: nowrap; padding: 5px 10px; margin-bottom: 5px;" onclick="checkPost()">우편번호 검색</button>
 									</div>
 									<div style="text-align: center; max-width: 30em; margin: 5px;">
 										<input class="form-control" type="text" id="address" name="address" size="50" value="${address}" readonly>
 									</div>
 									<div style="text-align: center; max-width: 30em; margin: 5px;">
-										<input class="form-control" type="text" id="detailAddress" name="detailAddress" size="50" value="${detailaddress}">
+										<input class="form-control" type="text" id="detailAddress" name="detailaddress" size="50" value="${detailaddress}">
 									</div>
 								</td>
 							</tr>
@@ -100,7 +100,7 @@
 						</div>
 					</div>
 					<div class="d-flex justify-content-center">
-						<button class="btn btn-outline-secondary" onclick="location.href='mypage'" style="margin: 10px">취소</button>
+						<button type="button" class="btn btn-outline-secondary" onclick="location.href='mypage'" style="margin: 10px">취소</button>
 						<input type="submit" class="btn" style="background-color: #ff6600; color: #ffffff; margin: 10px;" value="수정">
 					</div>
 				</form>
@@ -176,10 +176,10 @@
 
 			if (pass1 !== "" && pass2 !== "") {
 				if (pass1 === pass2) {
-					$("#checkPw").html(' ✅');
+					$("#checkPw").html('✅');
 					$("#checkPw").css('color', 'green');
 				} else {
-					$("#checkPw").html(' ❌일치하지 않습니다.');
+					$("#checkPw").html('❌일치하지 않습니다.');
 					$("#checkPw").css('color', 'red');
 				}
 			} else {

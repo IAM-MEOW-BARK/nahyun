@@ -154,7 +154,7 @@ public class CatDogDAOImpl implements CatDogDAO {
 	@Override
 	public int updateProfile(MemberDTO memberDTO) {
 		// TODO Auto-generated method stub
-		return 0;
+		return sqlSession.update(namespace + ".updateProfile", memberDTO);
 	}
 
 	@Override
@@ -205,6 +205,8 @@ public class CatDogDAOImpl implements CatDogDAO {
 	@Override
 	public ProductDTO getProductByCode(int product_code) throws Exception {
 	    return sqlSession.selectOne(namespace + ".getProductByCode", product_code);
+	    
+	    
 	}
 
 }

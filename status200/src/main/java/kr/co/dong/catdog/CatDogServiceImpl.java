@@ -55,13 +55,12 @@ public class CatDogServiceImpl implements CatDogService {
 	public List<CartDTO> getCartItem(String user_id) throws Exception {
 		return catDogDAO.getCartItem(user_id);
 	}
-	
+
 	@Override
 	public int getCartCost(String user_id) throws Exception {
 		return catDogDAO.getCartCost(user_id);
 	}
 
-	
 	@Override
 	public int deleteCart(CartDTO cartDTO) throws Exception {
 		return catDogDAO.deleteCart(cartDTO);
@@ -141,5 +140,10 @@ public class CatDogServiceImpl implements CatDogService {
 	@Override
 	public ProductDTO getProductByCode(int product_code) throws Exception {
 		return catDogDAO.getProductByCode(product_code);
+	}
+
+	@Override
+	public int updateProfile(MemberDTO memberDTO) throws Exception {
+		return catDogDAO.updateProfile(memberDTO);
 	}
 }
