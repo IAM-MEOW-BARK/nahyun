@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -517,7 +518,9 @@ public class CatDogController {
 
 		if (user == null) {
 			logger.info("비밀번호가 틀립니다.");
-			return "redirect:/checkPW";
+			model.addAttribute("errorMessage", "비밀번호가 틀립니다.");
+			model.addAttribute("user_id", map.get("user_id"));
+			return "/checkPW";
 		}
 		logger.info("회원 조회 뿅");
 
@@ -528,6 +531,8 @@ public class CatDogController {
 		session.setAttribute("address", user.get("address"));
 		session.setAttribute("detailaddress", user.get("detailaddress"));
 
+		session.setAttribute("password", map.get("password"));
+		
 		System.out.println(user);
 
 		return "redirect:/updateProfile";
@@ -548,17 +553,32 @@ public class CatDogController {
 
 	@PostMapping("/updateProfile")
 	public String updateProfile(@ModelAttribute MemberDTO memberDTO, HttpSession session, HttpServletRequest request,
-			Model model) throws Exception {
+			Model model, RedirectAttributes redirectAttributes) throws Exception {
 
 		request.setCharacterEncoding("UTF-8");
 
-		model.addAttribute(memberDTO);
-		System.out.println("===== 프로필 업데이트 아직인겨 ===== ");
-		System.out.println(memberDTO);
+		// 세션에서 현재 비밀번호 가져오기
+		String currentPW = (String) session.getAttribute("password");
+		
+		System.out.println("지금 비번이 머꼬???????" + currentPW);
 
+		// 새 비밀번호가 비어있는지 확인
+		if (memberDTO.getPassword() == null || memberDTO.getPassword().isEmpty()) {
+			// 새 비밀번호가 null 이거나 empty하다면
+			System.out.println(memberDTO.getPassword());
+			memberDTO.setPassword(currentPW);
+		}
+
+		model.addAttribute(memberDTO);
+		System.out.println("===== 프로필 업데이트 할겨 ===== ");
+		System.out.println(memberDTO);
 		catDogService.updateProfile(memberDTO);
 		System.out.println("===== 프로필 업데이트 된겨 ===== ");
-		System.out.println(memberDTO);
+		
+		 // 플래시 메시지 추가
+	    redirectAttributes.addFlashAttribute("successMessage", "회원 정보가 성공적으로 수정되었습니다.");
+
+		
 		return "redirect:/mypage";
 	}
 
