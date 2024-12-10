@@ -50,7 +50,6 @@
 										<c:if test="${not empty errorMessage}">
 											<p class="error">${errorMessage}</p>
 										</c:if>
-
 									</div>
 								</td>
 							</tr>

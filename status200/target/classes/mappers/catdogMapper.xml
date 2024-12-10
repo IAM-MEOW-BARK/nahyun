@@ -26,7 +26,8 @@
 		FROM
 		product
 		WHERE
-		product_category = #{product_category}
+		product_category =
+		#{product_category}
 		ORDER BY
 		product_regdate DESC
 		LIMIT 20
@@ -409,5 +410,4 @@
 			#{code}
 		</foreach>
 	</delete>
-
 </mapper>

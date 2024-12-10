@@ -66,8 +66,7 @@
 								<th class="table-light">새 비밀번호 확인</th>
 								<td>
 									<div style="text-align: center; display: flex;">
-										<input class="form-control" type="password" id="pass2" autocomplete="new-password" style="max-width: 15em;">
-										<font id="checkPw" style="font-size: medium; margin-left: 1.5em; "></font>
+										<input class="form-control" type="password" id="pass2" autocomplete="new-password" style="max-width: 15em;"> <font id="checkPw" style="font-size: medium; margin-left: 1.5em;"></font>
 									</div>
 								</td>
 							</tr>
@@ -166,6 +165,31 @@
 		}
 	</script>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+	<script type="text/javascript">
+		function validateForm(event) {
+			let pass1 = document.getElementById("pass1").value;
+			let pass2 = document.getElementById("pass2").value;
+
+			if (pass1 !== pass2) {
+				alert("비밀번호가 일치하지 않습니다.");
+				document.getElementById("pass2").value = "";
+				document.getElementById("pass2").focus();
+				return false; // 폼 제출 방지
+			}
+
+			return true; // 폼 제출 허용
+		}
+
+		// 폼의 submit 이벤트에 validateForm 연결
+		document.querySelector("form").addEventListener("submit",
+				function(event) {
+					if (!validateForm()) {
+						event.preventDefault(); // 폼 제출 중단
+					}
+				});
+	</script>
+
 	<script type="text/javascript">
 		$(document).on('keyup', '#pass2', function() {
 			let pass1 = $("#pass1").val();
@@ -176,7 +200,7 @@
 
 			if (pass1 !== "" && pass2 !== "") {
 				if (pass1 === pass2) {
-					$("#checkPw").html('✅');
+					$("#checkPw").html('✅ 일치');
 					$("#checkPw").css('color', 'green');
 				} else {
 					$("#checkPw").html('❌일치하지 않습니다.');

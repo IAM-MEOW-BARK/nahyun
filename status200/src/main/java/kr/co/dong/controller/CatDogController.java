@@ -487,7 +487,7 @@ public class CatDogController {
 		if (user == null) {
 			return "redirect:/catdog-login";
 		}
-		model.addAttribute("userID", user.get("user_id"));
+		model.addAttribute("user_id", user.get("user_id"));
 		return "checkPW";
 	}
 
