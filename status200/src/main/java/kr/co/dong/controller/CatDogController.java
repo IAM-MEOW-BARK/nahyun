@@ -64,7 +64,7 @@ public class CatDogController {
 
 		List<ProductDTO> list01 = catDogService.mainlist(1);
 		List<ProductDTO> list02 = catDogService.mainlist(2);
-		List<ProductDTO> list03 = catDogService.mainlist(3);	
+		List<ProductDTO> list03 = catDogService.mainlist(3);
 		List<ProductDTO> list04 = catDogService.mainlist(4);
 		List<ProductDTO> list05 = catDogService.mainlist(5);
 
@@ -351,6 +351,45 @@ public class CatDogController {
 		return "totalOrder";
 	}
 
+//	@GetMapping("/totalOrder")
+//	public String totalOrder(HttpSession session, Model model,
+//	        @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+//	        @RequestParam(value = "pageListNum", defaultValue = "1") int pageListNum) throws Exception {
+//
+//	    Map<String, Object> user = (Map<String, Object>) session.getAttribute("user");
+//	    if (user == null) {
+//	        return "catdog-login";
+//	    }
+//
+//	    model.addAttribute("user_name", user.get("name"));
+//	    model.addAttribute("user_id", user.get("user_id"));
+//
+//	    int pageSize = 10; // 한 페이지당 게시글 수
+//	    int pageListSize = 5; // 한 번에 표시할 페이지 수
+//
+//	    // 전체 게시글 수
+//	    int totalList = 50;
+//	    int totalPage = (int) Math.ceil((double) totalList / pageSize);
+//
+//	    // 현재 페이지에서 가져올 데이터의 시작 인덱스 계산
+//	    int start = (pageNum - 1) * pageSize;
+//
+//	    // 현재 페이지 번호 목록의 시작과 끝
+//	    int startPage = (pageListNum - 1) * pageListSize + 1;
+//	    int endPage = Math.min(startPage + pageListSize - 1, totalPage);
+//
+//	    List<MyDTO> myOrders = catDogService.getMyOrders((String) user.get("user_id"));
+//	    model.addAttribute("myOrders", myOrders);
+//	    model.addAttribute("totalPage", totalPage); // 전체 페이지 수
+//	    model.addAttribute("currentPage", pageNum); // 현재 페이지 번호
+//	    model.addAttribute("pageListNum", pageListNum); // 1~10, 11~20 ...
+//	    model.addAttribute("startPage", startPage); // 페이지 nav 시작 번호
+//	    model.addAttribute("endPage", endPage); // 페이지 nav 끝 번호
+//
+//	    System.out.println(myOrders);
+//	    return "totalOrder";
+//	}
+
 	@GetMapping("/totalWish")
 	public String totalWish() {
 		return "wish";
@@ -516,7 +555,7 @@ public class CatDogController {
 		session.setAttribute("detailaddress", user.get("detailaddress"));
 
 		session.setAttribute("password", map.get("password"));
-		
+
 		System.out.println(user);
 
 		return "redirect:/updateProfile";
@@ -543,7 +582,7 @@ public class CatDogController {
 
 		// 세션에서 현재 비밀번호 가져오기
 		String currentPW = (String) session.getAttribute("password");
-		
+
 		System.out.println("지금 비번이 머꼬???????" + currentPW);
 
 		// 새 비밀번호가 비어있는지 확인
@@ -558,11 +597,10 @@ public class CatDogController {
 		System.out.println(memberDTO);
 		catDogService.updateProfile(memberDTO);
 		System.out.println("===== 프로필 업데이트 된겨 ===== ");
-		
-		 // 플래시 메시지 추가
-	    redirectAttributes.addFlashAttribute("successMessage", "회원 정보가 성공적으로 수정되었습니다.");
 
-		
+		// 플래시 메시지 추가
+		redirectAttributes.addFlashAttribute("successMessage", "회원 정보가 성공적으로 수정되었습니다.");
+
 		return "redirect:/mypage";
 	}
 

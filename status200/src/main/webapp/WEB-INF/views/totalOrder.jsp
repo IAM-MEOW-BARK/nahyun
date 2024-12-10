@@ -35,7 +35,7 @@
 				<!-- 조회 필터 -->
 				<div class="table-container">
 					<h4>주문 내역</h4>
-					<table class="table justify-content-center" style="text-align: center; border: 1px solid #ddd;">
+<!-- 					<table class="table justify-content-center" style="text-align: center; border: 1px solid #ddd;">
 						<tr>
 							<th class="col-md-1 table-light">조회기간</th>
 							<td class="col-md-6">
@@ -45,32 +45,7 @@
 								</form>
 							</td>
 						</tr>
-					</table>
-					<!-- 		<table class="table justify-content-center" style="text-align: center">
-		    <tr>
-		        <th class="col-md-1 table-light">기간별 조회</th>
-		        <td class="col-md-6">
-		            <form style="display: flex; justify-content: center; gap: 15px; align-items: center;">
-		                <input class="form-check-input" type="radio" id="15day" name="searchdate" value="15">
-		                <label class="form-check-label" for="15day" style="margin-right: 10px;">15일</label>
-		                <input class="form-check-input" type="radio" id="1month" name="searchdate" value="30">
-		                <label class="form-check-label" for="1month" style="margin-right: 10px;">1개월</label>
-		                <input class="form-check-input" type="radio" id="2month" name="searchdate" value="60">
-		                <label class="form-check-label" for="2month" style="margin-right: 10px;">2개월</label>
-		                <input class="form-check-input" type="radio" id="3month" name="searchdate" value="90">
-		                <label class="form-check-label" for="3month" style="margin-right: 10px;">3개월</label>
-		                <input class="form-check-input" type="radio" id="6month" name="searchdate" value="180">
-		                <label class="form-check-label" for="6month">6개월</label>
-		            </form>
-		        </td>
-		    </tr>
-			<tr>
-				<th class="table-light">일자별 조회</th>
-				<td>
-				
-				</td>
-			</tr>
-		</table> -->
+					</table> -->
 				</div>
 
 
@@ -96,6 +71,20 @@
 							</tr>
 						</c:forEach>
 					</table>
+
+					<%-- <div class="pagination-container">
+						<div class="pagination">
+							<c:if test="${startPage > 1}">
+								<a href="${basePath}?pageNum=${startPage - 1}&pageListNum=${pageListNum}&searchType=${searchType}&searchKeyword=${searchKeyword}&startDate=${startDate}&endDate=${endDate}">&lt;</a>
+							</c:if>
+							<c:forEach begin="${startPage}" end="${endPage}" var="page">
+								<a href="${basePath}?pageNum=${page}&pageListNum=${pageListNum}&searchType=${searchType}&searchKeyword=${searchKeyword}&startDate=${startDate}&endDate=${endDate}" class="${currentPage == page ? 'active' : ''}">${page}</a>
+							</c:forEach>
+							<c:if test="${endPage < totalPage}">
+								<a href="${basePath}?pageNum=${endPage + 1}&pageListNum=${pageListNum}&searchType=${searchType}&searchKeyword=${searchKeyword}&startDate=${startDate}&endDate=${endDate}">&gt;</a>
+							</c:if>
+						</div>
+					</div> --%>
 				</div>
 				<!-- / 전체 주문 내역 리스트. 끝. -->
 

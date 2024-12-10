@@ -410,4 +410,51 @@
 			#{code}
 		</foreach>
 	</delete>
+
+	<!-- 상품 관리 리스트 -->
+	<select id="getTotalProduct" resultType="ProductDTO">
+		<!-- select * from product order by product_regdate desc -->
+		select *
+		from product
+		order by product_regdate desc
+		limit #{start}, #{pageSize}
+	</select>
+
+	<!-- 상품 관리 리스트 -->
+	<select id="getOrderList" resultType="MyDTO" parameterType="map">
+		SELECT
+		o.ordered_at AS orderedAt,
+		o.order_code AS orderCode,
+		(SELECT
+		p.product_name
+		FROM order_item oi
+		JOIN product p ON
+		oi.product_code =
+		p.product_code
+		WHERE oi.order_code = o.order_code
+		ORDER BY
+		oi.product_code ASC
+		LIMIT 1) AS firstProductName,
+		(SELECT
+		SUM(p.product_price *
+		oi.order_quantity)
+		FROM order_item oi
+		JOIN product
+		p ON oi.product_code = p.product_code
+		WHERE oi.order_code =
+		o.order_code) AS totalPrice,
+		o.payment_status AS
+		paymentStatus
+
+		FROM
+		orders o
+
+		WHERE
+		o.user_id_fk = #{user_id}
+		and o.payment_status = 1
+		ORDER BY
+		o.ordered_at DESC
+		limit #{start}, #{pageSize}
+	</select>
+
 </mapper>

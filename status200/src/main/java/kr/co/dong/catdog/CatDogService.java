@@ -66,4 +66,5 @@ public interface CatDogService {
     public void deleteOrderItems(String user_id, List<Integer> product_code);
     public List<Integer> getProductCodeByUserId(String user_id);
 	
+    public List<MyDTO> getOrderList(int start, int pageSize, String user_id);
 }

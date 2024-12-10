@@ -258,4 +258,13 @@ public class CatDogDAOImpl implements CatDogDAO {
 		return sqlSession.selectList(namespace + ".getOrderCodeByUserId", user_id);
 	}
 
+	@Override
+	public List<MyDTO> getOrderList(int start, int pageSize, String user_id) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("start", start);
+		map.put("pageSize", pageSize);
+		map.put("user_id", user_id);
+		return sqlSession.selectList(namespace + ".getOrderList", map);
+	}
+
 }

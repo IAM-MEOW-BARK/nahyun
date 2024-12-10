@@ -183,4 +183,9 @@ public class CatDogServiceImpl implements CatDogService {
 	public List<Integer> getProductCodeByUserId(String user_id) {
 		return catDogDAO.getProductCodeByUserId(user_id);
 	}
+
+	@Override
+	public List<MyDTO> getOrderList(int start, int pageSize, String user_id) {
+		return catDogDAO.getOrderList(start, pageSize, user_id);
+	}
 }
