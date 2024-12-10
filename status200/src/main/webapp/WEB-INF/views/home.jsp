@@ -1,5 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ page session="true"%>
 <!DOCTYPE html>
 <html lang="ko">
@@ -22,7 +24,8 @@
 <%@ include file="include/head.jsp"%>
 
 <!-- Swiper.js CSS -->
-<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+<link rel="stylesheet"
+	href="https://unpkg.com/swiper/swiper-bundle.min.css" />
 
 <!-- Swiper.js JavaScript -->
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
@@ -32,9 +35,12 @@
 
 	<%@ include file="include/header.jsp"%>
 
-	<section style="display: flex; justify-content: center; align-items: center; background-color: #FFCF84; height: 300px; margin-bottom: 50px">
+	<section
+		style="display: flex; justify-content: center; align-items: center; background-color: #FFCF84; height: 300px; margin-bottom: 50px">
 
-		<a href="noticeList"> <img src="${pageContext.request.contextPath}/resources/bootstrap/images/main-banner.png" alt="배너 이미지" style="max-width: 100%; height: 300px;" />
+		<a href="noticeList"> <img
+			src="${pageContext.request.contextPath}/resources/bootstrap/images/main-banner.png"
+			alt="배너 이미지" style="max-width: 100%; height: 300px;" />
 		</a>
 	</section>
 
@@ -92,345 +98,387 @@
 	</section> --%>
 
 	<!-- Main 캐러셀 리스트 1 -->
-	<section class="pb-5">
-		<div class="container-lg">
-			<div class="row">
-				<div class="col-md-12">
-					<div class="section-header d-flex flex-wrap justify-content-between my-4">
-						<h2 class="section-title">사료 & 간식</h2>
 
-						<!-- Main 캐러셀 조작 버튼 -->
-						<div class="d-flex align-items-center">
-							<a href="#" class="btn btn-primary me-2">전체 보기</a>
-							<div class="swiper-buttons">
-								<button class="swiper-prev btn btn-primary" data-target="carousel1">&lt;</button>
-								<button class="swiper-next btn btn-primary" data-target="carousel1">&gt;</button>
-							</div>
+	<div class="container-lg">
+		<div class="row">
+			<div class="col-md-12">
+				<div
+					class="section-header d-flex flex-wrap justify-content-between my-4">
+					<h2 class="section-title">사료 & 간식</h2>
+
+					<!-- Main 캐러셀 조작 버튼 -->
+					<div class="d-flex align-items-center">
+						<a href="#" class="btn btn-primary me-2">전체 보기</a>
+						<div class="swiper-buttons">
+							<button class="swiper-prev btn btn-primary"
+								data-target="carousel1">&lt;</button>
+							<button class="swiper-next btn btn-primary"
+								data-target="carousel1">&gt;</button>
 						</div>
-						<!-- / Main 캐러셀 조작 버튼. 끝. -->
 					</div>
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="col-md-12">
-					<div class="swiper" id="carousel1">
-						<div class="swiper-wrapper">
-
-							<!-- 리스트에서 아이템 하나 -->
-							<c:forEach var="product01" items="${list01}">
-								<div class="swiper-slide">
-									<div class="product-item">
-										<figure>
-											<a href="index.html" title="Product Title"> <img src="${pageContext.request.contextPath}/resources/upload/${product01.thumbnail_img}" alt="Product Thumbnail" class="tab-image" style="width: 200px; height: 150px;" />
-											</a>
-										</figure>
-										<div class="d-flex flex-column text-center">
-											<h3 class="fs-6 fw-normal">${product01.product_name}</h3>
-											<div class="d-flex justify-content-center align-items-center gap-2">
-												<span class="text-dark fw-semibold">${product01.product_price}원</span>
-											</div>
-											<div class="button-area p-3 pt-0">
-												<div class="row g-1 mt-2">
-													<div class="col-3">
-														<input type="number" name="quantity" class="form-control border-dark-subtle input-number quantity" value="1" />
-													</div>
-													<div class="col-7">
-														<a href="#" class="btn btn-primary rounded-1 p-2 fs-7 btn-cart"> <svg width="18" height="18">
-      <use xlink:href="#cart"></use>
-      </svg> 장바구니
-														</a>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</c:forEach>
-							<!-- / 리스트에서 아이템 하나 -->
-						</div>
-						<!-- / product-grid -->
-					</div>
+					<!-- / Main 캐러셀 조작 버튼. 끝. -->
 				</div>
 			</div>
 		</div>
-	</section>
+
+		<div class="row">
+			<div class="col-md-12">
+				<div class="swiper" id="carousel1">
+					<div class="swiper-wrapper">
+
+						<!-- 리스트에서 아이템 하나 -->
+						<c:forEach var="product01" items="${list01}">
+							<div class="swiper-slide" style="height: 350px;">
+								<div class="product-item">
+									<figure>
+										<a href="productDetail?product_code=${product01.product_code}" title="${product01.product_name} 상세 페이지"> <img
+											src="${pageContext.request.contextPath}/resources/upload/${product01.thumbnail_img}"
+											alt="${product01.product_name}" class="tab-image"
+											style="width: 200px; height: 150px;" />
+										</a>
+									</figure>
+									<div class="d-flex flex-column text-center">
+										<h3 class="fs-6 fw-normal">${product01.product_name}</h3>
+										<div
+											class="d-flex justify-content-center align-items-center gap-2">
+											<fmt:formatNumber value="${product01.product_price}"
+												pattern="#,###원" />
+										</div>
+										<div class="button-area p-3 pt-0">
+											<form action="addCart" method="POST">
+												<input type="hidden" name="user_id" value="${user_id}" />
+												<input type="hidden" name="product_code" value="${product01.product_code}" />
+												<input type="hidden" name="product_name" value="${product01.product_name}" />
+												<input type="hidden" name="product_code" value="${product01.product_code}" />
+												<input type="hidden" name="product_price" value="${product01.product_price}" />
+												<input type="hidden" name="cart_quantity" id="cartQuantity_${product01.product_code}" value="1" />
+												<button type="submit" class="btn btn-primary rounded-1 p-2 fs-7 btn-cart">
+												<svg width="18" height="18">
+												<use xlink:href="#cart"></use></svg> 장바구니</button>		
+												</form>											
+										</div>
+									</div>
+								</div>
+							</div>
+						</c:forEach>
+						<!-- / 리스트에서 아이템 하나 -->
+					</div>
+					<!-- / product-grid -->
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<!-- / Main 캐러셀 리스트 1 -->
 
 	<!-- Main 캐러셀 리스트 2 -->
-	<section class="pb-5">
-		<div class="container-lg">
-			<div class="row">
-				<div class="col-md-12">
-					<div class="section-header d-flex flex-wrap justify-content-between my-4">
-						<h2 class="section-title">장난감 & 토이</h2>
 
-						<!-- Main 캐러셀 조작 버튼 -->
-						<div class="d-flex align-items-center">
-							<a href="#" class="btn btn-primary me-2">전체 보기</a>
-							<div class="swiper-buttons">
-								<button class="swiper-prev btn btn-primary" data-target="carousel2">&lt;</button>
-								<button class="swiper-next btn btn-primary" data-target="carousel2">&gt;</button>
-							</div>
+	<div class="container-lg">
+		<div class="row">
+			<div class="col-md-12">
+				<div
+					class="section-header d-flex flex-wrap justify-content-between my-4">
+					<h2 class="section-title">사료 & 간식</h2>
+
+					<!-- Main 캐러셀 조작 버튼 -->
+					<div class="d-flex align-items-center">
+						<a href="#" class="btn btn-primary me-2">전체 보기</a>
+						<div class="swiper-buttons">
+							<button class="swiper-prev btn btn-primary"
+								data-target="carousel2">&lt;</button>
+							<button class="swiper-next btn btn-primary"
+								data-target="carousel2">&gt;</button>
 						</div>
-						<!-- / Main 캐러셀 조작 버튼. 끝. -->
 					</div>
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="col-md-12">
-					<div class="swiper" id="carousel2">
-						<div class="swiper-wrapper">
-
-							<!-- 리스트에서 아이템 하나 -->
-							<c:forEach var="product02" items="${list02}">
-								<div class="swiper-slide">
-									<div class="product-item">
-										<figure>
-											<a href="index.html" title="Product Title"> <img src="${pageContext.request.contextPath}/resources/upload/${product02.thumbnail_img}" alt="Product Thumbnail" class="tab-image" style="width: 200px; height: 150px;" />
-											</a>
-										</figure>
-										<div class="d-flex flex-column text-center">
-											<h3 class="fs-6 fw-normal">${product02.product_name}</h3>
-											<div class="d-flex justify-content-center align-items-center gap-2">
-												<span class="text-dark fw-semibold">${product02.product_price}원</span>
-											</div>
-											<div class="button-area p-3 pt-0">
-												<div class="row g-1 mt-2">
-													<div class="col-3">
-														<input type="number" name="quantity" class="form-control border-dark-subtle input-number quantity" value="1" />
-													</div>
-													<div class="col-7">
-														<a href="#" class="btn btn-primary rounded-1 p-2 fs-7 btn-cart"> <svg width="18" height="18">
-      <use xlink:href="#cart"></use>
-      </svg> 장바구니
-														</a>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</c:forEach>
-							<!-- / 리스트에서 아이템 하나 -->
-						</div>
-						<!-- / product-grid -->
-					</div>
+					<!-- / Main 캐러셀 조작 버튼. 끝. -->
 				</div>
 			</div>
 		</div>
-	</section>
+
+		<div class="row">
+			<div class="col-md-12">
+				<div class="swiper" id="carousel2">
+					<div class="swiper-wrapper">
+
+						<!-- 리스트에서 아이템 하나 -->
+						<c:forEach var="product02" items="${list02}">
+							<div class="swiper-slide" style="height: 350px;">
+								<div class="product-item">
+									<figure>
+										<a href="productDetail?product_code=${product02.product_code}" title="${product02.product_name} 상세 페이지"> <img
+											src="${pageContext.request.contextPath}/resources/upload/${product02.thumbnail_img}"
+											alt="${product02.product_name}" class="tab-image"
+											style="width: 200px; height: 150px;" />
+										</a>
+									</figure>
+									<div class="d-flex flex-column text-center">
+										<h3 class="fs-6 fw-normal">${product02.product_name}</h3>
+										<div
+											class="d-flex justify-content-center align-items-center gap-2">
+											<fmt:formatNumber value="${product02.product_price}"
+												pattern="#,###원" />
+										</div>
+										<div class="button-area p-3 pt-0">
+											<form action="addCart" method="POST">
+												<input type="hidden" name="user_id" value="${user_id}" />
+												<input type="hidden" name="product_code" value="${product02.product_code}" />
+												<input type="hidden" name="product_name" value="${product02.product_name}" />
+												<input type="hidden" name="product_code" value="${product02.product_code}" />
+												<input type="hidden" name="product_price" value="${product02.product_price}" />
+												<input type="hidden" name="cart_quantity" id="cartQuantity_${product02.product_code}" value="1" />
+												<button type="submit" class="btn btn-primary rounded-1 p-2 fs-7 btn-cart">
+												<svg width="18" height="18">
+												<use xlink:href="#cart"></use></svg> 장바구니</button>		
+												</form>											
+										</div>
+									</div>
+								</div>
+							</div>
+						</c:forEach>
+						<!-- / 리스트에서 아이템 하나 -->
+					</div>
+					<!-- / product-grid -->
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<!-- / Main 캐러셀 리스트 2 -->
 
 	<!-- Main 캐러셀 리스트 3 -->
-	<section class="pb-5">
-		<div class="container-lg">
-			<div class="row">
-				<div class="col-md-12">
-					<div class="section-header d-flex flex-wrap justify-content-between my-4">
-						<h2 class="section-title">목욕 & 케어</h2>
 
-						<!-- Main 캐러셀 조작 버튼 -->
-						<div class="d-flex align-items-center">
-							<a href="#" class="btn btn-primary me-2">전체 보기</a>
-							<div class="swiper-buttons">
-								<button class="swiper-prev btn btn-primary" data-target="carousel3">&lt;</button>
-								<button class="swiper-next btn btn-primary" data-target="carousel3">&gt;</button>
-							</div>
+	<div class="container-lg">
+		<div class="row">
+			<div class="col-md-12">
+				<div
+					class="section-header d-flex flex-wrap justify-content-between my-4">
+					<h2 class="section-title">사료 & 간식</h2>
+
+					<!-- Main 캐러셀 조작 버튼 -->
+					<div class="d-flex align-items-center">
+						<a href="#" class="btn btn-primary me-2">전체 보기</a>
+						<div class="swiper-buttons">
+							<button class="swiper-prev btn btn-primary"
+								data-target="carousel3">&lt;</button>
+							<button class="swiper-next btn btn-primary"
+								data-target="carousel3">&gt;</button>
 						</div>
-						<!-- / Main 캐러셀 조작 버튼. 끝. -->
 					</div>
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="col-md-12">
-					<div class="swiper" id="carousel3">
-						<div class="swiper-wrapper">
-
-							<!-- 리스트에서 아이템 하나 -->
-							<c:forEach var="product03" items="${list03}">
-								<div class="swiper-slide">
-									<div class="product-item">
-										<figure>
-											<a href="index.html" title="Product Title"> <img src="${pageContext.request.contextPath}/resources/upload/${product03.thumbnail_img}" alt="Product Thumbnail" class="tab-image" style="width: 200px; height: 150px;" />
-											</a>
-										</figure>
-										<div class="d-flex flex-column text-center">
-											<h3 class="fs-6 fw-normal">${product03.product_name}</h3>
-											<div class="d-flex justify-content-center align-items-center gap-2">
-												<span class="text-dark fw-semibold">${product03.product_price}원</span>
-											</div>
-											<div class="button-area p-3 pt-0">
-												<div class="row g-1 mt-2">
-													<div class="col-3">
-														<input type="number" name="quantity" class="form-control border-dark-subtle input-number quantity" value="1" />
-													</div>
-													<div class="col-7">
-														<a href="#" class="btn btn-primary rounded-1 p-2 fs-7 btn-cart"> <svg width="18" height="18">
-      <use xlink:href="#cart"></use>
-      </svg> 장바구니
-														</a>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</c:forEach>
-							<!-- / 리스트에서 아이템 하나 -->
-						</div>
-						<!-- / product-grid -->
-					</div>
+					<!-- / Main 캐러셀 조작 버튼. 끝. -->
 				</div>
 			</div>
 		</div>
-	</section>
+
+		<div class="row">
+			<div class="col-md-12">
+				<div class="swiper" id="carousel3">
+					<div class="swiper-wrapper">
+
+						<!-- 리스트에서 아이템 하나 -->
+						<c:forEach var="product03" items="${list03}">
+							<div class="swiper-slide" style="height: 350px;">
+								<div class="product-item">
+									<figure>
+										<a href="productDetail?product_code=${product03.product_code}" title="${product03.product_name} 상세 페이지"> <img
+											src="${pageContext.request.contextPath}/resources/upload/${product03.thumbnail_img}"
+											alt="${product03.product_name}" class="tab-image"
+											style="width: 200px; height: 150px;" />
+										</a>
+									</figure>
+									<div class="d-flex flex-column text-center">
+										<h3 class="fs-6 fw-normal">${product03.product_name}</h3>
+										<div
+											class="d-flex justify-content-center align-items-center gap-2">
+											<fmt:formatNumber value="${product03.product_price}"
+												pattern="#,###원" />
+										</div>
+										<div class="button-area p-3 pt-0">
+											<form action="addCart" method="POST">
+												<input type="hidden" name="user_id" value="${user_id}" />
+												<input type="hidden" name="product_code" value="${product03.product_code}" />
+												<input type="hidden" name="product_name" value="${product03.product_name}" />
+												<input type="hidden" name="product_code" value="${product03.product_code}" />
+												<input type="hidden" name="product_price" value="${product03.product_price}" />
+												<input type="hidden" name="cart_quantity" id="cartQuantity_${product03.product_code}" value="1" />
+												<button type="submit" class="btn btn-primary rounded-1 p-2 fs-7 btn-cart">
+												<svg width="18" height="18">
+												<use xlink:href="#cart"></use></svg> 장바구니</button>		
+												</form>											
+										</div>
+									</div>
+								</div>
+							</div>
+						</c:forEach>
+						<!-- / 리스트에서 아이템 하나 -->
+					</div>
+					<!-- / product-grid -->
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<!-- / Main 캐러셀 리스트 3 -->
 
 	<!-- Main 캐러셀 리스트 4 -->
-	<section class="pb-5">
-		<div class="container-lg">
-			<div class="row">
-				<div class="col-md-12">
-					<div class="section-header d-flex flex-wrap justify-content-between my-4">
-						<h2 class="section-title">산책 & 훈련</h2>
 
-						<!-- Main 캐러셀 조작 버튼 -->
-						<div class="d-flex align-items-center">
-							<a href="#" class="btn btn-primary me-2">전체 보기</a>
-							<div class="swiper-buttons">
-								<button class="swiper-prev btn btn-primary" data-target="carousel4">&lt;</button>
-								<button class="swiper-next btn btn-primary" data-target="carousel4">&gt;</button>
-							</div>
+	<div class="container-lg">
+		<div class="row">
+			<div class="col-md-12">
+				<div
+					class="section-header d-flex flex-wrap justify-content-between my-4">
+					<h2 class="section-title">사료 & 간식</h2>
+
+					<!-- Main 캐러셀 조작 버튼 -->
+					<div class="d-flex align-items-center">
+						<a href="#" class="btn btn-primary me-2">전체 보기</a>
+						<div class="swiper-buttons">
+							<button class="swiper-prev btn btn-primary"
+								data-target="carousel4">&lt;</button>
+							<button class="swiper-next btn btn-primary"
+								data-target="carousel4">&gt;</button>
 						</div>
-						<!-- / Main 캐러셀 조작 버튼. 끝. -->
 					</div>
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="col-md-12">
-					<div class="swiper" id="carousel4">
-						<div class="swiper-wrapper">
-
-							<!-- 리스트에서 아이템 하나 -->
-							<c:forEach var="product04" items="${list04}">
-								<div class="swiper-slide">
-									<div class="product-item">
-										<figure>
-											<a href="index.html" title="Product Title"> <img src="${pageContext.request.contextPath}/resources/upload/${product04.thumbnail_img}" alt="Product Thumbnail" class="tab-image" style="width: 200px; height: 150px;" />
-											</a>
-										</figure>
-										<div class="d-flex flex-column text-center">
-											<h3 class="fs-6 fw-normal">${product04.product_name}</h3>
-											<div class="d-flex justify-content-center align-items-center gap-2">
-												<span class="text-dark fw-semibold">${product04.product_price}원</span>
-											</div>
-											<div class="button-area p-3 pt-0">
-												<div class="row g-1 mt-2">
-													<div class="col-3">
-														<input type="number" name="quantity" class="form-control border-dark-subtle input-number quantity" value="1" />
-													</div>
-													<div class="col-7">
-														<a href="#" class="btn btn-primary rounded-1 p-2 fs-7 btn-cart"> <svg width="18" height="18">
-      <use xlink:href="#cart"></use>
-      </svg> 장바구니
-														</a>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</c:forEach>
-							<!-- / 리스트에서 아이템 하나 -->
-						</div>
-						<!-- / product-grid -->
-					</div>
+					<!-- / Main 캐러셀 조작 버튼. 끝. -->
 				</div>
 			</div>
 		</div>
-	</section>
+
+		<div class="row">
+			<div class="col-md-12">
+				<div class="swiper" id="carousel4">
+					<div class="swiper-wrapper">
+
+						<!-- 리스트에서 아이템 하나 -->
+						<c:forEach var="product04" items="${list04}">
+							<div class="swiper-slide" style="height: 350px;">
+								<div class="product-item">
+									<figure>
+										<a href="productDetail?product_code=${product04.product_code}" title="${product04.product_name} 상세 페이지"> <img
+											src="${pageContext.request.contextPath}/resources/upload/${product04.thumbnail_img}"
+											alt="${product04.product_name}" class="tab-image"
+											style="width: 200px; height: 150px;" />
+										</a>
+									</figure>
+									<div class="d-flex flex-column text-center">
+										<h3 class="fs-6 fw-normal">${product04.product_name}</h3>
+										<div
+											class="d-flex justify-content-center align-items-center gap-2">
+											<fmt:formatNumber value="${product04.product_price}"
+												pattern="#,###원" />
+										</div>
+										<div class="button-area p-3 pt-0">
+											<form action="addCart" method="POST">
+												<input type="hidden" name="user_id" value="${user_id}" />
+												<input type="hidden" name="product_code" value="${product04.product_code}" />
+												<input type="hidden" name="product_name" value="${product04.product_name}" />
+												<input type="hidden" name="product_code" value="${product04.product_code}" />
+												<input type="hidden" name="product_price" value="${product04.product_price}" />
+												<input type="hidden" name="cart_quantity" id="cartQuantity_${product04.product_code}" value="1" />
+												<button type="submit" class="btn btn-primary rounded-1 p-2 fs-7 btn-cart">
+												<svg width="18" height="18">
+												<use xlink:href="#cart"></use></svg> 장바구니</button>		
+												</form>											
+										</div>
+									</div>
+								</div>
+							</div>
+						</c:forEach>
+						<!-- / 리스트에서 아이템 하나 -->
+					</div>
+					<!-- / product-grid -->
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<!-- / Main 캐러셀 리스트 4 -->
 
 	<!-- Main 캐러셀 리스트 5 -->
-	<section class="pb-5">
-		<div class="container-lg">
-			<div class="row">
-				<div class="col-md-12">
-					<div class="section-header d-flex flex-wrap justify-content-between my-4">
-						<h2 class="section-title">의류 & 잡화</h2>
 
-						<!-- Main 캐러셀 조작 버튼 -->
-						<div class="d-flex align-items-center">
-							<a href="#" class="btn btn-primary me-2">전체 보기</a>
-							<div class="swiper-buttons">
-								<button class="swiper-prev btn btn-primary" data-target="carousel5">&lt;</button>
-								<button class="swiper-next btn btn-primary" data-target="carousel5">&gt;</button>
-							</div>
+	<div class="container-lg">
+		<div class="row">
+			<div class="col-md-12">
+				<div
+					class="section-header d-flex flex-wrap justify-content-between my-4">
+					<h2 class="section-title">사료 & 간식</h2>
+
+					<!-- Main 캐러셀 조작 버튼 -->
+					<div class="d-flex align-items-center">
+						<a href="#" class="btn btn-primary me-2">전체 보기</a>
+						<div class="swiper-buttons">
+							<button class="swiper-prev btn btn-primary"
+								data-target="carousel5">&lt;</button>
+							<button class="swiper-next btn btn-primary"
+								data-target="carousel5">&gt;</button>
 						</div>
-						<!-- / Main 캐러셀 조작 버튼. 끝. -->
 					</div>
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="col-md-12">
-					<div class="swiper" id="carousel5">
-						<div class="swiper-wrapper">
-
-							<!-- 리스트에서 아이템 하나 -->
-							<c:forEach var="product05" items="${list05}">
-								<div class="swiper-slide">
-									<div class="product-item">
-										<figure>
-											<a href="index.html" title="Product Title"> <img src="${pageContext.request.contextPath}/resources/upload/${product05.thumbnail_img}" alt="Product Thumbnail" class="tab-image" style="width: 200px; height: 150px;" />
-											</a>
-										</figure>
-										<div class="d-flex flex-column text-center">
-											<h3 class="fs-6 fw-normal">${product05.product_name}</h3>
-											<div class="d-flex justify-content-center align-items-center gap-2">
-												<span class="text-dark fw-semibold">${product05.product_price}원</span>
-											</div>
-											<div class="button-area p-3 pt-0">
-												<div class="row g-1 mt-2">
-													<div class="col-3">
-														<input type="number" name="quantity" class="form-control border-dark-subtle input-number quantity" value="1" />
-													</div>
-													<div class="col-7">
-														<a href="#" class="btn btn-primary rounded-1 p-2 fs-7 btn-cart"> <svg width="18" height="18">
-      <use xlink:href="#cart"></use>
-      </svg> 장바구니
-														</a>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</c:forEach>
-							<!-- / 리스트에서 아이템 하나 -->
-						</div>
-						<!-- / product-grid -->
-					</div>
+					<!-- / Main 캐러셀 조작 버튼. 끝. -->
 				</div>
 			</div>
 		</div>
-	</section>
 
-	<!-- / Main 캐러셀 리스트 -->
+		<div class="row">
+			<div class="col-md-12">
+				<div class="swiper" id="carousel5">
+					<div class="swiper-wrapper">
 
-	<script src="${pageContext.request.contextPath}/resources/bootstrap/js/jquery-1.11.0.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
-	<script src="${pageContext.request.contextPath}/resources/bootstrap/js/plugins.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/bootstrap/js/script.js"></script>
+						<!-- 리스트에서 아이템 하나 -->
+						<c:forEach var="product05" items="${list05}">
+							<div class="swiper-slide" style="height: 350px;">
+								<div class="product-item">
+									<figure>
+										<a href="productDetail?product_code=${product05.product_code}" title="${product05.product_name} 상세 페이지"> <img
+											src="${pageContext.request.contextPath}/resources/upload/${product05.thumbnail_img}"
+											alt="${product05.product_name}" class="tab-image"
+											style="width: 200px; height: 150px;" />
+										</a>
+									</figure>
+									<div class="d-flex flex-column text-center">
+										<h3 class="fs-6 fw-normal">${product05.product_name}</h3>
+										<div
+											class="d-flex justify-content-center align-items-center gap-2">
+											<fmt:formatNumber value="${product05.product_price}"
+												pattern="#,###원" />
+										</div>
+										<div class="button-area p-3 pt-0">
+											<form action="addCart" method="POST">
+												<input type="hidden" name="user_id" value="${user_id}" />
+												<input type="hidden" name="product_code" value="${product05.product_code}" />
+												<input type="hidden" name="product_name" value="${product05.product_name}" />
+												<input type="hidden" name="product_code" value="${product05.product_code}" />
+												<input type="hidden" name="product_price" value="${product05.product_price}" />
+												<input type="hidden" name="cart_quantity" id="cartQuantity_${product05.product_code}" value="1" />
+												<button type="submit" class="btn btn-primary rounded-1 p-2 fs-7 btn-cart">
+												<svg width="18" height="18">
+												<use xlink:href="#cart"></use></svg> 장바구니</button>		
+												</form>											
+										</div>
+									</div>
+								</div>
+							</div>
+						</c:forEach>
+						<!-- / 리스트에서 아이템 하나 -->
+					</div>
+					<!-- / product-grid -->
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- / Main 캐러셀 리스트 5 -->
+
+	<script
+		src="${pageContext.request.contextPath}/resources/bootstrap/js/jquery-1.11.0.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+		crossorigin="anonymous"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/bootstrap/js/plugins.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/bootstrap/js/script.js"></script>
 
 	<!-- 	<script>
 		// Swiper.js 초기화

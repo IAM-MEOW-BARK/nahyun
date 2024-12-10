@@ -1,0 +1,385 @@
+
+
+
+ nav.middlemenu ul {
+		    list-style: none; 
+		    display: flex;
+		    padding: 0;
+		    margin: 0;
+		}
+	
+	nav.middlemenu li {
+	    margin: 0 10px; 
+	    font-size: 13px; 
+	}
+	
+	nav.middlemenu a {
+	    text-decoration: none; 
+	    color: black; 
+	}
+	
+	.middlemenu {
+		margin-top: 30px;
+		margin-bottom: 30px;
+	}
+	
+	.middlemenu li{
+		border: 1px solid #ff6600;
+		background-color: white;
+		border-radius: 4px;
+		padding: 0px 2px;
+		color: #ff6600;
+		font-size: 11px;
+		font-weight: 400;
+		box-shadow: none;
+		box-sizing: border-box; /* Ensure border and padding are included in size */
+	    line-height: 1; /* Adjust line height if needed */
+	}
+	
+	.middlemenu li:hover {
+	    background-color: #ff6600;
+	}
+	
+	.middlemenu li:hover a {
+	    color: #ffffff !important;
+		transition: none;
+	}
+h2 {
+  margin-top: 80px;
+  margin-bottom: 25px;
+  margin-left: 18px;
+  font-weight: 500;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+#wrap {
+    width: 1000px;
+	margin:auto;
+	
+}
+table{
+    width: 100%;
+    border-collapse: collapse;
+    line-height: 24px;
+}
+table td {
+    border-top:1px solid rgb(232,232,232);
+    border-bottom:1px solid rgb(232,232,232);
+    border-collapse: collapse;
+    text-align: center;
+    padding: 10px;
+    font-weight: 300;
+    font-size: 13px;
+}
+
+table th {
+	background: white;
+	color: black;
+    border-top:1px solid #ff6600;
+    border-bottom:1px solid #ff6600;
+    border-collapse: collapse;
+    text-align: center;
+    padding: 10px;
+    font-weight: 400;
+    font-size: 13px;
+}
+
+a{
+    text-decoration: none;
+    color: black;
+}
+a:hover{
+    color: #ff6600;
+}
+.paging {
+	display: inline-block;
+	margin-left: 50%;
+	margin-top: 15px;
+	font-weight: 300;
+    font-size: 14px;
+    color: rgb(198,198,198);
+	
+ 
+}
+
+.qnaRegister-box {
+	display: inline-block;
+	float: right;
+	margin-top: 15px;
+	margin-right: 10px;
+	
+}
+
+
+
+.qnaRegister-button {
+	display: block;
+	width: 100px; /* 원하는 너비로 조정 */
+    height: 40px;
+	border: 1px solid #ff6600;
+	background-color: white;
+	border-radius: 4px;
+	padding: 3px 12px;
+	color: #ff6600;
+	font-size: 13px;
+	font-weight: 400;
+	box-shadow: none;
+}
+
+
+
+.qnaRegister-button:hover {
+    background-color: #ff6600; 
+    color: white; 
+}
+
+.allView-box, .register-box {
+    display: flex; /* 플렉스 박스 사용 */
+	justify-content: center; /* 자식 요소를 수평으로 가운데 정렬 */
+    align-items: center; /* 필요시, 자식 요소를 수직으로 가운데 정렬 */
+    margin-top: 20px; /* 원하는 여백 값으로 조정 */
+}
+
+.allView-button, .submit-button, .reset-button {
+	display: block; /* 또는 inline-block, 원하는 레이아웃에 맞게 조정 */
+    width: 100px; /* 원하는 너비로 조정 */
+    height: 40px; /* 원하는 높이로 조정 */
+    
+    
+	background-color: white; /* 배경색을 원하는 색으로 변경 */
+    color: #ff6600; /* 글자색을 흰색으로 설정 */
+    border: 1px solid #ff6600; /* 테두리 색을 설정 */
+    border-radius: 4px; /* 테두리 둥글기 */
+    text-align: center; /* 텍스트 가운데 정렬 */
+    font-size: 13px; /* 글자 크기 */
+    font-weight: 400; /* 글자 굵기 */
+    padding: 3px 12px;
+}
+
+.allView-button:hover, .submit-button:hover, .reset-button:hover {
+    background-color: #ff6600; 
+    color: white;  
+}
+
+.register-box {
+    display: flex; 
+    gap: 20px; 
+}
+.notice-table th:nth-child(2), .notice-table td:nth-child(2) {
+    width: 600px; 
+    word-wrap: break-word; 
+}
+
+.qna-table th:nth-child(2), .qna-table td:nth-child(2) {
+    width: 550px;
+    word-wrap: break-word; 
+}
+
+.qna-table td:nth-child(2) {
+
+    word-wrap: break-word; 
+    text-align: left;
+    padding-left: 4%;
+}
+
+.ask-table th:nth-child(3), .ask-table td:nth-child(3) {
+    width: 600px;
+    word-wrap: break-word; 
+}
+.review-table th:nth-child(2), .review-table th:nth-child(3) {
+	visibility: hidden;
+}
+.review-table th:nth-child(2), .review-table th:nth-child(3) {
+	width: 120px;
+    word-wrap: break-word; 
+}
+.review-table td:nth-child(4) {
+    width: 45%;
+    word-wrap: break-word; 
+    text-align: left;
+    padding-left: 4%;
+}
+.review-table th:nth-child(1),
+.review-table td:nth-child(1) {
+    padding-left: 20px; /* NO 열의 왼쪽 여백 */
+ 
+}
+
+.review-table th:nth-child(7),
+.review-table td:nth-child(7) {
+    padding-right: 20px; /* 조회수 열의 오른쪽 여백 */
+}
+.content {
+    display: none;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+    color: #333;
+}
+
+.active-title {
+    font-weight: bold;
+    color: #ff6600;
+}
+
+.fixed-size-img {
+	width: 100px; 
+    height: 100px; 
+  
+}
+
+
+.reviewDetail-box {
+	border-top: 1px solid #e5e5e5;
+	border-bottom: 1px solid #e5e5e5;
+}
+.reviewDetail-title {
+	font-size: 23px;
+}
+
+.reviewDetail-title {
+	font-size: 20px;
+	margin-bottom: 10px;
+}
+
+.card-img {
+	margin-top: 30px;
+	margin-bottom: 30px;
+}
+
+.noticeDetail-table table, .qnaDetail-table table{
+	
+	margin: auto;
+	margin-top: 30px;
+	width: 70%;
+	border-left: none; 
+    border-right: none;
+	
+}
+
+.qnaDetail-table table, .reviewDetail-table table{
+	
+	margin: auto;
+	margin-top: 30px;
+	width: 70%;
+	border-left: none; 
+    border-right: none;
+    
+    height: 500px; /* 원하는 고정된 세로 길이 설정 */
+    text-align: left; /* 내용 정렬 설정 */
+    padding: 2%; /* 여백 설정 */
+    overflow: auto;
+    vertical-align: top;
+    table-layout: fixed;
+    border-collapse: collapse;
+	
+}
+
+.noticeDetail-table th {
+	width: 120px;
+	border-top: 1px solid #e5e5e5;
+	border-bottom: 1px solid #e5e5e5;
+	border-left: none; 
+    border-right: none;
+    background-color: #fdebe6;
+}
+
+.noticeDetail-table td, .qnaDetail-table td, .reviewDetail-table td {
+	width: auto;
+	border-top:1px solid #e5e5e5;
+    border-bottom:1px solid #e5e5e5;
+    border-left: none; 
+    border-right: none;
+    text-align: left;
+    padding-left: 2%;
+}
+
+.noticeDetail-bon {
+	height: 500px; 
+    text-align: left;
+    padding: 2%;
+    overflow: auto;
+    vertical-align: top;
+}
+
+.qnaDetail-table td:nth-child(1) {
+    width: 70%;
+    word-wrap: break-word; 
+    text-align: left;
+    padding-left: 4%;
+}
+
+
+
+.reviewDetail-table td:nth-child(1) {
+	vertical-align: top;
+	padding-top: 45px;
+	padding-left: 20px;
+}
+.reviewDetail-table td:nth-child(6) {
+    padding-right: 20px; /* 조회수 열의 오른쪽 여백 */
+}
+
+.reviewDetail-table td:nth-child(2) {
+    width: 40%; 
+}
+
+.reviewDetail-table td:nth-child(2) img{
+    width: 400px; /* 고정된 너비 */
+    height: 400px; /* 고정된 높이, 정사각형으로 설정 */
+    vertical-align: center;
+    text-align: left;
+    padding-left: 0;
+}
+
+.reviewDetail-table td:nth-child(3) {
+    width: 50%; /* 3열의 가로길이 늘리기 */
+    word-wrap: break-word; /* 내용이 길 경우 줄바꿈 */
+    text-align: left; /* 텍스트 왼쪽 정렬 */
+    padding-left: 4%;
+}
+
+.reviewDetail-table td:nth-child(1) {
+	width: 5%;
+}
+
+.reviewDetail-table td:nth-child(4), .reviewDetail-table td:nth-child(5), .reviewDetail-table td:nth-child(6)  {
+    width: 10%; /* 3열의 가로길이 늘리기 */
+    
+}
+
+
+ .ck.ck-editor{
+ 	max-width: 1000px;
+ 	
+ }
+ .ck-editor__editable {
+     min-height: 500px;
+ }
+
+
+
+
+
+
+
+
+.sort-options {
+    display: flex;
+    gap: 15px; 
+    margin-top: 10px; 
+    margin-bottom: 10px;
+    float: right;
+    margin-right: 10px;
+}
+
+.sort-link {
+    color: #7f7f7f;
+    text-decoration: none; 
+    font-size: 11px; 
+}
+
+.sort-link:hover {
+    color: #ff6600; /* 마우스 오버 시 색상 변경 */
+    font-weight: bold; /* 마우스 오버 시 밑줄 추가 */
+}

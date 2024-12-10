@@ -26,19 +26,19 @@
 				<!-- 로고 -->
 				<div class="col-sm-4 col-lg-2 text-center text-sm-start d-flex gap-3 justify-content-center">
 					<div class="d-flex align-items-center my-3 my-sm-0">
-						<a href="home"> <img src="${pageContext.request.contextPath}/resources/bootstrap/images/logo.png" alt="logo" class="img-fluid" />
+						<a href="home"> <img src="${pageContext.request.contextPath}/resources/bootstrap/images/CATDOGLogo2.png" alt="logo" class="img-fluid" />
 						</a>
 					</div>
 				</div>
 				<!-- 카테고리 -->
 				<div class="col-lg-6 d-flex justify-content-center align-items-center">
 					<ul class="navbar-nav list-unstyled d-flex flex-row gap-3 gap-lg-6 justify-content-center flex-wrap align-items-center mb-0 fw-bold text-uppercase text-dark">
-						<li class="nav-item active"><a href="/cartegory?tag=food" class="nav-link">🧡사료/간식</a></li>
-						<li class="nav-item active"><a href="/cartegory?tag=toy" class="nav-link">💛장난감/토이</a></li>
-						<li class="nav-item active"><a href="/cartegory?tag=bath" class="nav-link">💚목욕/케어</a></li>
-						<li class="nav-item active"><a href="/cartegory?tag=walk" class="nav-link">💙산책/훈련</a></li>
-						<li class="nav-item active"><a href="/cartegory?tag=cloth" class="nav-link">💜의류/잡화</a></li>
-						<li class="nav-item active"><a href="/cartegory?tag=notice" class="nav-link">공지사항</a></li>
+						<li class="nav-item active"><a href="/categoryList?product_category=1" class="nav-link">🧡사료/간식</a></li>
+	                    <li class="nav-item active"><a href="/categoryList?product_category=2" class="nav-link">💛장난감/토이</a></li>
+	                    <li class="nav-item active"><a href="/categoryList?product_category=3" class="nav-link">💚목욕/케어</a></li>
+	                    <li class="nav-item active"><a href="/categoryList?product_category=4" class="nav-link">💙산책/훈련</a></li>
+	                    <li class="nav-item active"><a href="/categoryList?product_category=5" class="nav-link">💜의류/잡화</a></li>
+	                    <li class="nav-item active"><a href="/noticeList" class="nav-link">공지사항</a></li>
 					</ul>
 				</div>
 				<!-- 로그인/장바구니/마이페이지 -->
