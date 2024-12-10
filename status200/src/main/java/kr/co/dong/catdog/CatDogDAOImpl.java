@@ -163,15 +163,10 @@ public class CatDogDAOImpl implements CatDogDAO {
 		return 0;
 	}
 
-	public List<MyDTO> getMyOrders(String user_id) throws Exception {
-		return sqlSession.selectList(namespace + ".getMyOrders", user_id);
+	public List<MyDTO> getMyOrders(Map<String, Object> params) throws Exception {
+		return sqlSession.selectList(namespace + ".getMyOrders", params);
 	}
 
-	@Override
-	public List<OrderDTO> getRecentOrders(String user_id) throws Exception {
-		// TODO Auto-generated method stub
-		return sqlSession.selectList(namespace + ".getRecentOrders", user_id);
-	}
 
 	@Override
 	public List<OrderDTO> getAllOrders(String user_id, String order_code) throws Exception {

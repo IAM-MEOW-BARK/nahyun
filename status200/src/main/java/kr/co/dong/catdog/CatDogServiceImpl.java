@@ -2,6 +2,7 @@ package kr.co.dong.catdog;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -67,12 +68,6 @@ public class CatDogServiceImpl implements CatDogService {
 	}
 
 	@Override
-	public List<OrderDTO> getRecentOrder(String user_id) throws Exception {
-
-		return catDogDAO.getRecentOrders(user_id);
-	}
-
-	@Override
 	public List<OrderDTO> detailOrder(String order_code) throws Exception {
 		return catDogDAO.getDetailOrders(order_code);
 	}
@@ -92,9 +87,22 @@ public class CatDogServiceImpl implements CatDogService {
 		return catDogDAO.getOrderItemDetail(order_code);
 	}
 
+	// 전체 주문 조회
 	@Override
 	public List<MyDTO> getMyOrders(String user_id) throws Exception {
-		return catDogDAO.getMyOrders(user_id);
+		Map<String, Object> params = new HashMap<>();
+		params.put("user_id", user_id);
+		params.put("limit", null); // LIMIT 조건 없이 전체 조회
+		return catDogDAO.getMyOrders(params);
+	}
+
+	// 최근 5건 조회
+	@Override
+	public List<MyDTO> getRecentOrders(String user_id) throws Exception {
+		Map<String, Object> params = new HashMap<>();
+		params.put("user_id", user_id);
+		params.put("limit", 5); // 최근 5건만 조회
+		return catDogDAO.getMyOrders(params);
 	}
 
 	@Override
@@ -429,4 +437,5 @@ public class CatDogServiceImpl implements CatDogService {
 
 		return catDogDAO.faqDelete(faq_no);
 	}
+
 }

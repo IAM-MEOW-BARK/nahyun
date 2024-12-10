@@ -27,7 +27,7 @@ public interface CatDogService {
 
 	public int deleteCart(CartDTO cartDTO) throws Exception;
 
-	public List<OrderDTO> getRecentOrder(String user_id) throws Exception;
+	/* public List<OrderDTO> getRecentOrder(String user_id) throws Exception; */
 
 	public List<OrderDTO> detailOrder(String order_code) throws Exception;
 
@@ -37,7 +37,11 @@ public interface CatDogService {
 
 	public List<OrderItemDetailDTO> getOrderItemDetail(String order_code) throws Exception;
 
+	// 전체 주문 내역
 	public List<MyDTO> getMyOrders(String user_id) throws Exception;
+	
+	// 최근 주문 내역 5건
+	public List<MyDTO> getRecentOrders(String user_id) throws Exception;
 
 	public String addOrder(OrderDTO orderDTO) throws Exception;
 

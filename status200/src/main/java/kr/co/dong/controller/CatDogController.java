@@ -194,10 +194,10 @@ public class CatDogController {
 		model.addAttribute("user_name", user.get("name"));
 		model.addAttribute("user_id", user.get("user_id"));
 
-		List<MyDTO> myOrders = catDogService.getMyOrders((String) user.get("user_id"));
-		model.addAttribute("myOrders", myOrders);
+		List<MyDTO> recentOrders  = catDogService.getRecentOrders((String) user.get("user_id"));
+		model.addAttribute("recentOrders", recentOrders );
 
-		System.out.println(myOrders);
+		System.out.println(recentOrders );
 
 		return "mypage";
 	}
@@ -1157,33 +1157,33 @@ public class CatDogController {
 		return "redirect:/cart";
 	}
 
+	
+	
+	// 리뷰 작성
+	@PostMapping("/regReview")
+	@ResponseBody
+	public ResponseEntity<String> regReview(HttpSession session, Model model, @RequestParam Map<String, String> formData, 
+		    @RequestParam("product_code") int productCode,
+		    @RequestParam("user_id") String userId,
+		    @RequestParam("review_score") int reviewScore,
+		    @RequestParam("review_content") String reviewConten)
+			throws Exception {
+		Map<String, Object> user = (Map<String, Object>) session.getAttribute("user");
+		model.addAttribute("user_name", user.get("name"));
+		model.addAttribute("user_id", user.get("user_id"));		
+		
+		ReviewDTO reviewDTO = new ReviewDTO();
+		
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ReviewDTO: " + reviewDTO);
+	
+		reviewDTO.setProduct_code(productCode);		
+		
+		catDogService.regReview(reviewDTO);
+		return ResponseEntity.ok("리뷰 등록 성공!");
+	}
+	
 	// -------------------------------------------------------------------------------------
-//	@PostMapping("/regReview")
-//	@ResponseBody
-//	public String regReview(HttpSession session, Model model)
-//			throws Exception {
-//		Map<String, Object> user = (Map<String, Object>) session.getAttribute("user");
-//		model.addAttribute("user_name", user.get("name"));
-//		model.addAttribute("user_id", user.get("user_id"));		
-//		
-//		ReviewDTO reviewDTO -
-//		
-//		System.out.println("ReviewDTO: " + reviewDTO);
-//	
-//		reviewDTO.setProduct_code()
-//		
-////		if (!reviewImg.isEmpty()) {
-////			String fileName = UUID.randomUUID() + "_" + reviewImg.getOriginalFilename();
-////			Path uploadPath = Paths.get("uploads/review-images");
-////			if (!Files.exists(uploadPath)) {
-////				Files.createDirectories(uploadPath);
-////			}
-////			reviewImg.transferTo(uploadPath.resolve(fileName).toFile());
-////			reviewDTO.setReview_img(fileName);
-////		}
-//		catDogService.regReview(reviewDTO);
-//		return "리뷰가 등록되었습니다.";
-//	}
+
 
 //	@PostMapping("/addWish")
 //	@ResponseBody

@@ -63,10 +63,8 @@ public interface CatDogDAO {
 
 	public List<OrderItemDetailDTO> getOrderItemDetail(String order_code) throws Exception;
 
-	public List<MyDTO> getMyOrders(String user_id) throws Exception;
-
-	// 최근 주문 내역 (최신 5개 등 제한)
-	public List<OrderDTO> getRecentOrders(String user_id) throws Exception;
+	// 전체 주문 내역
+	public List<MyDTO> getMyOrders(Map<String, Object> params) throws Exception;
 
 	// 상세 주문 내역
 	public List<OrderDTO> getDetailOrders(String order_code) throws Exception;

@@ -75,7 +75,6 @@
 							<th class="table-light" colspan="2">제품명</th>
 							<th class="table-light">수량</th>
 							<th class="table-light">가격</th>
-							<th class="table-light">상태</th>
 							<th class="table-light">구매후기</th>
 						</tr>
 
@@ -86,9 +85,10 @@
 									<img src="${pageContext.request.contextPath}/resources/upload/${item.thumbnailImg}" alt="${item.productName}" style="width: 50px; height: 50px;">
 								</td>
 								<td class="col-md-2" style="vertical-align: middle;">${item.productName}</td>
-								<td class="col-md-1" style="vertical-align: middle;">${item.orderQuantity}개</td>
-								<td class="col-md-1" style="vertical-align: middle;">${item.productPrice}원<br>${item.totalPrice}원</td>
-								<td class="col-md-1" style="vertical-align: middle;">${item.orderStatus}</td>
+								<td class="col-md-1" style="vertical-align: middle;">${item.orderQuantity}개</td>								
+								<td class="col-md-1" style="vertical-align: middle;">
+								<fmt:formatNumber value="${item.productPrice}" pattern="#,###원" /><br>
+								<fmt:formatNumber value="${item.totalPrice}" pattern="#,###원" /></td>
 								<!-- 구매후기 버튼 -->
 								<td class="col-md-1" style="vertical-align: middle;">
 									<button class="btn btn-outline-secondary btn-review" data-product-code="${item.productCode}" data-user-id="${orderDetail.userId}">리뷰</button>
@@ -111,7 +111,8 @@
 						</tr>
 						<tr>
 							<th class="table-light col-md-1">결제금액</th>
-							<td class="col-md-2">${totalCost}원</td>
+							<td class="col-md-2">
+							<fmt:formatNumber value="${totalCost}" pattern="#,###원" /></td>
 							<th class="table-light col-md-1">결제 처리일</th>
 							<td class="col-md-2">${orderDetail.orderedAt}</td>
 						</tr>
@@ -163,15 +164,14 @@
             </div>
             <div class="modal-body">
                 <form id="reviewForm" enctype="multipart/form-data" action="regReview" method="post">
-                    <div class="review-header">
-                        <img id="productImg" src="${pageContext.request.contextPath}/resources/upload/${thumbnailImg}" alt="상품 이미지" style="width: 80px; height: 80px; margin-bottom: 10px;">
+                    <div class="review-header" style="text-align: center;">
+                        <img id="productImg" src="${pageContext.request.contextPath}/resources/upload/${thumbnailImg}" alt="상품 이미지" style="width: 120px; height: 120px; margin-bottom: 10px;">
                         <div class="product-info">
-                            <input type="text" id="productName" name="product_name" class="form-control" readonly>
+                            <input type="text" id="productName" name="product_name" class="form-control" readonly><br>
                             <input type="hidden" id="productCode" name="product_code">
                             <input type="hidden" id="userId" name="user_id">
                         </div>
                     </div>
-
                     <div class="mb-3">
                         <label><b>상품은 만족하셨나요?</b></label>
                         <div class="review-stars">
@@ -209,84 +209,97 @@
 
 <!-- 모달 끝. -->
 	
-	<!-- 모달 스크립트 -->
-	<script type="text/javascript">
-	// 리뷰 버튼 클릭
-	$(document).on("click", ".btn-review", function () {
-	    const productCode = $(this).data("product-code");
-	    const userId = $(this).data("user-id");
-	    
-	    console.log("☆☆☆☆☆☆☆☆☆☆☆☆☆");
-	    // Ajax로 상품 정보를 가져와 모달에 반영
-	    $.ajax({
-	        type: "GET",
-	        url: "/getProductInfo",
-	        data: { product_code: productCode, user_id: userId },
-	        success: function (response) {
-	            // 모달에 데이터 세팅
-	            console.log("모달 열었어요 뿌우 ><");
-	           $("#productImg").attr("src", `/resources/upload/`+ response.thumbnail_img);
-	           $("#productName").val(response.product_name);
-	           $("#productCode").val(productCode);
-	           $("#userId").val(userId);
+<script type="text/javascript">
+    // 리뷰 버튼 클릭
+    $(document).on("click", ".btn-review", function () {
+        const productCode = $(this).data("product-code");
+        const userId = $(this).data("user-id");
 
-	            // 모달 열기
-	            const reviewModal = new bootstrap.Modal(document.getElementById("reviewModal"));
-	            reviewModal.show();
-	            console.log(productImg);
-	        },
-	        error: function () {
-	            alert("상품 정보를 불러오는 중 오류가 발생했습니다.");
-	        },
-	    });
-	});
+        console.log("☆☆☆☆☆☆☆☆☆☆☆☆☆");
+        // Ajax로 상품 정보를 가져와 모달에 반영
+        $.ajax({
+            type: "GET",
+            url: "/getProductInfo",
+            data: { product_code: productCode, user_id: userId },
+            success: function (response) {
+                // 모달에 데이터 세팅
+                console.log("모달 열었어요 뿌우 ><");
+                $("#productImg").attr("src", "/resources/upload/" + response.thumbnail_img);
+                $("#productName").val(response.product_name);
+                $("#productCode").val(productCode);
+                $("#userId").val(userId);
 
-	// 모달 닫힐 때 초기화
-	$("#reviewModal").on("hidden.bs.modal", function () {
-	    $("#reviewForm")[0].reset(); // 폼 초기화
-	    $("#productImg").attr("src", ""); // 이미지 초기화
-	    $(".review-stars span").css("color", "#dddddd"); // 별점 초기화
-	    $("#reviewScore").val(0); // 별점 값 초기화
-	});
+                // 모달 열기
+                const reviewModal = new bootstrap.Modal(document.getElementById("reviewModal"));
+                reviewModal.show();
+            },
+            error: function () {
+                alert("상품 정보를 불러오는 중 오류가 발생했습니다.");
+            },
+        });
+    });
+    
+ // 리뷰 제출
+    $("#reviewForm").on("submit", function (event) {
+        event.preventDefault();
 
-	// 별점 선택
-	$(document).on("click", ".review-stars span", function () {
-	    const score = $(this).data("score");
-	    $("#reviewScore").val(score);
+        // 화면으로 입력받은 변수값 처리
+        var productName = $("#productName");
+        var productCode = $("#productCode");
+        var userId = $("#userId");
+        var reviewScore = $("#reviewScore");
+        var reviewContent = $("#reviewContent");
+        
+        var productNameVal = productName.val();
+        var productCodVal = productCode.val();
+        var userIdVal = userId.val();
+        var reviewScoreVal = reviewScore.val();
+        var reviewContentVal = reviewContent.val();
+        
+        // ajax 통신 : post
+        
+        $.ajax({
+        type : "post",
+        url : "/regReview",
+        dataType : "text",
+        data : JSON.stringify ({
+        	productName : productNameVal,
+        	productCode : productCodeVal,
+        	userId : userIdVal,
+        	reviewScore : reviewScoreVal,
+        	reviewContent : reviewContentVal}),
+        success : function () {
+        	// 성공적인 등록 처리 알림
+        	alert("아싸 성공!");
+        }
+        });
+        });
+        
+        
+    // ---
+    // 리뷰 제출
 
-	    // 별점 색상 업데이트
-	    $(".review-stars span").each(function (index) {
-	        $(this).css("color", index < score ? "#ff6600" : "#dddddd");
-	    });
-	});
+    
+    // 모달 닫힐 때 초기화
+    $("#reviewModal").on("hidden.bs.modal", function () {
+        $("#reviewForm")[0].reset(); // 폼 초기화
+        $("#productImg").attr("src", ""); // 이미지 초기화
+        $(".review-stars span").css("color", "#dddddd"); // 별점 초기화
+        $("#reviewScore").val(0); // 별점 값 초기화
+    });
 
-	// 리뷰 제출
-	$("#reviewForm").on("submit", function (event) {
-	    event.preventDefault();
-	    const formData = new FormData(document.getElementById("reviewForm"));
-	    console.log("★★★★★★★★★★★★★★★");
-	    
-	    /* const formData = new FormData(this); */ 
+    // 별점 선택
+    $(document).on("click", ".review-stars span", function () {
+        const score = $(this).data("score");
+        $("#reviewScore").val(score);
 
-	    $.ajax({
-	        type: "POST",
-	        url: "/regReview",
-	        data: formData,
-	        processData: false,
-	        contentType: false,
-	        success: function (response) {
-	            alert(response); // 성공 메시지
-	            const reviewModal = bootstrap.Modal.getInstance(document.getElementById("reviewModal"));
-	            reviewModal.hide(); // 모달 닫기
-	        },
-	        error: function () {
-	        	console.error("Error:", error);
-	            console.error("Status:", status);
-	            console.error("Response:", xhr.responseText);
-	            alert("리뷰 제출 중 오류가 발생했습니다.");
-	        },
-	    });
-	});
-	</script>
+        // 별점 색상 업데이트
+        $(".review-stars span").each(function (index) {
+            $(this).css("color", index < score ? "#ff6600" : "#dddddd");
+        });
+    });
+</script>
+
+
 </body>
 </html>

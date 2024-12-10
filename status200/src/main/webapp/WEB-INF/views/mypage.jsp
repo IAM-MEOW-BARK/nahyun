@@ -127,7 +127,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach var="order" items="${myOrders}">
+							<c:forEach var="order" items="${recentOrders}">
 								<tr>
 									<td>${order.orderedAt}</td>
 									<td>
@@ -143,7 +143,7 @@
 				</div>
 
 				<!-- 최근 찜 내역 -->
-				<div class="table-container">
+<%-- 				<div class="table-container">
 					<h4>최근 찜 내역</h4>
 					<table class="table table-bordered text-center">
 						<thead class="table-light">
@@ -174,7 +174,7 @@
 					</table>
 					<button class="btn btn-outline-secondary" onclick="deleteWish">선택 상품 삭제</button>
 					<button class="btn btn-outline-secondary" onclick="location.href='totalWish'">전체 찜 내역</button>
-				</div>
+				</div> --%>
 			</div>
 		</div>
 	</div>

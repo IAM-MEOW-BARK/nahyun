@@ -103,17 +103,20 @@
 	</select>
 
 	<!-- 마이페이지 주문 내역 -->
-	<select id="getMyOrders" parameterType="java.lang.String"
+	<select id="getMyOrders" parameterType="java.util.Map"
 		resultType="MyDTO">
 		SELECT
 		o.ordered_at AS orderedAt,
 		o.order_code AS orderCode,
-		(SELECT p.product_name
+		(SELECT
+		p.product_name
 		FROM order_item oi
 		JOIN product p ON
-		oi.product_code = p.product_code
+		oi.product_code =
+		p.product_code
 		WHERE oi.order_code = o.order_code
-		ORDER BY oi.product_code ASC
+		ORDER BY
+		oi.product_code ASC
 		LIMIT 1) AS firstProductName,
 		(SELECT
 		SUM(p.product_price *
@@ -134,6 +137,9 @@
 		and o.payment_status = 1
 		ORDER BY
 		o.ordered_at DESC
+		<if test="limit != null">
+			LIMIT #{limit}
+		</if>
 	</select>
 
 	<resultMap id="orderResultMap" type="OrderDTO">
@@ -313,8 +319,10 @@
 	<!-- 리뷰 작성 -->
 	<insert id="regReview" parameterType="ReviewDTO">
 		INSERT INTO review
-		(product_code, user_id, review_score, review_img, review_content, review_date)
-		VALUES (#{product_code}, #{user_id}, #{review_score}, #{review_img},
+		(product_code, user_id, review_score, review_img, review_content,
+		review_date)
+		VALUES (#{product_code}, #{user_id}, #{review_score},
+		#{review_img},
 		#{review_content}, now())
 	</insert>
 
@@ -364,9 +372,11 @@
 
 	<!-- 결제 페이지 회원 정보 -->
 	<select id="getMember" resultType="MemberDTO">
-		select user_id, name, phone_num, zipcode, address, detailaddress
+		select user_id, name,
+		phone_num, zipcode, address, detailaddress
 		from member
-		where user_id = #{user_id}
+		where user_id =
+		#{user_id}
 	</select>
 
 	<!-- product_code 가져오기 -->
@@ -416,7 +426,8 @@
 		select *
 		from product
 		order by product_regdate desc
-		limit #{start}, #{pageSize}
+		limit #{start},
+		#{pageSize}
 	</select>
 
 	<!-- 상품 관리 리스트 -->
@@ -457,280 +468,309 @@
 	</select>
 
 
-<!-- 지혜 언니 -->
-<!-- 장바구니 추가  -->
+	<!-- 지혜 언니 -->
+	<!-- 장바구니 추가 -->
 	<insert id="addCart" parameterType="cartDTO">
-		  INSERT INTO cart (user_id, product_code, cart_quantity)
-    VALUES (#{user_id}, #{product_code}, #{cart_quantity})
-    ON DUPLICATE KEY UPDATE
-    cart_quantity = cart_quantity + #{cart_quantity}
+		INSERT INTO cart (user_id, product_code, cart_quantity)
+		VALUES (#{user_id}, #{product_code}, #{cart_quantity})
+		ON DUPLICATE KEY UPDATE
+		cart_quantity = cart_quantity + #{cart_quantity}
 	</insert>
 	<!-- 상품 상세 정보 -->
-	<select id="productDetail" parameterType="java.lang.Integer" resultType="productDTO">
+	<select id="productDetail" parameterType="java.lang.Integer"
+		resultType="productDTO">
 		select *
-		from product 
+		from product
 		where product_code = #{product_code}
 	</select>
-	
+
 	<!-- 최근 리뷰 5개 리스트 -->
-	<select id="getReview" parameterType="java.lang.Integer" resultType="ReviewDTO">
-	    select *
-	    from review 
-	    where product_code = #{product_code}
-	    order by review_no desc
-	    limit 5
+	<select id="getReview" parameterType="java.lang.Integer"
+		resultType="ReviewDTO">
+		select *
+		from review
+		where product_code = #{product_code}
+		order by review_no desc
+		limit 5
 	</select>
-	
+
 	<!-- 상품 상세 리뷰 개수 -->
 	<select id="product_reviewTotal" resultType="java.lang.Integer">
-		select count(*) 
+		select count(*)
 		from review
 		where product_code = #{product_code}
 	</select>
-	
+
 	<!-- 최근 Q&A 5개 리스트 -->
-	<select id="getQna" parameterType="java.lang.Integer" resultType="QnaDTO">
+	<select id="getQna" parameterType="java.lang.Integer"
+		resultType="QnaDTO">
 		select *
 		from qna
 		where product_code_fk = #{product_code}
 		order by qna_no desc
 		limit 5
 	</select>
-	
+
 	<!-- 상품 상세 Q&A 개수 -->
 	<select id="product_qnaTotal" resultType="java.lang.Integer">
 		select count(*)
 		from qna
 		where product_code_fk = #{product_code}
 	</select>
-	
+
 	<!-- 카테고리 리스트 -->
 	<select id="categoryList" resultType="ProductDTO">
 		select *
 		from product
-		 WHERE product_category = #{product_category}
+		WHERE product_category = #{product_category}
 		order by product_regdate desc
-		limit #{start}, #{pageSize} 
+		limit #{start}, #{pageSize}
 	</select>
-	
+
 	<!-- 카테고리 페이징 -->
-	<select id="categoryTotalPost" parameterType="java.lang.Integer" resultType="java.lang.Integer">
-		select count(*) from product WHERE product_category = #{product_category}
+	<select id="categoryTotalPost" parameterType="java.lang.Integer"
+		resultType="java.lang.Integer">
+		select count(*) from product WHERE product_category =
+		#{product_category}
 	</select>
-	
+
 	<!-- 공지사항 리스트 -->
-	<select id="noticeList" parameterType="map" resultType="NoticeDTO">
+	<select id="noticeList" parameterType="map"
+		resultType="NoticeDTO">
 		select *
 		from notice
 		order by notice_no desc
-       	limit #{start}, #{pageSize}
+		limit #{start}, #{pageSize}
 	</select>
-	 
+
 	<!-- 공지사항 페이징 -->
 	<select id="noticeTotalPost" resultType="java.lang.Integer">
 		select count(*)
-		from notice;
+		from
+		notice;
 	</select>
-	
+
 	<!-- 리뷰 리스트 -->
-	<select id="reviewList" parameterType="map" resultType="ReviewDTO">
+	<select id="reviewList" parameterType="map"
+		resultType="ReviewDTO">
 		select r.*, p.product_name
-		from review r left join product p on r.product_code = p.product_code
-		
+		from review r left join product p
+		on r.product_code = p.product_code
+
 		order by review_no desc
-       	limit #{start}, #{pageSize}
+		limit #{start}, #{pageSize}
 	</select>
-	
+
 	<!-- 리뷰 페이징 -->
 	<select id="reviewTotalPost" resultType="java.lang.Integer">
 		select count(*)
-		from review;
+		from
+		review;
 	</select>
-	
+
 	<!-- Q&A 리스트 -->
 	<select id="qnaList" parameterType="map" resultType="QnaDTO">
 		select *
 		from qna
 		order by qna_no desc
-       	limit #{start}, #{pageSize}
+		limit #{start}, #{pageSize}
 	</select>
-	 
+
 	<!-- Q&A 페이징 -->
 	<select id="qnaTotalPost" resultType="java.lang.Integer">
 		select count(*)
 		from qna;
 	</select>
-	
+
 	<!-- FAQ 리스트 -->
- 	<select id="faqList" parameterType="map" resultType="FaqDTO">
+	<select id="faqList" parameterType="map" resultType="FaqDTO">
 		select *
 		from faq
 		order by faq_no desc
-       	limit #{start}, #{pageSize}
+		limit #{start}, #{pageSize}
 	</select>
-	
+
 	<!-- FAQ 페이징 -->
 	<select id="faqTotalPost" resultType="java.lang.Integer">
 		select count(*)
 		from faq;
 	</select>
-	
+
 	<!-- FAQ 구분 리스트 -->
-	<select id="faqTotalPostDivision" parameterType="java.lang.Integer" resultType="java.lang.Integer">
-	    SELECT COUNT(*) 
-	    FROM faq
-	    WHERE faq_division = #{faq_division}
+	<select id="faqTotalPostDivision"
+		parameterType="java.lang.Integer" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+		FROM faq
+		WHERE faq_division = #{faq_division}
 	</select>
-	
+
 	<!-- FAQ 구분 페이징 -->
-	<select id="faqListDivision" parameterType="map" resultType="FaqDTO">
-	    SELECT *
-	    FROM faq
-	    WHERE faq_division = #{faq_division}
-	    ORDER BY faq_no DESC
-	    LIMIT #{start}, #{pageSize}
+	<select id="faqListDivision" parameterType="map"
+		resultType="FaqDTO">
+		SELECT *
+		FROM faq
+		WHERE faq_division = #{faq_division}
+		ORDER BY faq_no DESC
+		LIMIT #{start}, #{pageSize}
 	</select>
-	
-	<!-- 공지사항 상세 글 조회  -->
-	<select id="noticeDetail" parameterType="java.lang.Integer" resultType="NoticeDTO">
+
+	<!-- 공지사항 상세 글 조회 -->
+	<select id="noticeDetail" parameterType="java.lang.Integer"
+		resultType="NoticeDTO">
 		select *
 		from notice
 		where notice_no = #{notice_no}
 	</select>
-	
+
 	<!-- 공지사항 조회수 1 증가하는 SQL -->
-	<update id="noticeUpdateReadCnt" parameterType="java.lang.Integer">
+	<update id="noticeUpdateReadCnt"
+		parameterType="java.lang.Integer">
 		update notice
 		set notice_readcnt = notice_readcnt + 1
 		where notice_no = #{notice_no}
 	</update>
-	
+
 	<!-- 리뷰 상세 글 조회 -->
-	<select id="reviewDetail" parameterType="java.lang.Integer" resultType="ReviewDTO">
+	<select id="reviewDetail" parameterType="java.lang.Integer"
+		resultType="ReviewDTO">
 		select r.*, p.product_name
-		from review r left join product p on r.product_code = p.product_code
+		from review r left join product p
+		on r.product_code = p.product_code
 		where review_no = #{review_no}
 	</select>
-	
+
 	<!-- 리뷰 조회수 1 증가하는 SQL -->
-	<update id="reviewUpdateReadCnt" parameterType="java.lang.Integer">
+	<update id="reviewUpdateReadCnt"
+		parameterType="java.lang.Integer">
 		update review
 		set review_readcnt = review_readcnt + 1
 		where review_no = #{review_no}
 	</update>
-	
-	<!-- Q&A 상세 글 조회 
-	<select id="qnaDetail" parameterType="java.lang.Integer" resultType="QnaDTO">
-		select q.*, p.product_name
-		from qna q left join product p on q.product_code_fk = p.product_code
-		where q.qna_no = #{qna_no}
-	</select>
-	-->
+
+	<!-- Q&A 상세 글 조회 <select id="qnaDetail" parameterType="java.lang.Integer" 
+		resultType="QnaDTO"> select q.*, p.product_name from qna q left join product 
+		p on q.product_code_fk = p.product_code where q.qna_no = #{qna_no} </select> -->
 	<select id="qnaDetail" parameterType="map" resultType="QnaDTO">
-    select q.*, p.product_name
-    from qna q
-    left join product p on q.product_code_fk = p.product_code
-    where q.qna_no = #{qna_no}
-    
+		select q.*, p.product_name
+		from qna q
+		left join product p on q.product_code_fk = p.product_code
+		where q.qna_no = #{qna_no}
+
 	</select>
-	
+
 	<!-- FAQ 상세 조회 -->
-	<select id="faqDetail" parameterType="java.lang.Integer" resultType="FaqDTO">
+	<select id="faqDetail" parameterType="java.lang.Integer"
+		resultType="FaqDTO">
 		select *
 		from faq
 		where faq_no = #{faq_no}
 	</select>
-	
+
 	<!-- 공지사항 글 작성하는 SQL -->
 	<insert id="noticeRegister" parameterType="NoticeDTO">
-		insert into notice(notice_no, notice_title, notice_content, notice_date, notice_readcnt)
-		values (#{notice_no}, #{notice_title}, #{notice_content}, now(), #{notice_readcnt})		
+		insert into
+		notice(notice_no, notice_title, notice_content, notice_date,
+		notice_readcnt)
+		values (#{notice_no}, #{notice_title},
+		#{notice_content}, now(), #{notice_readcnt})
 	</insert>
-	
+
 	<!-- 공지사항 글 수정하는 SQL -->
 	<update id="noticeUpdate" parameterType="NoticeDTO">
 		update notice
-		set notice_title = #{notice_title}, notice_content = #{notice_content}
+		set
+		notice_title = #{notice_title}, notice_content = #{notice_content}
 		where notice_no = #{notice_no}
 	</update>
-	
+
 	<!-- 공지사항 글 삭제하는 SQL -->
 	<delete id="noticeDelete" parameterType="java.lang.Integer">
 		delete from notice
-		where notice_no = #{notice_no}
+		where
+		notice_no = #{notice_no}
 	</delete>
-	
+
 	<!-- Q&A 글 작성하는 SQL -->
 	<insert id="qnaRegister" parameterType="QnaDTO">
-		insert into qna( product_code_fk, user_id, qna_content, qna_secret, qna_date, qna_pwd)
-		values ( #{product_code_fk}, #{user_id}, #{qna_content}, #{qna_secret}, curdate(), #{qna_pwd})		
+		insert into qna(
+		product_code_fk, user_id, qna_content, qna_secret, qna_date, qna_pwd)
+		values ( #{product_code_fk}, #{user_id}, #{qna_content},
+		#{qna_secret}, curdate(), #{qna_pwd})
 	</insert>
-	
+
 	<!-- Q&A 글 수정하는 SQL -->
 	<update id="qnaUpdate" parameterType="QnaDTO">
 		update qna
-		set product_code_fk=#{product_code_fk}, qna_content=#{qna_content}, qna_secret=#{qna_secret}, qna_date=curdate(), qna_pwd=#{qna_pwd}
-		where qna_no = #{qna_no}
+		set
+		product_code_fk=#{product_code_fk}, qna_content=#{qna_content},
+		qna_secret=#{qna_secret}, qna_date=curdate(), qna_pwd=#{qna_pwd}
+		where
+		qna_no = #{qna_no}
 	</update>
-	
+
 	<!-- Q&A 글 삭제하는 SQL -->
 	<delete id="qnaDelete" parameterType="java.lang.Integer">
 		delete from qna
-		where qna_no = #{qna_no}
+		where qna_no
+		= #{qna_no}
 	</delete>
-	
+
 	<!-- Q&A 글 답변 작성하는 SQL -->
 	<update id="qnaReply" parameterType="QnaDTO">
 		update qna
-		set qna_reply = #{qna_reply}
+		set qna_reply =
+		#{qna_reply}
 		where qna_no = #{qna_no}
 	</update>
-	
+
 	<!-- Q&A 답변 수정 -->
 	<update id="qnaReplyUpdate" parameterType="QnaDTO">
 		update qna
-		set qna_reply = #{qna_reply}
+		set
+		qna_reply = #{qna_reply}
 		where qna_no = #{qna_no}
 	</update>
-	
+
 	<!-- Q&A 답변 삭제 -->
 	<update id="qnaReplyDelete" parameterType="java.lang.Integer">
 		update qna
-		set qna_reply = null
+		set
+		qna_reply = null
 		where qna_no = #{qna_no}
 	</update>
-	
+
 	<!-- 상품검색 -->
 	<select id="productSearch" resultType="ProductDTO">
-        select product_code, product_name, thumbnail_img
-        from product
-        where product_name LIKE CONCAT('%', #{keyword}, '%')
-    </select>
-    <!-- 
-    <select id="productTotal" resultType="java.lang.Integer">
-    	select count(*) 
-    	from product;
-    </select>
-     -->
-		<!-- FAQ 글 작성하는 SQL -->
+		select product_code, product_name, thumbnail_img
+		from product
+		where product_name LIKE CONCAT('%', #{keyword}, '%')
+	</select>
+	<!-- <select id="productTotal" resultType="java.lang.Integer"> select count(*) 
+		from product; </select> -->
+	<!-- FAQ 글 작성하는 SQL -->
 	<insert id="faqRegister" parameterType="FaqDTO">
-		insert into faq(faq_no, faq_division, faq_question, faq_reply)
-		values (#{faq_no}, #{faq_division}, #{faq_question}, #{faq_reply})		
+		insert into faq(faq_no,
+		faq_division, faq_question, faq_reply)
+		values (#{faq_no},
+		#{faq_division}, #{faq_question}, #{faq_reply})
 	</insert>
-	
-	
-	
+
+
+
 	<!-- FAQ 글 수정하는 SQL -->
 	<update id="faqUpdate" parameterType="FaqDTO">
 		update faq
-		set faq_division = #{faq_division}, faq_question = #{faq_question}, faq_reply = #{faq_reply}
+		set faq_division
+		= #{faq_division}, faq_question = #{faq_question}, faq_reply =
+		#{faq_reply}
 		where faq_no = #{faq_no}
 	</update>
-	
+
 	<!-- FAQ 글 삭제하는 SQL -->
 	<delete id="faqDelete" parameterType="java.lang.Integer">
 		delete from faq
-		where faq_no = #{faq_no}
+		where faq_no
+		= #{faq_no}
 	</delete>
 
 </mapper>
