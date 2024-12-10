@@ -24,8 +24,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttribute;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -208,7 +206,7 @@ public class CatDogController {
 
 	// 결제 페이지 회원
 	@GetMapping(value = "catdog-payment")
-	public String paymentMember(@RequestParam("user_id") String user_id, @RequestParam("order_code") String order_code,
+	public String paymentMember(@RequestParam("orderCode") String order_code, // 수정해유
 			Model model, HttpSession session) throws Exception {
 		// 회원 정보 가져오기
 		Map<String, Object> user = (Map<String, Object>) session.getAttribute("user");
@@ -219,13 +217,13 @@ public class CatDogController {
 		}
 
 		// 회원 정보
-		PaymentDTO pdto = catDogService.getMember((String) user.get("user_id"));
+		MemberDTO pdto = catDogService.getMember((String) user.get("user_id"));
 		model.addAttribute("paymentMember", pdto);
 
 		System.out.println("Session user: " + session.getAttribute("user"));
 
 		// order_code로 주문 정보 가져오기
-		OrderDTO orderInfo = catDogService.getOrderInfo(order_code);
+		List<OrderItemDTO> orderInfo = catDogService.getOrderInfo(order_code);
 
 		model.addAttribute("orderInfo", orderInfo);
 		System.out.println("orderInfo :::" + orderInfo);
@@ -436,7 +434,7 @@ public class CatDogController {
 		orderDTO.setPayment_status(0);
 		String orderCode = catDogService.addOrder(orderDTO);
 		orderDTO.setOrder_code(orderCode);
-
+		session.setAttribute("orderCode", orderCode); // 수정해유
 		List<CartDTO> cartItems = catDogService.getCartInfo(userId);
 
 		List<OrderItemDTO> orderItems = new ArrayList<>();
@@ -471,7 +469,7 @@ public class CatDogController {
 		System.out.println("  💛💛💛💛💛💛💛💛💛💛 OrderItems: " + orderItems);
 		System.out.println("  💛💛💛💛💛💛💛💛💛💛 totalCost: " + totalCost);
 
-		return "/catdog-payment";
+		return "redirect:/catdog-payment?orderCode=" + orderCode; // 수정해유
 	}
 
 	@PostMapping("/cart/update")
@@ -615,21 +613,31 @@ public class CatDogController {
 		return catDogService.getProductByCode(product_code);
 	}
 
-	@PostMapping("/regReview")
-	@ResponseBody
-	public String regReview(@ModelAttribute ReviewDTO reviewDTO, @RequestParam("review_img") MultipartFile reviewImg)
-			throws Exception {
-		if (!reviewImg.isEmpty()) {
-			String fileName = UUID.randomUUID() + "_" + reviewImg.getOriginalFilename();
-			Path uploadPath = Paths.get("uploads/review-images");
-			if (!Files.exists(uploadPath)) {
-				Files.createDirectories(uploadPath);
-			}
-			reviewImg.transferTo(uploadPath.resolve(fileName).toFile());
-			reviewDTO.setReview_img(fileName);
-		}
-		catDogService.regReview(reviewDTO);
-		return "리뷰가 등록되었습니다.";
-	}
+//	@PostMapping("/regReview")
+//	@ResponseBody
+//	public String regReview(HttpSession session, Model model)
+//			throws Exception {
+//		Map<String, Object> user = (Map<String, Object>) session.getAttribute("user");
+//		model.addAttribute("user_name", user.get("name"));
+//		model.addAttribute("user_id", user.get("user_id"));		
+//		
+//		ReviewDTO reviewDTO -
+//		
+//		System.out.println("ReviewDTO: " + reviewDTO);
+//	
+//		reviewDTO.setProduct_code()
+//		
+////		if (!reviewImg.isEmpty()) {
+////			String fileName = UUID.randomUUID() + "_" + reviewImg.getOriginalFilename();
+////			Path uploadPath = Paths.get("uploads/review-images");
+////			if (!Files.exists(uploadPath)) {
+////				Files.createDirectories(uploadPath);
+////			}
+////			reviewImg.transferTo(uploadPath.resolve(fileName).toFile());
+////			reviewDTO.setReview_img(fileName);
+////		}
+//		catDogService.regReview(reviewDTO);
+//		return "리뷰가 등록되었습니다.";
+//	}
 
 }

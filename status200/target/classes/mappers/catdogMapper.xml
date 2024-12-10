@@ -313,7 +313,7 @@
 	<!-- 리뷰 작성 -->
 	<insert id="regReview" parameterType="ReviewDTO">
 		INSERT INTO review
-		(prodcut_code, user_id, review_score, review_img, review_content)
+		(product_code, user_id, review_score, review_img, review_content, review_date)
 		VALUES (#{product_code}, #{user_id}, #{review_score}, #{review_img},
 		#{review_content}, now())
 	</insert>
@@ -363,11 +363,10 @@
 	</select>
 
 	<!-- 결제 페이지 회원 정보 -->
-	<select id="getMember" resultType="PaymentDTO">
-		select user_id, name,
-		phone_num, zipcode, address, detailaddress from member
-		where user_id =
-		#{user_id}
+	<select id="getMember" resultType="MemberDTO">
+		select user_id, name, phone_num, zipcode, address, detailaddress
+		from member
+		where user_id = #{user_id}
 	</select>
 
 	<!-- product_code 가져오기 -->

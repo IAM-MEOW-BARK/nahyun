@@ -36,13 +36,13 @@ public class CatDogDAOImpl implements CatDogDAO {
 	}
 
 	@Override
-	public int findId(String name, int phone_num) throws Exception {
+	public int findId(String name, String phone_num) throws Exception {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int findPw(String user_id, String name, int phone_num) throws Exception {
+	public int findPw(String user_id, String name, String phone_num) throws Exception {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -101,8 +101,8 @@ public class CatDogDAOImpl implements CatDogDAO {
 
 	// 주문 기본 정보
 	@Override
-	public OrderDTO getOrderInfo(String order_code) throws Exception {
-		return sqlSession.selectOne(namespace + ".getOrderInfo", order_code);
+	public List<OrderItemDTO> getOrderInfo(String order_code) throws Exception {
+		return sqlSession.selectList(namespace + ".getOrderInfo", order_code);
 	}
 
 	// 주문 상품 상세 정보
@@ -209,7 +209,7 @@ public class CatDogDAOImpl implements CatDogDAO {
 	}
 
 	@Override
-	public PaymentDTO getMember(String user_id) {
+	public MemberDTO getMember(String user_id) {
 		return sqlSession.selectOne(namespace + ".getMember", user_id);
 	}
 

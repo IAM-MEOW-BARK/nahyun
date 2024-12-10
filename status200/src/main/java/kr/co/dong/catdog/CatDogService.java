@@ -53,9 +53,9 @@ public interface CatDogService {
 	
 	public int updateProfile(MemberDTO memberDTO) throws Exception;
 	
-	public OrderDTO getOrderInfo(String order_code) throws Exception;
+	public List<OrderItemDTO> getOrderInfo(String order_code) throws Exception;
 	
-	public PaymentDTO getMember(String user_id) throws Exception;
+	public MemberDTO getMember(String user_id) throws Exception;
 	
     // 결제 오더 정보
     public List<String> getOrderCodeByUserId(String user_id);

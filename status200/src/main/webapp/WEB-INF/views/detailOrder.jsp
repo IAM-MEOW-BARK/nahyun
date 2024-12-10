@@ -162,11 +162,11 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="reviewForm" enctype="multipart/form-data">
+                <form id="reviewForm" enctype="multipart/form-data" action="regReview" method="post">
                     <div class="review-header">
                         <img id="productImg" src="${pageContext.request.contextPath}/resources/upload/${thumbnailImg}" alt="상품 이미지" style="width: 80px; height: 80px; margin-bottom: 10px;">
                         <div class="product-info">
-                            <input type="text" id="productName" name="" class="form-control" readonly>
+                            <input type="text" id="productName" name="product_name" class="form-control" readonly>
                             <input type="hidden" id="productCode" name="product_code">
                             <input type="hidden" id="userId" name="user_id">
                         </div>
@@ -176,7 +176,7 @@
                         <label><b>상품은 만족하셨나요?</b></label>
                         <div class="review-stars">
                             <input type="hidden" id="reviewScore" name="review_score" value="0">
-                            <h1>
+                            <h1 style="color: #dddddd">
                             <span data-score="1">&#9733;</span>
                             <span data-score="2">&#9733;</span>
                             <span data-score="3">&#9733;</span>
@@ -191,10 +191,10 @@
                         <textarea class="form-control" id="reviewContent" name="review_content" placeholder="최소 10자 이상 입력해주세요."></textarea>
                     </div>
 
-                    <div class="mb-3">
+                    <!-- <div class="mb-3">
                         <label><b>(선택) 사진 첨부하기</b></label>
                         <input type="file" class="form-control" id="reviewImg" name="review_img">
-                    </div>
+                    </div> -->
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
@@ -213,86 +213,80 @@
 	<script type="text/javascript">
 	// 리뷰 버튼 클릭
 	$(document).on("click", ".btn-review", function () {
-    const productCode = $(this).data("product-code");
-    const userId = $(this).data("user-id");
-	
-    // Ajax로 상품 정보를 가져와 모달에 반영
-    $.ajax({
-        type: "GET",
-        url: "/getProductInfo",
-        data: { product_code: productCode, user_id: userId },
-        success: function (response) {
-        	console.log(response); // 응답 데이터 확인
-            // 모달에 데이터 세팅
-            $("#productImg").attr("src", `/resources/upload/`+ response.thumbnail_img);
-        	$("#productName").val(response.product_name);
-            $("#productCode").val(productCode);
-            $("#userId").val(userId);
+	    const productCode = $(this).data("product-code");
+	    const userId = $(this).data("user-id");
+	    
+	    console.log("☆☆☆☆☆☆☆☆☆☆☆☆☆");
+	    // Ajax로 상품 정보를 가져와 모달에 반영
+	    $.ajax({
+	        type: "GET",
+	        url: "/getProductInfo",
+	        data: { product_code: productCode, user_id: userId },
+	        success: function (response) {
+	            // 모달에 데이터 세팅
+	            console.log("모달 열었어요 뿌우 ><");
+	           $("#productImg").attr("src", `/resources/upload/`+ response.thumbnail_img);
+	           $("#productName").val(response.product_name);
+	           $("#productCode").val(productCode);
+	           $("#userId").val(userId);
 
-            // 모달 열기
-            const reviewModal = new bootstrap.Modal(document.getElementById('reviewModal'));
-            reviewModal.show();
-            console.log(productImg);
-        },
-        error: function () {
-            alert("상품 정보를 불러오는 중 오류가 발생했습니다.");
-        },
-    });
-});
-	
+	            // 모달 열기
+	            const reviewModal = new bootstrap.Modal(document.getElementById("reviewModal"));
+	            reviewModal.show();
+	            console.log(productImg);
+	        },
+	        error: function () {
+	            alert("상품 정보를 불러오는 중 오류가 발생했습니다.");
+	        },
+	    });
+	});
+
 	// 모달 닫힐 때 초기화
-	/* $('#reviewModal').on('hidden.bs.modal', function () {
-    $("#reviewForm")[0].reset(); // 폼 초기화
-    $("#productImg").attr("src", ""); // 이미지 초기화
-    $("#productName").val(""); // 제품명 초기화
-    $("#productCode").val(""); // 제품 코드 초기화
-    $("#userId").val(""); // 사용자 ID 초기화
-    $(".review-stars span").css("color", "#dddddd"); // 별점 초기화
-    $("#reviewScore").val(0); // 별점 값 초기화
-    $("#productImg").attr("src", "");
-}); */
-	
-	
+	$("#reviewModal").on("hidden.bs.modal", function () {
+	    $("#reviewForm")[0].reset(); // 폼 초기화
+	    $("#productImg").attr("src", ""); // 이미지 초기화
+	    $(".review-stars span").css("color", "#dddddd"); // 별점 초기화
+	    $("#reviewScore").val(0); // 별점 값 초기화
+	});
+
 	// 별점 선택
 	$(document).on("click", ".review-stars span", function () {
 	    const score = $(this).data("score");
 	    $("#reviewScore").val(score);
-	    console.log(score);
 
 	    // 별점 색상 업데이트
 	    $(".review-stars span").each(function (index) {
 	        $(this).css("color", index < score ? "#ff6600" : "#dddddd");
 	    });
 	});
-	
+
 	// 리뷰 제출
 	$("#reviewForm").on("submit", function (event) {
-    event.preventDefault();
+	    event.preventDefault();
+	    const formData = new FormData(document.getElementById("reviewForm"));
+	    console.log("★★★★★★★★★★★★★★★");
+	    
+	    /* const formData = new FormData(this); */ 
 
-    const formData = new FormData(this);
-    console.log(formData);
-
-    $.ajax({
-        type: "POST",
-        url: "/regReview",
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function (response) {
-        	console.log("폼데이타 엔트리" + `[...formData.entries()]`);
-        	console.log("그냥 폼데이타" + `formData`);
-            alert(response); // 성공 메시지
-            $("#reviewModal").modal("hide"); // 모달 닫기
-        },
-        error: function () {
-        	console.log("폼데이타 엔트리");
-        	console.log([...formData.entries()]);
-        	console.log("그냥 폼데이타");
-        	console.log(formData);
-            alert("리뷰 제출 중 오류가 발생했습니다.");
-        },
-    });
-});
+	    $.ajax({
+	        type: "POST",
+	        url: "/regReview",
+	        data: formData,
+	        processData: false,
+	        contentType: false,
+	        success: function (response) {
+	            alert(response); // 성공 메시지
+	            const reviewModal = bootstrap.Modal.getInstance(document.getElementById("reviewModal"));
+	            reviewModal.hide(); // 모달 닫기
+	        },
+	        error: function () {
+	        	console.error("Error:", error);
+	            console.error("Status:", status);
+	            console.error("Response:", xhr.responseText);
+	            alert("리뷰 제출 중 오류가 발생했습니다.");
+	        },
+	    });
+	});
 	</script>
 </body>
 </html>

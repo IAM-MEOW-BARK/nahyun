@@ -14,10 +14,10 @@ public interface CatDogDAO {
 	public MemberDTO getMemberByEmail(String user_id) throws Exception;
 
 	// 회원 정보 찾기 (아이디)
-	public int findId(String name, int phone_num) throws Exception;
+	public int findId(String name, String phone_num) throws Exception;
 
 	// 회원 정보 찾기 (비밀번호)
-	public int findPw(String user_id, String name, int phone_num) throws Exception;
+	public int findPw(String user_id, String name, String phone_num) throws Exception;
 
 	// 메인페이지 제품 리스트 출력
 	public List<ProductDTO> mainlist(int product_category);
@@ -78,7 +78,7 @@ public interface CatDogDAO {
 	public List<OrderDTO> getAllOrders(String user_id, String order_code) throws Exception;
 
 	// 주문 기본 정보
-	public OrderDTO getOrderInfo(String order_code) throws Exception;
+	public List<OrderItemDTO> getOrderInfo(String order_code) throws Exception;
 	
     public List<String> getOrderCodeByUserId(String user_id);
 
@@ -101,7 +101,7 @@ public interface CatDogDAO {
 	public ProductDTO getProductByCode(int product_code) throws Exception;
 	
 	// 단일 회원 정보
-    public PaymentDTO getMember(String user_id);
+    public MemberDTO getMember(String user_id);
     
  // 상품 결제
     public List<PaymentDTO> productPayment(String user_id);
