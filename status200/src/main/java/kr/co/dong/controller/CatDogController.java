@@ -77,50 +77,7 @@ public class CatDogController {
 		return mav;
 	}
 
-	@PostMapping("/addWish")
-	@ResponseBody
-	public Map<String, String> addWish(@RequestParam("product_code") int productCode, HttpSession session) {
-		Map<String, String> response = new HashMap<String, String>();
-		Map<String, Object> userMap = (Map<String, Object>) session.getAttribute("user");
-		String userId = userMap != null ? (String) userMap.get("user_id") : null;
 
-		if (userId == null) {
-			response.put("message", "로그인 후 이용해주세요.");
-			return response;
-		}
-
-		try {
-			catDogService.addWish(userId, productCode);
-			response.put("message", "찜하기가 추가되었습니다.");
-		} catch (Exception e) {
-			response.put("message", "찜하기 추가 중 오류가 발생했습니다.");
-		}
-		return response;
-	}
-
-	@PostMapping("/deleteWish")
-	@ResponseBody
-	public Map<String, String> deleteWish(@RequestParam("product_code") int productCode, HttpSession session) {
-		Map<String, String> response = new HashMap<String, String>();
-		Map<String, Object> userMap = (Map<String, Object>) session.getAttribute("user");
-		String userId = userMap != null ? (String) userMap.get("user_id") : null;
-
-		if (userId == null) {
-			response.put("message", "로그인 후 이용해주세요.");
-			return response;
-		}
-
-		try {
-			WishDTO wishDTO = new WishDTO();
-			wishDTO.setUser_id(userId);
-			wishDTO.setProduct_code(productCode);
-			catDogService.deleteWish(wishDTO);
-			response.put("message", "찜하기가 삭제되었습니다.");
-		} catch (Exception e) {
-			response.put("message", "찜하기 삭제 중 오류가 발생했습니다.");
-		}
-		return response;
-	}
 
 	@GetMapping(value = "/catdog-term")
 	public String catdogTerm() {
@@ -206,8 +163,8 @@ public class CatDogController {
 
 	// 결제 페이지 회원
 	@GetMapping(value = "catdog-payment")
-	public String paymentMember(@RequestParam("orderCode") String order_code, // 수정해유
-			Model model, HttpSession session) throws Exception {
+	public String paymentMember(@RequestParam("orderCode") String orderCode, // 수정해유
+			Model model, HttpSession session, @RequestParam("orderItems") List<OrderItemDTO> orderItems) throws Exception {
 		// 회원 정보 가져오기
 		Map<String, Object> user = (Map<String, Object>) session.getAttribute("user");
 
@@ -223,14 +180,16 @@ public class CatDogController {
 		System.out.println("Session user: " + session.getAttribute("user"));
 
 		// order_code로 주문 정보 가져오기
-		List<OrderItemDTO> orderInfo = catDogService.getOrderInfo(order_code);
+		List<OrderItemDTO> orderInfo = catDogService.getOrderInfo(orderCode);
 
 		model.addAttribute("orderInfo", orderInfo);
 		System.out.println("orderInfo :::" + orderInfo);
-		System.out.println("주문 코드:::: " + order_code);
+		model.addAttribute("orderItems", orderItems);
+		System.out.println("orderItems :::" + orderItems);
+		System.out.println("주문 코드:::: " + orderCode);
 
 		// 총 금액
-		int totalPrice = catDogService.getTotalCost(order_code);
+		int totalPrice = catDogService.getTotalCost(orderCode);
 		model.addAttribute("totalPrice", totalPrice);
 
 		return "catdog-payment"; // 뷰 이름 반환
@@ -613,6 +572,10 @@ public class CatDogController {
 		return catDogService.getProductByCode(product_code);
 	}
 
+	
+	
+	
+	
 //	@PostMapping("/regReview")
 //	@ResponseBody
 //	public String regReview(HttpSession session, Model model)
@@ -638,6 +601,53 @@ public class CatDogController {
 ////		}
 //		catDogService.regReview(reviewDTO);
 //		return "리뷰가 등록되었습니다.";
+//	}
+	
+	
+	
+//	@PostMapping("/addWish")
+//	@ResponseBody
+//	public Map<String, String> addWish(@RequestParam("product_code") int productCode, HttpSession session) {
+//		Map<String, String> response = new HashMap<String, String>();
+//		Map<String, Object> userMap = (Map<String, Object>) session.getAttribute("user");
+//		String userId = userMap != null ? (String) userMap.get("user_id") : null;
+//
+//		if (userId == null) {
+//			response.put("message", "로그인 후 이용해주세요.");
+//			return response;
+//		}
+//
+//		try {
+//			catDogService.addWish(userId, productCode);
+//			response.put("message", "찜하기가 추가되었습니다.");
+//		} catch (Exception e) {
+//			response.put("message", "찜하기 추가 중 오류가 발생했습니다.");
+//		}
+//		return response;
+//	}
+//
+//	@PostMapping("/deleteWish")
+//	@ResponseBody
+//	public Map<String, String> deleteWish(@RequestParam("product_code") int productCode, HttpSession session) {
+//		Map<String, String> response = new HashMap<String, String>();
+//		Map<String, Object> userMap = (Map<String, Object>) session.getAttribute("user");
+//		String userId = userMap != null ? (String) userMap.get("user_id") : null;
+//
+//		if (userId == null) {
+//			response.put("message", "로그인 후 이용해주세요.");
+//			return response;
+//		}
+//
+//		try {
+//			WishDTO wishDTO = new WishDTO();
+//			wishDTO.setUser_id(userId);
+//			wishDTO.setProduct_code(productCode);
+//			catDogService.deleteWish(wishDTO);
+//			response.put("message", "찜하기가 삭제되었습니다.");
+//		} catch (Exception e) {
+//			response.put("message", "찜하기 삭제 중 오류가 발생했습니다.");
+//		}
+//		return response;
 //	}
 
 }
