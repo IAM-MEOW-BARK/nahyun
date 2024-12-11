@@ -178,7 +178,7 @@
 			<div class="col-md-12">
 				<div
 					class="section-header d-flex flex-wrap justify-content-between my-4">
-					<h2 class="section-title">사료 & 간식</h2>
+					<h2 class="section-title">장난감 & 토이</h2>
 
 					<!-- Main 캐러셀 조작 버튼 -->
 					<div class="d-flex align-items-center">
@@ -252,7 +252,7 @@
 			<div class="col-md-12">
 				<div
 					class="section-header d-flex flex-wrap justify-content-between my-4">
-					<h2 class="section-title">사료 & 간식</h2>
+					<h2 class="section-title">목욕 & 케어</h2>
 
 					<!-- Main 캐러셀 조작 버튼 -->
 					<div class="d-flex align-items-center">
@@ -326,7 +326,7 @@
 			<div class="col-md-12">
 				<div
 					class="section-header d-flex flex-wrap justify-content-between my-4">
-					<h2 class="section-title">사료 & 간식</h2>
+					<h2 class="section-title">산책 & 훈련</h2>
 
 					<!-- Main 캐러셀 조작 버튼 -->
 					<div class="d-flex align-items-center">
@@ -400,7 +400,7 @@
 			<div class="col-md-12">
 				<div
 					class="section-header d-flex flex-wrap justify-content-between my-4">
-					<h2 class="section-title">사료 & 간식</h2>
+					<h2 class="section-title">의류 & 잡화</h2>
 
 					<!-- Main 캐러셀 조작 버튼 -->
 					<div class="d-flex align-items-center">

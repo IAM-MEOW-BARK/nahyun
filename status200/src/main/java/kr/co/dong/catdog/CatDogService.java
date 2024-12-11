@@ -49,7 +49,7 @@ public interface CatDogService {
 
 	public int updateCartQuantity(CartDTO cartDTO) throws Exception;
 
-	public int isReview(ReviewDTO reviewDTO) throws Exception;
+	public int isReview(int productCode, String userId) throws Exception;
 
 	public int regReview(ReviewDTO reviewDTO) throws Exception;
 

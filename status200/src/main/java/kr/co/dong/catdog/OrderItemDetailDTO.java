@@ -2,14 +2,14 @@ package kr.co.dong.catdog;
 
 public class OrderItemDetailDTO {
 
-	private String productCode;
+	private int productCode;
 	private String thumbnailImg;
 	private String productName;
 	private int orderQuantity;
 	private int productPrice;
 	private int totalPrice; // 상품 가격 * 수량
 	private String orderStatus;
-	private int review;
+	private boolean isReview;
 
 	public int getProductPrice() {
 		return productPrice;
@@ -19,19 +19,20 @@ public class OrderItemDetailDTO {
 		this.productPrice = productPrice;
 	}
 
-	public int getReview() {
-		return review;
+
+	public boolean isReview() {
+		return isReview;
 	}
 
-	public void setReview(int review) {
-		this.review = review;
+	public void setReview(boolean isReview) {
+		this.isReview = isReview;
 	}
 
-	public String getProductCode() {
+	public int getProductCode() {
 		return productCode;
 	}
 
-	public void setProductCode(String productCode) {
+	public void setProductCode(int productCode) {
 		this.productCode = productCode;
 	}
 
@@ -79,7 +80,7 @@ public class OrderItemDetailDTO {
 	public String toString() {
 		return "OrderItemDetailDTO [productCode=" + productCode + ", thumbnailImg=" + thumbnailImg + ", productName="
 				+ productName + ", orderQuantity=" + orderQuantity + ", productPrice=" + productPrice + ", totalPrice="
-				+ totalPrice + ", orderStatus=" + orderStatus + ", review=" + review + "]";
+				+ totalPrice + ", orderStatus=" + orderStatus + ", isReview=" + isReview + "]";
 	}
 
 }

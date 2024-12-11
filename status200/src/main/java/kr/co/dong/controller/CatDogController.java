@@ -203,18 +203,30 @@ public class CatDogController {
 	}
 
 	@GetMapping("/detailOrder")
-	public String detailOrder(@RequestParam("order_code") String order_code, Model model) throws Exception {
+	public String detailOrder(@RequestParam("order_code") String order_code, Model model, HttpSession session) throws Exception {
 		System.out.println("전달 받은 order_code = " + order_code);
 
+		// 주문 상세 정보 가져오기
 		OrderDetailDTO orderDetail = catDogService.getOrderDetail(order_code); // orderDetail에 order_code 전달
 		System.out.println(orderDetail);
-
 		model.addAttribute("orderDetail", orderDetail); // jsp 사용할 데이터
 
+	    // 사용자 정보 가져오기
+	    Map<String, Object> user = (Map<String, Object>) session.getAttribute("user");
+	    String userId = (String) user.get("user_id");
+		
+	    // 주문 아이템 상세 정보 가져오기
 		List<OrderItemDetailDTO> orderItemDetail = catDogService.getOrderItemDetail(order_code);
 		System.out.println(orderItemDetail);
 		model.addAttribute("orderItemDetail", orderItemDetail);
 
+		// 각 상품에 대해 리뷰 여부 확인
+	    for (OrderItemDetailDTO item : orderItemDetail) {
+	    int isReview = catDogService.isReview(item.getProductCode(), userId);
+	    item.setReview(isReview > 0); // 리뷰 존재 여부 설정
+	    }
+		
+		// 총 비용 계산
 		int totalCost = catDogService.getTotalCost(order_code);
 		model.addAttribute("totalCost", totalCost);
 
@@ -433,32 +445,32 @@ public class CatDogController {
 		return result > 0 ? "success" : "failure";
 	}
 
-	@PostMapping("/checkReview")
-	public ResponseEntity<Integer> checkReview(@RequestParam int product_code, @RequestParam String user_id)
-			throws Exception {
-		ReviewDTO reviewDTO = new ReviewDTO();
-		reviewDTO.setProduct_code(product_code);
-		reviewDTO.setUser_id(user_id);
-		int myReview = catDogService.isReview(reviewDTO);
-		return ResponseEntity.ok(myReview);
-	}
+//	@PostMapping("/checkReview")
+//	public ResponseEntity<Integer> checkReview(@RequestParam int product_code, @RequestParam String user_id)
+//			throws Exception {
+//		ReviewDTO reviewDTO = new ReviewDTO();
+//		reviewDTO.setProduct_code(product_code);
+//		reviewDTO.setUser_id(user_id);
+//		int myReview = catDogService.isReview(reviewDTO);
+//		return ResponseEntity.ok(myReview);
+//	}
 
-	@GetMapping("/reviewPop")
-	public String reviewPop(@RequestParam int product_code, @RequestParam String user_id, Model model)
-			throws Exception {
-		ProductDTO product = catDogService.getProductByCode(product_code);
-
-		System.out.println("product 가져오셈" + product);
-		// 모델에 데이터 추가
-		model.addAttribute("product_name", product.getProduct_name());
-		model.addAttribute("product_code", product_code);
-		model.addAttribute("user_id", user_id);
-		model.addAttribute("thumbnail_img", product.getThumbnail_img());
-
-		System.out.println("썸네일 이름" + product.getThumbnail_img());
-
-		return "reviewPop";
-	}
+//	@GetMapping("/reviewPop")
+//	public String reviewPop(@RequestParam int product_code, @RequestParam String user_id, Model model)
+//			throws Exception {
+//		ProductDTO product = catDogService.getProductByCode(product_code);
+//
+//		System.out.println("product 가져오셈" + product);
+//		// 모델에 데이터 추가
+//		model.addAttribute("product_name", product.getProduct_name());
+//		model.addAttribute("product_code", product_code);
+//		model.addAttribute("user_id", user_id);
+//		model.addAttribute("thumbnail_img", product.getThumbnail_img());
+//
+//		System.out.println("썸네일 이름" + product.getThumbnail_img());
+//
+//		return "reviewPop";
+//	}
 
 	@GetMapping("/checkPW")
 	public String checkPW(Model model, HttpSession session) throws Exception {
@@ -1158,29 +1170,42 @@ public class CatDogController {
 	}
 
 	
-	
-	// 리뷰 작성
 	@PostMapping("/regReview")
-	@ResponseBody
-	public ResponseEntity<String> regReview(HttpSession session, Model model, @RequestParam Map<String, String> formData, 
-		    @RequestParam("product_code") int productCode,
-		    @RequestParam("user_id") String userId,
-		    @RequestParam("review_score") int reviewScore,
-		    @RequestParam("review_content") String reviewConten)
-			throws Exception {
-		Map<String, Object> user = (Map<String, Object>) session.getAttribute("user");
-		model.addAttribute("user_name", user.get("name"));
-		model.addAttribute("user_id", user.get("user_id"));		
-		
-		ReviewDTO reviewDTO = new ReviewDTO();
-		
-		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ReviewDTO: " + reviewDTO);
-	
-		reviewDTO.setProduct_code(productCode);		
-		
-		catDogService.regReview(reviewDTO);
-		return ResponseEntity.ok("리뷰 등록 성공!");
+	public ResponseEntity<String> regReview(@RequestBody ReviewDTO reviewDTO) throws Exception {
+	    if (reviewDTO.getProduct_code() == 0 || 
+	        reviewDTO.getReview_score() == 0 || 
+	        reviewDTO.getReview_content() == null) {
+	        return ResponseEntity.badRequest().body("필수 파라미터가 누락되었습니다.");
+	    }
+
+	    catDogService.regReview(reviewDTO);
+	    return ResponseEntity.ok("리뷰 등록 성공!");
 	}
+	
+	
+//	// 리뷰 작성 원본
+// 	@PostMapping("/regReview")
+//	public ResponseEntity<String> regReview(HttpSession session, Model model, 
+//		    @RequestParam("product_code") int productCode,
+//		    @RequestParam("user_id") String userId,
+//		    @RequestParam("review_score") int reviewScore,
+//		    @RequestParam("review_content") String reviewConten)
+//			throws Exception {		
+//		System.out.println("컨트롤러 왔어요 뿌우~~~~~~~~~~~~~~~~~~~");
+//		
+//		Map<String, Object> user = (Map<String, Object>) session.getAttribute("user");
+//		model.addAttribute("user_name", user.get("name"));
+//		model.addAttribute("user_id", user.get("user_id"));		
+//		
+//		ReviewDTO reviewDTO = new ReviewDTO();
+//		
+//		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ReviewDTO: " + reviewDTO);
+//	
+//		reviewDTO.setProduct_code(productCode);		
+//		
+//		catDogService.regReview(reviewDTO);
+//		return ResponseEntity.ok("리뷰 등록 성공!");
+//	}
 	
 	// -------------------------------------------------------------------------------------
 

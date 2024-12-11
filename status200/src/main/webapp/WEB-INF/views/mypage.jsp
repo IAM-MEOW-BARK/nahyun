@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+
 <%@ page session="true"%>
 <!DOCTYPE html>
 <html>
@@ -134,7 +136,9 @@
 										<a href="detailOrder?order_code=${order.orderCode}">${order.orderCode}</a>
 									</td>
 									<td>${order.firstProductName}</td>
-									<td>${order.totalPrice}</td>
+									<td>
+									<fmt:formatNumber value="${order.totalPrice}" pattern="#,###원" />
+									</td>
 								</tr>
 							</c:forEach>
 						</tbody>

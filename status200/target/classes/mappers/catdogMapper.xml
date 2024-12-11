@@ -308,22 +308,20 @@
 	</update>
 
 	<!-- 리뷰 여부 확인 -->
-	<select id="isReview" parameterType="ReviewDTO"
+	<select id="isReview" parameterType="map" 
 		resultType="java.lang.Integer">
 		SELECT count(*)
 		FROM review
-		WHERE product_code =
-		#{product_code} and user_id = #{user_id}
+		WHERE product_code = #{product_code} and user_id = #{user_id}
 	</select>
 
 	<!-- 리뷰 작성 -->
 	<insert id="regReview" parameterType="ReviewDTO">
 		INSERT INTO review
-		(product_code, user_id, review_score, review_img, review_content,
-		review_date)
+		(product_code, user_id, review_score, review_content,
+		review_date, REVIEW_READCNT)
 		VALUES (#{product_code}, #{user_id}, #{review_score},
-		#{review_img},
-		#{review_content}, now())
+		#{review_content}, now(), 0)
 	</insert>
 
 	<!-- 제품 코드로 제품 정보 가져오기 -->

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ page session="true"%>
 <!DOCTYPE html>
 <html lang="ko">
@@ -38,7 +39,7 @@
 		    width: 100%; 
 		}
 		
-		.product_name {
+		/* .product_name {
 			font-size: 11px;
 			font-weight: 500;
 			margin-bottom: 0px; 
@@ -52,7 +53,7 @@
 		.border-line {
 			padding: 10px 0px;
 			border-bottom: 1px solid #E1E1E1;
-		}
+		} */
 		.pagination-container {
            display: flex;
            justify-content: center; 
@@ -93,15 +94,7 @@
 		    margin-top: 10px;
 		    margin-bottom: 10px; 
 		}
-		
-		/* 장바구니와 하트 버튼 */
-		.button-area {
-		    display: flex;
-		    justify-content: center;
-		    align-items: center;
-		    gap: 20px; 
-		    margin-bottom: 70px;
-		}
+	
 		
 		/* 버튼 스타일 */
 		.quantity-btn {
@@ -209,19 +202,14 @@
 								     <!-- 상품 정보 -->
 							        <div class="d-flex flex-column text-center">
 							            <h3 class="product_name">${product.product_name}</h3>
-							            <div class="product_price border-line">${product.product_price}원</div>
-							            <!-- 수량 -->
-							            <div class="quantity-control d-flex justify-content-center align-items-center">
-							                 <!-- 고유 ID 설정 -->
-						                    <button class="quantity-btn" type="button" onclick="del('${product.product_code}')">−</button>
-						                    <span class="quantity-num" id="quantityNum_${product.product_code}">1</span>
-						                    
-						                    <button class="quantity-btn" type="button" onclick="add('${product.product_code}')">+</button>
-							            </div>
+							            <div class="product_price border-line">
+							            <fmt:formatNumber value="${product.product_price}" pattern="#,###원" />
+							            </div>							           
 							            <!-- 장바구니, 찜하기 -->
-							            <div class="button-area d-flex justify-content-center align-items-center gap-3">
+							            <div class="button-area p-3 pt-0">
 								            <form action="addCart" method="POST">
 											    <!-- <input type="hidden" name="product_code" value="${product.product_code}" />  -->
+											    <input type="hidden" name="cart_quantity" value="1">
  											    <input type="hidden" name="user_id" value="${user_id}" />
 											    <input type="hidden" name="product_name" value="${product.product_name}" />
 											    <input type="hidden" name="product_code" value="${product.product_code}" />

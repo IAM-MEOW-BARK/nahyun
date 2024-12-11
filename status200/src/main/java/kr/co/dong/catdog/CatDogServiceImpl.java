@@ -134,9 +134,8 @@ public class CatDogServiceImpl implements CatDogService {
 	}
 
 	@Override
-	public int isReview(ReviewDTO reviewDTO) throws Exception {
-
-		return catDogDAO.isReview(reviewDTO);
+	public int isReview(int productCode, String userId) throws Exception {
+		return catDogDAO.isReview(productCode, userId);
 	}
 
 	@Override

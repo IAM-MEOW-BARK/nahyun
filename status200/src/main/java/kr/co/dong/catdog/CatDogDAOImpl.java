@@ -186,9 +186,11 @@ public class CatDogDAOImpl implements CatDogDAO {
 	}
 
 	@Override
-	public int isReview(ReviewDTO reviewDTO) throws Exception {
-		// TODO Auto-generated method stub
-		return sqlSession.selectOne(namespace + ".isReview", reviewDTO);
+    public int isReview(int productCode, String userId) throws Exception {
+        Map<String, Object> params = new HashMap<>();
+        params.put("product_code", productCode);
+        params.put("user_id", userId);
+        return sqlSession.selectOne(namespace + ".isReview", params);
 	}
 
 	@Override
