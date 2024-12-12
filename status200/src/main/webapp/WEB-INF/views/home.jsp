@@ -20,7 +20,7 @@
 	align-items: center;
 }
 </style>
-
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/bootstrap/css/style.css">
 <%@ include file="include/head.jsp"%>
 
 <!-- Swiper.js CSS -->
@@ -531,7 +531,7 @@
 		//1 번째 캐러셀 (산책 & 훈련)
 		const swiper1 = new Swiper('#carousel1', {
 			slidesPerView : 5, // 한 번에 보이는 슬라이드 개수
-			spaceBetween : 20, // 슬라이드 간격
+			spaceBetween : 10, // 슬라이드 간격
 			navigation : {
 				nextEl : '.swiper-next[data-target="carousel1"]', // 오른쪽 화살표 버튼
 				prevEl : '.swiper-prev[data-target="carousel1"]', // 왼쪽 화살표 버튼
@@ -541,7 +541,7 @@
 		// 2 번째 캐러셀 (산책 & 훈련)
 		const swiper2 = new Swiper('#carousel2', {
 			slidesPerView : 5, // 한 번에 보이는 슬라이드 개수
-			spaceBetween : 20, // 슬라이드 간격
+			spaceBetween : 10, // 슬라이드 간격
 			navigation : {
 				nextEl : '.swiper-next[data-target="carousel2"]', // 오른쪽 화살표 버튼
 				prevEl : '.swiper-prev[data-target="carousel2"]', // 왼쪽 화살표 버튼
@@ -552,7 +552,7 @@
 		// 3 번째 캐러셀 (의류 & 잡화)
 		const swiper3 = new Swiper('#carousel3', {
 			slidesPerView : 5, // 한 번에 보이는 슬라이드 개수
-			spaceBetween : 20, // 슬라이드 간격
+			spaceBetween : 10, // 슬라이드 간격
 			navigation : {
 				nextEl : '.swiper-next[data-target="carousel3"]', // 오른쪽 화살표 버튼
 				prevEl : '.swiper-prev[data-target="carousel3"]', // 왼쪽 화살표 버튼
@@ -562,7 +562,7 @@
 		// 4 번째 캐러셀 (산책 & 훈련)
 		const swiper4 = new Swiper('#carousel4', {
 			slidesPerView : 5, // 한 번에 보이는 슬라이드 개수
-			spaceBetween : 20, // 슬라이드 간격
+			spaceBetween : 10, // 슬라이드 간격
 			navigation : {
 				nextEl : '.swiper-next[data-target="carousel4"]', // 오른쪽 화살표 버튼
 				prevEl : '.swiper-prev[data-target="carousel4"]', // 왼쪽 화살표 버튼
@@ -573,7 +573,7 @@
 		// 5 번째 캐러셀 (의류 & 잡화)
 		const swiper5 = new Swiper('#carousel5', {
 			slidesPerView : 5, // 한 번에 보이는 슬라이드 개수
-			spaceBetween : 20, // 슬라이드 간격
+			spaceBetween : 10, // 슬라이드 간격
 			navigation : {
 				nextEl : '.swiper-next[data-target="carousel5"]', // 오른쪽 화살표 버튼
 				prevEl : '.swiper-prev[data-target="carousel5"]', // 왼쪽 화살표 버튼

@@ -264,6 +264,7 @@
 		r.user_id
 		r.content
 		r.rating
+		r.review_img
 		FROM review r
 		WHERE r.product_code in (SELECT product_code
 		FROM
@@ -319,9 +320,9 @@
 	<insert id="regReview" parameterType="ReviewDTO">
 		INSERT INTO review
 		(product_code, user_id, review_score, review_content,
-		review_date, REVIEW_READCNT)
+		review_date, REVIEW_READCNT, review_img)
 		VALUES (#{product_code}, #{user_id}, #{review_score},
-		#{review_content}, now(), 0)
+		#{review_content}, now(), 0, #{review_img})
 	</insert>
 
 	<!-- 제품 코드로 제품 정보 가져오기 -->

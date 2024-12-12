@@ -146,7 +146,7 @@
 						<tr>
 							<th class="table-light" style="text-align: center;">휴대폰번호</th>
 							<td style="text-align: left;">${orderDetail.phoneNum}</td>
-						</tr>						
+						</tr>
 					</table>
 				</div>
 				<!-- / 내 배송지 정보. 끝. -->
@@ -191,12 +191,6 @@
 							<label><b>어떤 점이 좋았나요?</b></label>
 							<textarea class="form-control" id="reviewContent" name="review_content" placeholder="최소 10자 이상 입력해주세요."></textarea>
 						</div>
-
-						<!-- <div class="mb-3">
-                        <label><b>(선택) 사진 첨부하기</b></label>
-                        <input type="file" class="form-control" id="reviewImg" name="review_img">
-                    </div> -->
-
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
 							<button type="submit" class="btn btn-primary" onclick="submitReview(event)">리뷰 제출</button>

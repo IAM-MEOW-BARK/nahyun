@@ -259,10 +259,7 @@ input:focus {
 	                console.error('모달 인스턴스를 찾을 수 없습니다.');
 	            }
 	        }
-	    }
-
-	
-	   
+	    }	   
 	   document.getElementById("paymentForm").addEventListener("submit", function (event) {
 	        Alert 메시지 표시
 	        alert("결제가 성공적으로 완료되었습니다.");
